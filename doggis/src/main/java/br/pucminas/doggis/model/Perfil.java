@@ -1,10 +1,8 @@
 package br.pucminas.doggis.model;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,12 +11,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Perfil {
@@ -35,10 +34,8 @@ public class Perfil {
 	@CreationTimestamp
 	@Column(name = "dt_inclusao")
 	private Date dataInclusao = new Date();
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "perfil")
-	private List<Usuario> usuarios;
-
+	
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) 
 	@ManyToMany()
 	@JoinTable(name = "perfil_papel", joinColumns = {
 			@JoinColumn(name = "id_perfil", referencedColumnName = "id_perfil") }, inverseJoinColumns = {
@@ -57,10 +54,6 @@ public class Perfil {
 		return dataInclusao;
 	}
 
-	public List<Usuario> getUsuarios() {
-		return usuarios;
-	}
-
 	public Set<Papel> getPapeis() {
 		return papeis;
 	}
@@ -75,10 +68,6 @@ public class Perfil {
 
 	public void setDataInclusao(Date dataInclusao) {
 		this.dataInclusao = dataInclusao;
-	}
-
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
 	}
 
 	public void setPapeis(Set<Papel> papeis) {

@@ -27,7 +27,7 @@ public class Raca {
 	@JoinColumn(name = "id_especie")
 	private Especie especie;
 
-	@Column(nullable = false, length = 50)
+	@Column(nullable = false, length = 100)
 	private String descricao;
 
 	@Temporal(TemporalType.TIMESTAMP)

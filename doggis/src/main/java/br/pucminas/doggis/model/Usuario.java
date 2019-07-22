@@ -1,5 +1,6 @@
 package br.pucminas.doggis.model;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -17,14 +18,22 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
-public class Usuario {
+public class Usuario implements UserDetails {
+
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id_usuario", unique = true, nullable = false)
@@ -36,6 +45,7 @@ public class Usuario {
 
 	@Size(min = 10)
 	@Size(max = 100)
+	@Email
 	private String email;
 
 	@Column(nullable = false, length = 100)
@@ -67,12 +77,39 @@ public class Usuario {
 			@JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario") }, inverseJoinColumns = {
 					@JoinColumn(name = "id_especie", referencedColumnName = "id_especie") })
 	private Set<Especie> especialidades;
-
+	
+	@JsonManagedReference
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
 	private List<Avaliacao> avaliacoes;
 
 	@NotNull
 	private Boolean ativo = true;
+	
+	public Usuario() {}
+	
+	public Usuario(String nome, String email, String senha, String foto, String cpf, String rg, String registro, Perfil perfil) {
+		this.nome = nome;
+		this.email = email;
+		this.senha = senha;
+		this.foto = foto;
+		this.cpf = cpf;
+		this.rg = rg;
+		this.registro = registro;
+		this.perfil = perfil;
+	}
+	
+	public Usuario(String nome, String email, String senha, String foto, String cpf, String rg, String registro, Perfil perfil, Set<Especie> especialidades) {
+		this.nome = nome;
+		this.email = email;
+		this.senha = senha;
+		this.foto = foto;
+		this.cpf = cpf;
+		this.rg = rg;
+		this.registro = registro;
+		this.perfil = perfil;
+		this.especialidades = especialidades;
+	}
+	
 
 	public Long getId() {
 		return id;
@@ -206,6 +243,41 @@ public class Usuario {
 		} else if (!nome.equals(other.nome))
 			return false;
 		return true;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return this.perfil.getPapeis();
+	}
+
+	@Override
+	public String getPassword() {
+		return this.senha;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return this.ativo;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return this.ativo;
 	}
 	
 }

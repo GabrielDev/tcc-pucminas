@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -32,6 +33,7 @@ public class Cliente {
 
 	@Size(min = 10)
 	@Size(max = 100)
+	@Email
 	private String email;
 
 	@Length(max = 15)

@@ -3,7 +3,10 @@ package br.pucminas.doggis.dto;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
+
+import org.springframework.data.domain.Page;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import br.pucminas.doggis.model.Avaliacao;
 import br.pucminas.doggis.model.Especie;
@@ -14,10 +17,12 @@ public class UsuarioDto {
 	private Long id;
 	private String nome;
 	private String email;
+	private String foto;
 	private String cpf;
 	private String rg;
 	private String registro;
 	private Date dataInclusao = new Date();
+	@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 	private Perfil perfil;
 	private Set<Especie> especialidades;
 	private List<Avaliacao> avaliacoes;
@@ -26,20 +31,21 @@ public class UsuarioDto {
 		this.id = usuario.getId();
 		this.nome = usuario.getNome();
 		this.email = usuario.getEmail();
+		this.foto = usuario.getFoto();
 		this.cpf = usuario.getCpf();
 		this.rg = usuario.getRg();
 		this.registro = usuario.getRegistro();
 		this.dataInclusao = usuario.getDataInclusao();
-//		this.perfil = usuario.getPerfil();
+		this.perfil = usuario.getPerfil();
 		this.especialidades = usuario.getEspecialidades();
 		this.avaliacoes = usuario.getAvaliacoes();
 	}
 	
-	public static List<UsuarioDto> converter(List<Usuario> usuarios) {
-		return usuarios.stream().map(UsuarioDto::new).collect(Collectors.toList());
+	public static Page<UsuarioDto> converter(Page<Usuario> usuarios) {
+		return usuarios.map(UsuarioDto::new);
 	}
-	
-	public Integer getId() {
+
+	public Long getId() {
 		return id;
 	}
 
@@ -49,6 +55,10 @@ public class UsuarioDto {
 
 	public String getEmail() {
 		return email;
+	}
+
+	public String getFoto() {
+		return foto;
 	}
 
 	public String getCpf() {
@@ -79,7 +89,7 @@ public class UsuarioDto {
 		return avaliacoes;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -89,6 +99,10 @@ public class UsuarioDto {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
 	}
 
 	public void setCpf(String cpf) {

@@ -14,13 +14,16 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Avaliacao {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id_avaliacao", unique = true, nullable = false)
 	private Long id;
-
+	
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
