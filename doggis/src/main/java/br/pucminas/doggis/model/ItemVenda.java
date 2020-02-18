@@ -24,14 +24,6 @@ public interface ItemVenda {
 
 	public Double getValor();
 
-	public void setPatazBonus(Integer patazBonus);
-
-	public Integer getPatazBonus();
-
-	public Integer getPatazDesconto();
-
-	public void setPatazDesconto(Integer patazDesconto);
-
 	public Date getDataInclusao();
 
 	public void setDataInclusao(Date dataInclusao);

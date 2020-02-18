@@ -31,12 +31,6 @@ public class Produto implements ItemVenda {
 	
 	private Double valor;
 
-	@Column(name = "pataz_bonus", nullable = false)
-	private Integer patazBonus;
-
-	@Column(name = "pataz_desconto", nullable = false)
-	private Integer patazDesconto;
-
 	@ManyToOne
 	@JoinColumn(name = "id_categoria")
 	private Categoria categoria;
@@ -77,14 +71,6 @@ public class Produto implements ItemVenda {
 		return valor;
 	}
 
-	public Integer getPatazBonus() {
-		return patazBonus;
-	}
-
-	public Integer getPatazDesconto() {
-		return patazDesconto;
-	}
-
 	public Categoria getCategoria() {
 		return categoria;
 	}
@@ -123,14 +109,6 @@ public class Produto implements ItemVenda {
 
 	public void setValor(Double valor) {
 		this.valor = valor;
-	}
-
-	public void setPatazBonus(Integer patazBonus) {
-		this.patazBonus = patazBonus;
-	}
-
-	public void setPatazDesconto(Integer patazDesconto) {
-		this.patazDesconto = patazDesconto;
 	}
 
 	public void setCategoria(Categoria categoria) {
