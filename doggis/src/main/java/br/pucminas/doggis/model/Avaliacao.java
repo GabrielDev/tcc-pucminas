@@ -32,6 +32,14 @@ public class Avaliacao {
 	@JoinColumn(name = "id_cliente")
 	private Cliente cliente;
 	
+	@ManyToOne
+	@JoinColumn(name = "id_servico")
+	private Servico servico;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_pedido_item")
+	private PedidoItem pedidoItem;
+	
 	@Column(nullable = false, columnDefinition = "TINYINT", length = 1)
 	private int nota;
 
@@ -44,39 +52,56 @@ public class Avaliacao {
 		return id;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public int getNota() {
-		return nota;
-	}
-
-	public Date getDataInclusao() {
-		return dataInclusao;
-	}
-
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
 
+	public Cliente getCliente() {
+		return cliente;
+	}
+
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+
+	public Servico getServico() {
+		return servico;
+	}
+
+	public void setServico(Servico servico) {
+		this.servico = servico;
+	}
+
+	public PedidoItem getPedidoItem() {
+		return pedidoItem;
+	}
+
+	public void setPedidoItem(PedidoItem pedidoItem) {
+		this.pedidoItem = pedidoItem;
+	}
+
+	public int getNota() {
+		return nota;
 	}
 
 	public void setNota(int nota) {
 		this.nota = nota;
 	}
 
+	public Date getDataInclusao() {
+		return dataInclusao;
+	}
+
 	public void setDataInclusao(Date dataInclusao) {
 		this.dataInclusao = dataInclusao;
 	}
+
 }
