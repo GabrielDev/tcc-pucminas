@@ -19,7 +19,7 @@ public class Papel implements GrantedAuthority {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_papel", unique = true, nullable = false)
 	private Long id;
 

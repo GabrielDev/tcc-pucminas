@@ -20,7 +20,7 @@ import org.hibernate.validator.constraints.Length;
 @Entity
 public class Pet {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_pet", unique = true, nullable = false)
 	private Long id;
 

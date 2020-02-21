@@ -20,7 +20,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 public class Produto implements ItemVenda {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_produto", unique = true, nullable = false)
 	private Long id;
 	

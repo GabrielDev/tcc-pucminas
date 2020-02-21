@@ -108,7 +108,7 @@ public class UsuarioFormDto {
 		Set<Especie> especialidades = new HashSet<>();
 		
 		if(!this.especialidades.isEmpty()) {
-			Iterable<Long> ids = (Iterable<Long>) this.especialidades.iterator();
+			Iterable<Long> ids = (Iterable<Long>) this.especialidades;
 			List<Especie> especies = especieRepository.findAllById(ids);
 			especialidades = new HashSet<>(especies);
 		}

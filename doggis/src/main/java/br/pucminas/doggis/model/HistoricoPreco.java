@@ -17,7 +17,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 public class HistoricoPreco {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_historico", unique = true, nullable = false)
 	private Long id;
 

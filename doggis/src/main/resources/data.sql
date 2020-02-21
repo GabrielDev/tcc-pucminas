@@ -1,3 +1,9 @@
+
+#INICIAR
+# CREATE DATABASE IF NOT EXISTS doggis; USE doggis;
+# CREATE USER 'doggisApp'@'%' IDENTIFIED BY 'Doggis@2019';
+# GRANT ALL PRIVILEGES ON doggis.* TO 'doggisApp'@'localhost';
+
 #PERFIS
 INSERT INTO perfil (id_perfil, dt_inclusao, descricao) VALUES(1, NOW(), 'Administrador');
 INSERT INTO perfil (id_perfil, dt_inclusao, descricao) VALUES(2, NOW(), 'Atendente');
@@ -29,8 +35,8 @@ INSERT INTO papel (id_papel, dt_inclusao, menu, descricao) VALUES(19, NOW(), 'us
 INSERT INTO perfil_papel (id_perfil, id_papel) SELECT 1, id_papel FROM papel;
 
 #PERFIL_PAPEL · ATENDENTE
-INSERT INTO perfil_papel (id_perfil, id_papel) VALUES(1, 1);
-INSERT INTO perfil_papel (id_perfil, id_papel) VALUES(1, 4);
+INSERT INTO perfil_papel (id_perfil, id_papel) VALUES(2, 1);
+INSERT INTO perfil_papel (id_perfil, id_papel) VALUES(2, 4);
 
 #PERFIL_PAPEL · VETERINARIO
 
@@ -43,10 +49,10 @@ INSERT INTO perfil_papel (id_perfil, id_papel) VALUES(4, 15);
 INSERT INTO perfil_papel (id_perfil, id_papel) VALUES(4, 19);
 
 #USUARIOS (SENHA = doggis@puc)
-INSERT INTO usuario (cpf, dt_inclusao, email, nome, registro, rg, senha, id_perfil) VALUES('111.111.111-11', NOW(), 'admin@doggis.com', 'Administrador', '', '', '$2a$10$FNNqIkQyBm7RuSkmdWvxkejIPW5FiZGrvKQxa2D3IEh/iUjirgIiS', 1);
-INSERT INTO usuario (cpf, dt_inclusao, email, nome, registro, rg, senha, id_perfil) VALUES('222.222.222-22', NOW(), 'atendente@doggis.com', 'Atendente', '', '', '$2a$10$FNNqIkQyBm7RuSkmdWvxkejIPW5FiZGrvKQxa2D3IEh/iUjirgIiS', 2);
-INSERT INTO usuario (cpf, dt_inclusao, email, nome, registro, rg, senha, id_perfil) VALUES('333.333.333-33', NOW(), 'veterinario@doggis.com', 'Veterinario', '12345-6', '33.3333', '$2a$10$FNNqIkQyBm7RuSkmdWvxkejIPW5FiZGrvKQxa2D3IEh/iUjirgIiS', 3);
-INSERT INTO usuario (cpf, dt_inclusao, email, nome, registro, rg, senha, id_perfil) VALUES('444.444.444-44', NOW(), 'cliente@doggis.com', 'Cliente', '', '44.4444', '$2a$10$FNNqIkQyBm7RuSkmdWvxkejIPW5FiZGrvKQxa2D3IEh/iUjirgIiS', 4);
+INSERT INTO usuario (id_usuario, ativo, cpf, dt_inclusao, email, nome, registro, rg, senha, id_perfil) VALUES(1, TRUE, '111.111.111-11', NOW(), 'admin@doggis.com', 'Administrador', '', '', '$2a$10$FNNqIkQyBm7RuSkmdWvxkejIPW5FiZGrvKQxa2D3IEh/iUjirgIiS', 1);
+INSERT INTO usuario (id_usuario, ativo, cpf, dt_inclusao, email, nome, registro, rg, senha, id_perfil) VALUES(2, TRUE, '222.222.222-22', NOW(), 'atendente@doggis.com', 'Atendente', '', '', '$2a$10$FNNqIkQyBm7RuSkmdWvxkejIPW5FiZGrvKQxa2D3IEh/iUjirgIiS', 2);
+INSERT INTO usuario (id_usuario, ativo, cpf, dt_inclusao, email, nome, registro, rg, senha, id_perfil) VALUES(3, TRUE, '333.333.333-33', NOW(), 'veterinario@doggis.com', 'Veterinario', '12345-6', '33.3333', '$2a$10$FNNqIkQyBm7RuSkmdWvxkejIPW5FiZGrvKQxa2D3IEh/iUjirgIiS', 3);
+INSERT INTO usuario (id_usuario, ativo, cpf, dt_inclusao, email, nome, registro, rg, senha, id_perfil) VALUES(4, TRUE, '444.444.444-44', NOW(), 'cliente@doggis.com', 'Cliente', '', '44.4444', '$2a$10$FNNqIkQyBm7RuSkmdWvxkejIPW5FiZGrvKQxa2D3IEh/iUjirgIiS', 4);
 
 #ESPECIES
 INSERT INTO especie (id_especie, dt_inclusao, descricao, icone) VALUES(1, NOW(), 'Cão', 'icone-cao');

@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class PedidoItem {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_pedido_item", unique = true, nullable = false)
 	private Long id;
 
