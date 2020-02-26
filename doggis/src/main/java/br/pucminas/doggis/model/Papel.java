@@ -93,7 +93,7 @@ public class Papel implements GrantedAuthority {
 
 	@Override
 	public String getAuthority() {
-		return this.descricao;
+		return this.menu;
 	}
 
 }

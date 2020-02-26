@@ -9,7 +9,7 @@
     
     <div class="modal-body">
       <div class="row">
-        <div class="col-lg-6">
+        <div class="col-12">
           <div class="form-group"
             [ngClass]="{'has-danger': f.descricao?.errors?.required}">
             <label class="form-control-label" for="descricao">Descrição</label>
@@ -22,8 +22,21 @@
               [ngClass]="{'is-invalid': f.descricao?.errors?.required}">
           </div>
         </div>
-        <div class="col-lg-6">
-          PAPEIS
+        <div class="col-12">
+          <p-pickList
+            [source]="papeis"
+            [target]="papeisSelecionados"
+            sourceHeader="Papeis disponíveis" 
+            targetHeader="Papeis vinculados"
+            [responsive]="true"
+            filterBy="descricao"
+            (onMoveToTarget)="selecionar()">
+            <ng-template let-papel pTemplate="item">
+                <div class="ui-helper-clearfix">
+                    <div style="font-size:14px;margin:15px 5px 0 0">{{ papel.descricao }}</div>
+                </div>
+            </ng-template>
+          </p-pickList>
         </div>
       </div>
     </div>

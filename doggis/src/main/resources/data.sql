@@ -30,6 +30,8 @@ INSERT IGNORE INTO papel (id_papel, dt_inclusao, menu, descricao) VALUES(16, NOW
 INSERT IGNORE INTO papel (id_papel, dt_inclusao, menu, descricao) VALUES(17, NOW(), 'raca', 'Raças');
 INSERT IGNORE INTO papel (id_papel, dt_inclusao, menu, descricao) VALUES(18, NOW(), 'servico', 'Serviços');
 INSERT IGNORE INTO papel (id_papel, dt_inclusao, menu, descricao) VALUES(19, NOW(), 'usuario', 'Usuários');
+INSERT IGNORE INTO papel (id_papel, dt_inclusao, menu, descricao) VALUES(20, NOW(), 'meu-perfil', 'Perfil');
+INSERT IGNORE INTO papel (id_papel, dt_inclusao, menu, descricao) VALUES(21, NOW(), 'meus-pedidos', 'Meus pedidos');
 
 #PERFIL_PAPEL · ADMINISTRADOR
 INSERT IGNORE INTO perfil_papel (id_perfil, id_papel) SELECT 1, id_papel FROM papel;
@@ -37,16 +39,16 @@ INSERT IGNORE INTO perfil_papel (id_perfil, id_papel) SELECT 1, id_papel FROM pa
 #PERFIL_PAPEL · ATENDENTE
 INSERT IGNORE INTO perfil_papel (id_perfil, id_papel) VALUES(2, 1);
 INSERT IGNORE INTO perfil_papel (id_perfil, id_papel) VALUES(2, 4);
+INSERT IGNORE INTO perfil_papel (id_perfil, id_papel) VALUES(2, 20);
 
 #PERFIL_PAPEL · VETERINARIO
 
 #PERFIL_PAPEL · CLIENTE
 INSERT IGNORE INTO perfil_papel (id_perfil, id_papel) VALUES(4, 1);
 INSERT IGNORE INTO perfil_papel (id_perfil, id_papel) VALUES(4, 2);
-INSERT IGNORE INTO perfil_papel (id_perfil, id_papel) VALUES(4, 11);
 INSERT IGNORE INTO perfil_papel (id_perfil, id_papel) VALUES(4, 13);
-INSERT IGNORE INTO perfil_papel (id_perfil, id_papel) VALUES(4, 15);
-INSERT IGNORE INTO perfil_papel (id_perfil, id_papel) VALUES(4, 19);
+INSERT IGNORE INTO perfil_papel (id_perfil, id_papel) VALUES(4, 20);
+INSERT IGNORE INTO perfil_papel (id_perfil, id_papel) VALUES(4, 21);
 
 #USUARIOS (SENHA = doggis@puc)
 INSERT IGNORE INTO usuario (id_usuario, ativo, cpf, dt_inclusao, email, nome, registro, rg, senha, id_perfil) VALUES(1, TRUE, '111.111.111-11', NOW(), 'admin@doggis.com', 'Administrador', '', '', '$2a$10$FNNqIkQyBm7RuSkmdWvxkejIPW5FiZGrvKQxa2D3IEh/iUjirgIiS', 1);

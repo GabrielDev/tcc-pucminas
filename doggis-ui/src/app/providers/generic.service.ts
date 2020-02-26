@@ -25,11 +25,11 @@ export class GenericService<T> {
   }
 
   public salvar(item: T) {
-    return this.http.post<T>(this.endpoint, { item })
+    return this.http.post<T>(this.endpoint, item)
   }
 
-  public editar(item: T) {
-    return this.http.put<T>(this.endpoint, { item })
+  public editar(id: number, item: T) {
+    return this.http.put<T>(`${this.endpoint}/${id}`, item)
   }
 
   public excluir(id: number) {

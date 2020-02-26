@@ -12,60 +12,75 @@ import { Subject } from 'rxjs';
   styleUrls: ['./perfil-form.component.scss'],
 })
 export class PerfilFormComponent implements OnInit {
-  @Input() exibir: Subject<Perfil>
+  @Input('exibir') exibir: Subject<Perfil>
   @Output() onSalvar = new EventEmitter<Perfil>()
   @ViewChild('perfilModal') 
-  private modal: TemplateRef<any>
+  private modalTemplate: TemplateRef<any>
+  private modal: any
 
   public perfilForm: FormGroup
   public papeis: Papel[] = []
   public perfil: Perfil
+  public papeisSelecionados: Papel[] = []
 
   constructor(
     private formBuilder: FormBuilder,
     private service: PerfilService,
     private mensagem: ToastrService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
   ) { }
 
   ngOnInit() {
-    console.log(this.modal);
     this.gerarForm()
-    this.listarPapeis()
     this.exibir.subscribe(perfil => this.abrir(perfil))
-  }
-
-  abrir(perfil: Perfil) {
-    this.perfil = perfil
-    this.modalService.open(this.modal, { windowClass: 'modal-mini', size: 'sm', centered: true }).result.then(
-      console.log,
-      console.warn
-    )
   }
 
   f() {
     return this.perfilForm.controls
   }
 
+  abrir(perfil: Perfil) {
+    if(perfil) {
+      this.perfil = perfil
+      this.papeisSelecionados = perfil.papeis
+      this.perfilForm.setValue(perfil)
+    }
+
+    this.listarPapeis()
+    this.modal = this.modalService.open(this.modalTemplate, { windowClass: 'modal-mini', size: 'lg', centered: true })
+  }
+
+  selecionar() {
+    this.f().papeis.setValue(this.papeisSelecionados)
+  }
+
   private gerarForm() {
     this.perfilForm = this.formBuilder.group({
+      id: [],
       descricao: ['', Validators.required],
-      papeis: [[], Validators.required]
+      papeis: [[], Validators.required],
+      dataInclusao: []
     })
   }
 
   private listarPapeis() {
     this.service.listarPapeis().subscribe(
-      result => this.papeis = result,
+      result => {
+        this.papeis = result.filter(papel => !this.papeisSelecionados.some(selecionado => selecionado.id === papel.id))
+      },
       console.warn
     )
   }
 
   salvar() {
-    if(this.perfil.id) {
-      this.editar()
-    } else {
-      this.criar()
+    if(this.perfilForm.valid) {
+      this.perfil = this.perfilForm.value
+      
+      if(this.perfil.id) {
+        this.editar()
+      } else {
+        this.criar()
+      }
     }
   }
 
@@ -78,12 +93,13 @@ export class PerfilFormComponent implements OnInit {
       error => {
         console.warn(error)
         this.mensagem.error('Ocorreu um erro ao tentar salvar esse perfil')
-      }
+      },
+      () => this.modal.close()
     )
   }
 
   private editar() {
-    this.service.editar(this.perfil).subscribe(
+    this.service.editar(this.perfil.id, this.perfil).subscribe(
       result => {
         this.mensagem.success(`Perfil ${result.descricao} alterado com sucesso!`)
         this.onSalvar.emit(result)
@@ -91,7 +107,8 @@ export class PerfilFormComponent implements OnInit {
       error => {
         console.warn(error)
         this.mensagem.error('Ocorreu um erro ao tentar editar esse perfil')
-      }
+      },
+      () => this.modal.close()
     )
   }
 }

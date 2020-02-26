@@ -3,20 +3,20 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthLayoutRoutes } from './auth-layout.routing';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { LoginComponent } from '../../pages/login/login.component';
-import { RegisterComponent } from '../../pages/register/register.component';
+import { LoginComponent } from 'src/app/pages/login/login.component';
+import { RegistroComponent } from 'src/app/pages/registro/registro.component';
+
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     RouterModule.forChild(AuthLayoutRoutes),
-    FormsModule
-    // NgbModule
   ],
   declarations: [
     LoginComponent,
-    RegisterComponent
+    RegistroComponent
   ]
 })
 export class AuthLayoutModule { }

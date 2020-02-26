@@ -18,7 +18,7 @@
     <div class="col">
       <div class="card shadow">
         <div class="card-header border-0">
-          <h3 class="mb-0">Perfis</h3>
+          <h3 class="mb-0">Perfis ({{ perfis.length }})</h3>
         </div>
         <div class="table-responsive">
           <table class="table align-items-center table-flush">
@@ -31,46 +31,21 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let perfil of perfils">
-                <th scope="row">{{ perfil.dataInclusao.toLocaleDateString() }}</th>
+              <tr *ngFor="let perfil of perfis">
+                <th scope="row">{{ perfil.dataInclusao | date: "dd-MM-yyyy" }}</th>
                 <td>{{ perfil.descricao }}</td>
                 <td>{{ perfil.papeis.length }}</td>
                 <td class="text-right">
                   <button type="button" class="btn btn-outline-secondary" title="Editar" (click)="alterar(perfil)">
                     <i class="fa fa-pencil-alt"></i>
                   </button>
-                  <button type="button" class="btn btn-outline-secondary" title="Excluir" (click)="desativar(perfil)">
+                  <button type="button" class="btn btn-outline-secondary" title="Excluir" (click)="excluir(perfil)">
                     <i class="fa fa-trash"></i>
                   </button>
                 </td>
               </tr>
             </tbody>
           </table>
-        </div>
-        <div class="card-footer py-4">
-          <nav aria-label="...">
-            <ul class="pagination justify-content-end mb-0">
-              <li class="page-item disabled">
-                <a class="page-link" href="javascript:void(0)" tabindex="-1">
-                  <i class="fas fa-angle-left"></i>
-                  <span class="sr-only">Anterior</span>
-                </a>
-              </li>
-              <li class="page-item active">
-                <a class="page-link" href="javascript:void(0)">1</a>
-              </li>
-              <li class="page-item">
-                <a class="page-link" href="javascript:void(0)">2 <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="javascript:void(0)">
-                  <i class="fas fa-angle-right"></i>
-                  <span class="sr-only">Próxima</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
         </div>
       </div>
     </div>

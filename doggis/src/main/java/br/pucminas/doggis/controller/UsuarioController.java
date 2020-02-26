@@ -29,7 +29,7 @@ import br.pucminas.doggis.repository.PerfilRepository;
 import br.pucminas.doggis.repository.UsuarioRepository;
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping("/usuario")
 public class UsuarioController {
 	
 	@Autowired
@@ -53,7 +53,7 @@ public class UsuarioController {
 		Usuario usuario = form.converter(perfilRepository, especieRepository);
 		usuarioRepository.save(usuario);
 		
-		URI uri = uriBuilder.path("/usuarios/{id}").buildAndExpand(usuario.getId()).toUri();
+		URI uri = uriBuilder.path("/perfil/{id}").buildAndExpand(usuario.getId()).toUri();
 		return ResponseEntity.created(uri).body(new UsuarioDto(usuario));
 	}
 	
@@ -62,6 +62,8 @@ public class UsuarioController {
 	public ResponseEntity<UsuarioDto> editar(@PathVariable("id") Long id, @RequestBody @Valid UsuarioFormDto form, UriComponentsBuilder uriBuilder) {
 		try {
 			Usuario usuario = form.atualizar(id, usuarioRepository, perfilRepository, especieRepository);
+			usuarioRepository.save(usuario);
+			
 			return ResponseEntity.ok(new UsuarioDto(usuario));
 		} catch(Exception e) {
 			return ResponseEntity.notFound().build();

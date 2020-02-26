@@ -41,6 +41,16 @@ public class Perfil {
 			@JoinColumn(name = "id_perfil", referencedColumnName = "id_perfil") }, inverseJoinColumns = {
 					@JoinColumn(name = "id_papel", referencedColumnName = "id_papel") })
 	private Set<Papel> papeis;
+	
+	public Perfil() {}
+
+	public Perfil(Long id, @Size(min = 3) @Size(max = 50) String descricao, Date dataInclusao, Set<Papel> papeis) {
+		super();
+		this.id = id;
+		this.descricao = descricao;
+		this.dataInclusao = dataInclusao;
+		this.papeis = papeis;
+	}
 
 	public Long getId() {
 		return id;

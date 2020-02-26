@@ -24,7 +24,7 @@ import { ProdutoModule } from 'src/app/pages/produto/produto.module';
 import { PromocaoModule } from 'src/app/pages/promocao/promocao.module';
 import { ServicoModule } from 'src/app/pages/servico/servico.module';
 import { UsuarioModule } from 'src/app/pages/usuario/usuario.module';
-// import { ToastrModule } from 'ngx-toastr';
+import { PerfilFormComponent } from 'src/app/pages/perfil/perfil-form/perfil-form.component';
 
 @NgModule({
   imports: [
@@ -46,7 +46,7 @@ import { UsuarioModule } from 'src/app/pages/usuario/usuario.module';
     ProdutoModule,
     PromocaoModule,
     ServicoModule,
-    UsuarioModule
+    UsuarioModule,
   ],
   declarations: [
     DashboardComponent,

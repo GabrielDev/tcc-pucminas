@@ -15,10 +15,6 @@ export class PerfilService extends GenericService<Perfil>{
     return this.http.get<Perfil>(`${this.endpoint}/ativar/${perfil.id}`)
   }
 
-  public desativar(perfil: Perfil) {
-    return this.excluir(perfil.id)
-  }
-
   public listarPapeis() {
     return this.http.get<Papel[]>(`${this.endpoint}/papel`)
   }

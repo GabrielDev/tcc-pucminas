@@ -20,6 +20,7 @@ export class PerfilComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.mensagem.info('Teste')
     this.listar()
   }
 
@@ -30,16 +31,12 @@ export class PerfilComponent implements OnInit {
     )
   }
 
-  desativar(perfil: Perfil) {
-    this.service.desativar(perfil).subscribe(
-      result => this.mensagem.success(`Perfil ${perfil.descricao} foi desativado`),
-      console.warn
-    )
-  }
-
-  ativar(perfil: Perfil) {
-    this.service.ativar(perfil).subscribe(
-      result => this.mensagem.success(`Perfil ${perfil.descricao} foi desativado`),
+  excluir(perfil: Perfil) {
+    this.service.excluir(perfil.id).subscribe(
+      result => {
+        this.mensagem.success(`Perfil ${perfil.descricao} foi excluído`)
+        this.perfis = this.perfis.filter(item => item.id != perfil.id)
+      },
       console.warn
     )
   }
