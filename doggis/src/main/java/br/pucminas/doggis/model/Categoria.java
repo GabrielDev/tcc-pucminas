@@ -1,3 +1,4 @@
+
 package br.pucminas.doggis.model;
 
 import java.util.Date;
@@ -15,6 +16,8 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Categoria {
 	@Id
@@ -29,9 +32,17 @@ public class Categoria {
 	@CreationTimestamp
 	@Column(name = "dt_inclusao")
 	private Date dataInclusao = new Date();
-
+	
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "categoria")
 	private Set<Produto> produtos;
+	
+	public Categoria() {}
+
+	public Categoria(Long id, String descricao) {
+		this.id = id;
+		this.descricao = descricao;
+	}
 
 	public Long getId() {
 		return id;

@@ -62,7 +62,7 @@ public class PerfilController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Perfil> novo(@RequestBody @Valid PerfilForm form, UriComponentsBuilder uriBuilder) {
-		Perfil perfil = form.converter(perfilRepository);
+		Perfil perfil = form.converter();
 		perfilRepository.save(perfil);
 		
 		URI uri = uriBuilder.path("/perfil/{id}").buildAndExpand(perfil.getId()).toUri();

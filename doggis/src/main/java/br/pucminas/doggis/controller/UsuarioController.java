@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.pucminas.doggis.dto.UsuarioDto;
-import br.pucminas.doggis.dto.form.UsuarioFormDto;
+import br.pucminas.doggis.dto.form.UsuarioForm;
 import br.pucminas.doggis.model.Usuario;
 import br.pucminas.doggis.repository.EspecieRepository;
 import br.pucminas.doggis.repository.PerfilRepository;
@@ -49,7 +49,7 @@ public class UsuarioController {
 	
 	@PostMapping
 	@Transactional
-	public ResponseEntity<UsuarioDto> novo(@RequestBody @Valid UsuarioFormDto form, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<UsuarioDto> novo(@RequestBody @Valid UsuarioForm form, UriComponentsBuilder uriBuilder) {
 		Usuario usuario = form.converter(perfilRepository, especieRepository);
 		usuarioRepository.save(usuario);
 		
@@ -59,7 +59,7 @@ public class UsuarioController {
 	
 	@PutMapping("/{id}")
 	@Transactional
-	public ResponseEntity<UsuarioDto> editar(@PathVariable("id") Long id, @RequestBody @Valid UsuarioFormDto form, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<UsuarioDto> editar(@PathVariable("id") Long id, @RequestBody @Valid UsuarioForm form, UriComponentsBuilder uriBuilder) {
 		try {
 			Usuario usuario = form.atualizar(id, usuarioRepository, perfilRepository, especieRepository);
 			usuarioRepository.save(usuario);

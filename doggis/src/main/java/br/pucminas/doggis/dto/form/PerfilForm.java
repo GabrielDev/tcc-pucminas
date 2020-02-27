@@ -13,7 +13,7 @@ public class PerfilForm {
 	private String descricao;
 	private Set<Papel> papeis;
 	
-	public Perfil converter(PerfilRepository perfilRepository) {
+	public Perfil converter() {
 		return new Perfil(this.getId(), this.getDescricao(), new Date(), this.getPapeis());
 	}
 	

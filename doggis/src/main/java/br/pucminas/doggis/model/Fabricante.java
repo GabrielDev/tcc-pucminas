@@ -15,6 +15,8 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Fabricante {
 	@Id
@@ -29,9 +31,18 @@ public class Fabricante {
 	@CreationTimestamp
 	@Column(name = "dt_inclusao")
 	private Date dataInclusao = new Date();
-
+	
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "fabricante")
 	private Set<Produto> produtos;
+	
+	public Fabricante() {}
+	
+	public Fabricante(Long id, String nome) {
+		super();
+		this.id = id;
+		this.nome = nome;
+	}
 
 	public Long getId() {
 		return id;

@@ -17,7 +17,7 @@ import br.pucminas.doggis.repository.EspecieRepository;
 import br.pucminas.doggis.repository.PerfilRepository;
 import br.pucminas.doggis.repository.UsuarioRepository;
 
-public class UsuarioFormDto {
+public class UsuarioForm {
 	
 	@Size(min = 3)
 	@Size(max = 100)
