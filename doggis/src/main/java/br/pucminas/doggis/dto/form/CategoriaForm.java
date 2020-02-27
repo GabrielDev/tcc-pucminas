@@ -3,12 +3,19 @@ package br.pucminas.doggis.dto.form;
 import java.util.Date;
 import java.util.Optional;
 
+import javax.validation.constraints.Size;
+
 import br.pucminas.doggis.model.Categoria;
 import br.pucminas.doggis.repository.CategoriaRepository;
 
 public class CategoriaForm {
+	
 	private Long id;
+	
+	@Size(min = 3)
+	@Size(max = 50)
 	private String descricao;
+	
 	private Date dataInclusao;
 	
 	public Categoria converter() {

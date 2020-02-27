@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { GenericService } from './generic.service';
 import { Cliente, Avaliacao } from '../models';
+import { Paginacao } from '../models/paginacao';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,10 @@ import { Cliente, Avaliacao } from '../models';
 export class ClienteService extends GenericService<Cliente>{
   constructor(http: HttpClient) { 
     super(http, '/cliente')
+  }
+
+  public listarPaginado() {
+    return this.http.get<Paginacao<Cliente>>(`${this.endpoint}/paginado`)
   }
 
   public listarAvaliacoesPendentes(cliente: Cliente) {

@@ -47,6 +47,19 @@ public class Estoque {
 	@CreationTimestamp
 	@Column(name = "dt_inclusao")
 	private Date dataInclusao = new Date();
+	
+	public Estoque() {}
+	
+	public Estoque(Long id, Usuario usuario, Produto produto, Pedido pedido, Integer quantidade,
+			@NotNull TipoEstoque tipo) {
+		super();
+		this.id = id;
+		this.usuario = usuario;
+		this.produto = produto;
+		this.pedido = pedido;
+		this.quantidade = quantidade;
+		this.tipo = tipo;
+	}
 
 	public Long getId() {
 		return id;

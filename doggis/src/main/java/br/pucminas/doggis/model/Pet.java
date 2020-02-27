@@ -10,12 +10,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Pet {
@@ -27,8 +30,10 @@ public class Pet {
 	@Column(nullable = false, length = 100)
 	private String nome;
 	
+	@Lob
 	private String foto;
-
+	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_cliente")
 	private Cliente dono;
@@ -55,6 +60,21 @@ public class Pet {
 	@CreationTimestamp
 	@Column(name = "dt_inclusao")
 	private Date dataInclusao = new Date();
+	
+	public Pet() {}
+
+	public Pet(Long id, String nome, String foto, Cliente dono, Especie especie, Raca raca, Porte porte,
+			@Length(max = 50) String alergia, String descricao) {
+		this.id = id;
+		this.nome = nome;
+		this.foto = foto;
+		this.dono = dono;
+		this.especie = especie;
+		this.raca = raca;
+		this.porte = porte;
+		this.alergia = alergia;
+		this.descricao = descricao;
+	}
 
 	public Long getId() {
 		return id;

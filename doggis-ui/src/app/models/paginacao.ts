@@ -1,8 +1,14 @@
 export class Paginacao<T> {
     constructor(
-        public pages: number,
-        public count: number,
+        public totalPages: number,
+        public totalElements: number,
+        public numberOfElements: number,
+        public empty: boolean,
+        public last: boolean,
+        public first: boolean,
+        public size: number,
+        public number: number,
         public current: number,
-        public data: T[]
+        public content: T[]
     ) {}
 }

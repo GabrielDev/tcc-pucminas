@@ -9,6 +9,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
 
 import br.pucminas.doggis.model.Especie;
 import br.pucminas.doggis.model.Perfil;
@@ -61,14 +65,33 @@ public class UsuarioForm {
 		usuario.setPerfil(perfil);
 		usuario.setEspecialidades(especialidades);
 		
+		if(!StringUtils.isEmpty(this.senha)) {
+			usuario.setSenha(this.passwordEncoder().encode(this.getSenha()));
+		}
+		
 		return usuario;
 	}
 	
 	public Usuario converter(PerfilRepository perfilRepository, EspecieRepository especieRepository) {
 		Perfil perfil = perfilRepository.getOne(this.getPerfil());
 		Set<Especie> especialidades = this.getEspecialidades(especieRepository);
+		this.setSenha(this.passwordEncoder().encode(this.getSenha()));
 		
-		return new Usuario(this.getNome(), this.getEmail(), this.getSenha(), this.getFoto(), this.getCpf(), this.getRg(), this.getRegistro(), perfil, especialidades);
+		return new Usuario(
+				this.getNome(), 
+				this.getEmail(), 
+				this.getSenha(), 
+				this.getFoto(), 
+				this.getCpf(), 
+				this.getRg(), 
+				this.getRegistro(), 
+				perfil, 
+				especialidades);
+	}
+	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+	    return new BCryptPasswordEncoder();
 	}
 
 	public String getNome() {
@@ -103,7 +126,6 @@ public class UsuarioForm {
 		return perfil;
 	}
 
-	@SuppressWarnings("unchecked")
 	public Set<Especie> getEspecialidades(EspecieRepository especieRepository) {
 		Set<Especie> especialidades = new HashSet<>();
 		

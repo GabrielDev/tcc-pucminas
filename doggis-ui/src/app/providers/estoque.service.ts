@@ -1,13 +1,32 @@
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { GenericService } from './generic.service';
 import { Estoque } from '../models';
+import { Paginacao } from '../models/paginacao';
+
+const API = environment.api
 
 @Injectable({
   providedIn: 'root'
 })
-export class EstoqueService extends GenericService<Estoque>{
-  constructor(http: HttpClient) { 
-    super(http, '/estoque')
+export class EstoqueService {
+  private endpoint: string = API + '/estoque'
+
+  constructor(private http: HttpClient) { }
+
+  public obterPorId(id: number) {
+    return this.http.get<Estoque>(`${this.endpoint}/${id}`)
+  }
+
+  public listar() {
+    return this.http.get<Paginacao<Estoque>>(this.endpoint)
+  }
+
+  public salvar(item: Estoque) {
+    return this.http.post<Estoque>(this.endpoint, item)
+  }
+
+  public excluir(id: number) {
+    return this.http.delete(`${this.endpoint}/${id}`)
   }
 }

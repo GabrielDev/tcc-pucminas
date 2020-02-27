@@ -15,6 +15,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Raca {
 	@Id
@@ -22,6 +24,7 @@ public class Raca {
 	@Column(name = "id_raca", unique = true, nullable = false)
 	private Long id;
 	
+	@JsonIgnore
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "id_especie")

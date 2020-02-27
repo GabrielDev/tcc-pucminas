@@ -56,6 +56,35 @@ INSERT IGNORE INTO usuario (id_usuario, ativo, cpf, dt_inclusao, email, nome, re
 INSERT IGNORE INTO usuario (id_usuario, ativo, cpf, dt_inclusao, email, nome, registro, rg, senha, id_perfil) VALUES(3, TRUE, '333.333.333-33', NOW(), 'veterinario@doggis.com', 'Veterinario', '12345-6', '33.3333', '$2a$10$FNNqIkQyBm7RuSkmdWvxkejIPW5FiZGrvKQxa2D3IEh/iUjirgIiS', 3);
 INSERT IGNORE INTO usuario (id_usuario, ativo, cpf, dt_inclusao, email, nome, registro, rg, senha, id_perfil) VALUES(4, TRUE, '444.444.444-44', NOW(), 'cliente@doggis.com', 'Cliente', '', '44.4444', '$2a$10$FNNqIkQyBm7RuSkmdWvxkejIPW5FiZGrvKQxa2D3IEh/iUjirgIiS', 4);
 
+#ESTADOS
+INSERT IGNORE INTO estado (id_estado, descricao) VALUES(1, 'Acre');
+INSERT IGNORE INTO estado (id_estado, descricao) VALUES(2, 'Alagoas');
+INSERT IGNORE INTO estado (id_estado, descricao) VALUES(3, 'Amapá');
+INSERT IGNORE INTO estado (id_estado, descricao) VALUES(4, 'Amazonas');
+INSERT IGNORE INTO estado (id_estado, descricao) VALUES(5, 'Bahia');
+INSERT IGNORE INTO estado (id_estado, descricao) VALUES(6, 'Ceará');
+INSERT IGNORE INTO estado (id_estado, descricao) VALUES(7, 'Distrito Federal');
+INSERT IGNORE INTO estado (id_estado, descricao) VALUES(8, 'Espírito Santo');
+INSERT IGNORE INTO estado (id_estado, descricao) VALUES(9, 'Goiás');
+INSERT IGNORE INTO estado (id_estado, descricao) VALUES(10, 'Maranhão');
+INSERT IGNORE INTO estado (id_estado, descricao) VALUES(11, 'Mato Grosso');
+INSERT IGNORE INTO estado (id_estado, descricao) VALUES(12, 'Mato Grosso do Sul');
+INSERT IGNORE INTO estado (id_estado, descricao) VALUES(13, 'Minas Gerais');
+INSERT IGNORE INTO estado (id_estado, descricao) VALUES(14, 'Pará');
+INSERT IGNORE INTO estado (id_estado, descricao) VALUES(15, 'Paraíba');
+INSERT IGNORE INTO estado (id_estado, descricao) VALUES(16, 'Paraná');
+INSERT IGNORE INTO estado (id_estado, descricao) VALUES(17, 'Pernambuco');
+INSERT IGNORE INTO estado (id_estado, descricao) VALUES(18, 'Piauí');
+INSERT IGNORE INTO estado (id_estado, descricao) VALUES(19, 'Rio de Janeiro');
+INSERT IGNORE INTO estado (id_estado, descricao) VALUES(20, 'Rio Grande do Norte');
+INSERT IGNORE INTO estado (id_estado, descricao) VALUES(21, 'Rio Grande do Sul');
+INSERT IGNORE INTO estado (id_estado, descricao) VALUES(22, 'Rondônia');
+INSERT IGNORE INTO estado (id_estado, descricao) VALUES(23, 'Roraima');
+INSERT IGNORE INTO estado (id_estado, descricao) VALUES(24, 'Santa Catarina');
+INSERT IGNORE INTO estado (id_estado, descricao) VALUES(25, 'São Paulo');
+INSERT IGNORE INTO estado (id_estado, descricao) VALUES(26, 'Sergipe');
+INSERT IGNORE INTO estado (id_estado, descricao) VALUES(27, 'Tocantins');
+
 #ESPECIES
 INSERT IGNORE INTO especie (id_especie, dt_inclusao, descricao, icone) VALUES(1, NOW(), 'Cão', 'icone-cao');
 INSERT IGNORE INTO especie (id_especie, dt_inclusao, descricao, icone) VALUES(2, NOW(), 'Gato', 'icone-gato');
@@ -545,3 +574,4 @@ INSERT IGNORE INTO categoria (id_categoria, descricao, dt_inclusao) VALUES(65,'T
 INSERT IGNORE INTO categoria (id_categoria, descricao, dt_inclusao) VALUES(66,'Tratamento Dentário',NOW());
 INSERT IGNORE INTO categoria (id_categoria, descricao, dt_inclusao) VALUES(67,'Vermifugo',NOW());
 INSERT IGNORE INTO categoria (id_categoria, descricao, dt_inclusao) VALUES(68,'Vitaminas e Suplementos',NOW());
+
