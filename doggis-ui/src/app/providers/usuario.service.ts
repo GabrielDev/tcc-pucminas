@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { GenericService } from './generic.service';
-import { Usuario, Perfil, Avaliacao } from '../models';
-import { Paginacao } from '../models/paginacao';
+import { Usuario, Perfil, Avaliacao, Paginacao } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +12,7 @@ export class UsuarioService extends GenericService<Usuario> {
   }
 
   public listarPaginado(pagina: number = 1, totalPorPagina: number = 10) {
-    return this.http.get<Paginacao<Usuario>>(`${this.endpoint}?page=${pagina}&count=${totalPorPagina}`)
+    return this.http.get<Paginacao<Usuario>>(`${this.endpoint}/paginado?page=${pagina}&count=${totalPorPagina}`)
   }
 
   public listarPorPerfil(perfis: Perfil[]) {

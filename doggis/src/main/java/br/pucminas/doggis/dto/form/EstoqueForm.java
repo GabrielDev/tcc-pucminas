@@ -7,7 +7,7 @@ import br.pucminas.doggis.model.Pedido;
 import br.pucminas.doggis.model.Produto;
 import br.pucminas.doggis.model.TipoEstoque;
 import br.pucminas.doggis.model.Usuario;
-import br.pucminas.doggis.repository.UsuarioRepository;
+import br.pucminas.doggis.repository.EstoqueRepository;
 
 public class EstoqueForm {
 	
@@ -24,12 +24,21 @@ public class EstoqueForm {
 	
 	private Integer quantidade;
 	
+	private Integer saldo;
+	
 	private TipoEstoque tipo = TipoEstoque.ENTRADA;
 	
-	public Estoque converter(Long idUsuario, UsuarioRepository usuarioRepository) {
-		Usuario usuario = usuarioRepository.getOne(idUsuario);
+	public Estoque converter(Usuario usuario, EstoqueRepository estoqueRepository) {
 		this.setUsuario(usuario);
-		return new Estoque(this.getId(), this.getUsuario(), this.getProduto(), this.getPedido(), this.getQuantidade(), this.getTipo());
+		
+		Estoque ultimoEstoque = estoqueRepository.findLastByProduto(this.getProduto());
+		if(this.tipo == TipoEstoque.ENTRADA) {
+			this.setSaldo(ultimoEstoque.getSaldo() + this.getQuantidade());
+		} else {
+			this.setSaldo(ultimoEstoque.getSaldo() - this.getQuantidade());
+		}
+		
+		return new Estoque(this.getId(), this.getUsuario(), this.getProduto(), this.getPedido(), this.getQuantidade(), this.getSaldo(), this.getTipo());
 	}
 
 	public Long getId() {
@@ -72,6 +81,14 @@ public class EstoqueForm {
 		this.quantidade = quantidade;
 	}
 
+	public Integer getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(Integer saldo) {
+		this.saldo = saldo;
+	}
+
 	public TipoEstoque getTipo() {
 		return tipo;
 	}
@@ -79,4 +96,5 @@ public class EstoqueForm {
 	public void setTipo(TipoEstoque tipo) {
 		this.tipo = tipo;
 	}
+
 }

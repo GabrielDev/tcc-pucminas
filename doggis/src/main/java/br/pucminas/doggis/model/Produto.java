@@ -18,6 +18,9 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 public class Produto implements ItemVenda {
 	@Id
@@ -35,11 +38,13 @@ public class Produto implements ItemVenda {
 	@ManyToOne
 	@JoinColumn(name = "id_categoria")
 	private Categoria categoria;
-
+	
+	@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_fabricante")
 	private Fabricante fabricante;
-
+	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_estoque")
 	private Estoque estoque;
@@ -52,9 +57,21 @@ public class Produto implements ItemVenda {
 	@CreationTimestamp
 	@Column(name = "dt_inclusao")
 	private Date dataInclusao = new Date();
-
+	
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "produto")
 	private List<HistoricoPreco> historico;
+	
+	public Produto() {}
+	
+	public Produto(Long id, String descricao, String foto, Double valor, Categoria categoria, Fabricante fabricante) {
+		this.id = id;
+		this.descricao = descricao;
+		this.foto = foto;
+		this.valor = valor;
+		this.categoria = categoria;
+		this.fabricante = fabricante;
+	}
 
 	public Long getId() {
 		return id;
@@ -135,7 +152,7 @@ public class Produto implements ItemVenda {
 	public void setHistorico(List<HistoricoPreco> historico) {
 		this.historico = historico;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

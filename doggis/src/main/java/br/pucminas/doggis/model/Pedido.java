@@ -46,6 +46,20 @@ public class Pedido {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pedido")
 	private Set<PedidoItem> itens;
 
+	public Pedido() {}
+	
+	public Pedido(Long id, Cliente cliente, Usuario usuario, Pagamento pagamento, Integer patazBonusTotal,
+			Integer patazDescontoTotal, Double total, Set<PedidoItem> itens) {
+		this.id = id;
+		this.cliente = cliente;
+		this.usuario = usuario;
+		this.pagamento = pagamento;
+		this.patazBonusTotal = patazBonusTotal;
+		this.patazDescontoTotal = patazDescontoTotal;
+		this.total = total;
+		this.itens = itens;
+	}
+
 	public Long getId() {
 		return id;
 	}

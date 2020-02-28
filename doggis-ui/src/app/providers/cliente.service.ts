@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { GenericService } from './generic.service';
-import { Cliente, Avaliacao } from '../models';
-import { Paginacao } from '../models/paginacao';
+import { Cliente, Avaliacao, Paginacao } from '../models';
 
 @Injectable({
   providedIn: 'root'

@@ -3,6 +3,7 @@ package br.pucminas.doggis.dto;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 
@@ -43,6 +44,10 @@ public class UsuarioDto {
 	
 	public static Page<UsuarioDto> converter(Page<Usuario> usuarios) {
 		return usuarios.map(UsuarioDto::new);
+	}
+	
+	public static List<UsuarioDto> converter(List<Usuario> usuarios) {
+		return usuarios.stream().map(UsuarioDto::new).collect(Collectors.toList());
 	}
 
 	public Long getId() {

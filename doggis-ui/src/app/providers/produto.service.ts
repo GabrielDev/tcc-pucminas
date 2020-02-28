@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { GenericService } from './generic.service';
-import { Produto, HistoricoPreco, Estoque, Promocao } from '../models';
+import { Produto, HistoricoPreco, Estoque, Promocao, Paginacao } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +11,16 @@ export class ProdutoService extends GenericService<Produto>{
     super(http, '/produto')
   }
 
+  public listarPaginado() {
+    return this.http.get<Paginacao<Produto>>(`${this.endpoint}/paginado`)
+  }
+
   public obterEstoque(produto: Produto) {
     return this.http.get<Estoque>(`${this.endpoint}/${produto.id}/estoque`)
   }
 
   public obterPromocao(produto: Produto) {
-    return this.http.get<Promocao>(`${this.endpoint}/${produto.id}/promocao`)
+    return this.http.get<Promocao[]>(`${this.endpoint}/${produto.id}/promocao`)
   }
 
   public listarHistorico(produto: Produto) {

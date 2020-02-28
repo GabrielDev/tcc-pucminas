@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Estoque } from '../models';
-import { Paginacao } from '../models/paginacao';
+import { Estoque, Paginacao } from '../models';
 
 const API = environment.api
 

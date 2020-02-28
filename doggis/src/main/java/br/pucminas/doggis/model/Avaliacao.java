@@ -37,8 +37,8 @@ public class Avaliacao {
 	private Servico servico;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_pedido_item")
-	private PedidoItem pedidoItem;
+	@JoinColumn(name = "id_agenda")
+	private Agenda agenda;
 	
 	@Column(nullable = false, columnDefinition = "TINYINT", length = 1)
 	private int nota;
@@ -47,6 +47,17 @@ public class Avaliacao {
 	@CreationTimestamp
 	@Column(name = "dt_inclusao")
 	private Date dataInclusao = new Date();
+	
+	public Avaliacao() {}
+
+	public Avaliacao(Long id, Usuario usuario, Cliente cliente, Servico servico, Agenda agenda, int nota) {
+		this.id = id;
+		this.usuario = usuario;
+		this.cliente = cliente;
+		this.servico = servico;
+		this.agenda = agenda;
+		this.nota = nota;
+	}
 
 	public Long getId() {
 		return id;
@@ -80,12 +91,12 @@ public class Avaliacao {
 		this.servico = servico;
 	}
 
-	public PedidoItem getPedidoItem() {
-		return pedidoItem;
+	public Agenda getAgenda() {
+		return agenda;
 	}
 
-	public void setPedidoItem(PedidoItem pedidoItem) {
-		this.pedidoItem = pedidoItem;
+	public void setAgenda(Agenda agenda) {
+		this.agenda = agenda;
 	}
 
 	public int getNota() {
@@ -103,5 +114,4 @@ public class Avaliacao {
 	public void setDataInclusao(Date dataInclusao) {
 		this.dataInclusao = dataInclusao;
 	}
-
 }

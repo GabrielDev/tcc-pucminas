@@ -45,6 +45,19 @@ public class Promocao {
 	
 	@NotNull
 	private Date fim;
+	
+	public Promocao() {}
+	
+	public Promocao(Long id, @NotNull Usuario usuario, Produto produto, Servico servico, @NotNull Float desconto,
+			@NotNull Date inicio, @NotNull Date fim) {
+		this.id = id;
+		this.usuario = usuario;
+		this.produto = produto;
+		this.servico = servico;
+		this.desconto = desconto;
+		this.inicio = inicio;
+		this.fim = fim;
+	}
 
 	public Long getId() {
 		return id;

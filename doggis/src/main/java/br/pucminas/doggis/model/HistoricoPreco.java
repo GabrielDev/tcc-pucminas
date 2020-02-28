@@ -14,21 +14,26 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class HistoricoPreco {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_historico", unique = true, nullable = false)
 	private Long id;
-
+	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
-
+	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_produto")
 	private Produto produto;
-
+	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_servico")
 	private Servico servico;

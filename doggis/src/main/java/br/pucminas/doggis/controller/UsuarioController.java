@@ -1,6 +1,7 @@
 package br.pucminas.doggis.controller;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -42,6 +43,12 @@ public class UsuarioController {
 	private EspecieRepository especieRepository;
 	
 	@GetMapping
+	public List<UsuarioDto> listar() {
+		List<Usuario> usuarios = usuarioRepository.findAll();
+		return UsuarioDto.converter(usuarios);
+	}
+	
+	@GetMapping("/paginado")
 	public Page<UsuarioDto> listar(@PageableDefault(size=10, sort="nome") Pageable paginacao) {
 		Page<Usuario> usuarios = usuarioRepository.findAll(paginacao);
 		return UsuarioDto.converter(usuarios);
