@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Pedido, Paginacao } from '../models';
+import { Pedido, Paginacao, ItemVenda, Pagamento } from '../models';
 
 const API = environment.api
 
@@ -27,5 +27,13 @@ export class PedidoService {
 
   public excluir(id: number) {
     return this.http.delete(`${this.endpoint}/${id}`)
+  }
+
+  public buscar(termo: string) {
+    return this.http.get<ItemVenda[]>(`${this.endpoint}?termo=${termo}`)
+  }
+
+  public listarPagamentos() {
+    return this.http.get<Pagamento[]>(`${this.endpoint}/pagamentos`)
   }
 }

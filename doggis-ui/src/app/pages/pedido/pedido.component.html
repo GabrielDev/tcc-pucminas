@@ -1,4 +1,29 @@
-<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-10">
+          <div class="form-group">
+            <label for="cliente" class="form-control-label">Cliente</label>
+            <input id="cliente" type="text" class="form-control" placeholder="Buscar cliente por nome ou CPF">
+          </div>
+        </div>
+        <div class="col-lg-6 col-2 text-right">
+          <a href="#" class="btn btn-sm btn-neutral">Novo cliente</a>
+        </div>
+      </div>
+
+      <div class="row align-items-center py-4">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="item" class="form-control-label">Item</label>
+            <input id="item" type="text" class="form-control" placeholder="Buscar produto ou serviço por nome ou código">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- Page content -->
 <div class="container-fluid mt--7">
   <!-- Table -->
@@ -12,11 +37,10 @@
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
               <tr>
-                <th scope="col">Project</th>
-                <th scope="col">Budget</th>
-                <th scope="col">Status</th>
-                <th scope="col">Users</th>
-                <th scope="col">Completion</th>
+                <th scope="col">Item</th>
+                <th scope="col">Qtde</th>
+                <th scope="col">Unitário</th>
+                <th scope="col">Total</th>
                 <th scope="col"></th>
               </tr>
             </thead>
@@ -28,12 +52,12 @@
                       <img alt="Image placeholder" src="../assets/img/theme/bootstrap.jpg">
                     </a>
                     <div class="media-body">
-                      <span class="mb-0 text-sm">Argon Design System</span>
+                      <span class="mb-0 text-sm">Nome do produto</span>
                     </div>
                   </div>
                 </th>
                 <td>
-                  $2,500 USD
+                  <p-spinner formControlName="quantidade"></p-spinner>
                 </td>
                 <td>
                   <span class="badge badge-dot mr-4">

@@ -7,8 +7,13 @@ import { Cliente, Avaliacao, Paginacao } from '../models';
   providedIn: 'root'
 })
 export class ClienteService extends GenericService<Cliente>{
+
   constructor(http: HttpClient) { 
     super(http, '/cliente')
+  }
+
+  public buscar(termo: string) {
+    return this.http.get<Cliente[]>(`${this.endpoint}?termo=${termo}`)
   }
 
   public listarPaginado() {
