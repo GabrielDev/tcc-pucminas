@@ -11,6 +11,7 @@ export class Cliente implements Login {
         public rg: string,
         public endereco: string,
         public bairro: string,
+        public cidade: string,
         public estado: Estado,
         public pets: Pet[],
         public totalPataz: number,

@@ -35,7 +35,7 @@ export class PerfilFormComponent implements OnInit {
     this.exibir.subscribe(perfil => this.abrir(perfil))
   }
 
-  f() {
+  get f() {
     return this.perfilForm.controls
   }
 
@@ -51,7 +51,7 @@ export class PerfilFormComponent implements OnInit {
   }
 
   selecionar() {
-    this.f().papeis.setValue(this.papeisSelecionados)
+    this.f.papeis.setValue(this.papeisSelecionados)
   }
 
   private gerarForm() {

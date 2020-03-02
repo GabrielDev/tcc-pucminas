@@ -1,6 +1,10 @@
 import { ItemVenda, Categoria, Fabricante, Estoque, Promocao, HistoricoPreco } from ".";
+import { TipoItem } from './tipoItem';
 
 export class Produto implements ItemVenda {
+    tipo: TipoItem = TipoItem.PRODUTO
+    patazBonus: number
+
     constructor(
         public id: number,
         public descricao: string,
@@ -13,4 +17,8 @@ export class Produto implements ItemVenda {
         public historico: HistoricoPreco[],
         public dataInclusao: Date,
     ) {}
+
+    get totalEstoque() {
+        return this.estoque.quantidade
+    }
 }

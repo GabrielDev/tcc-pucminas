@@ -31,4 +31,6 @@ public interface ItemVenda {
 	public List<HistoricoPreco> getHistorico();
 
 	public void setHistorico(List<HistoricoPreco> historico);
+	
+	public TipoItem getTipo();
 }

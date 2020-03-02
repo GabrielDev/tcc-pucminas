@@ -18,7 +18,7 @@
     <div class="col">
       <div class="card shadow">
         <div class="card-header border-0">
-          <h3 class="mb-0">Perfis ({{ perfis.length }})</h3>
+          <h3 class="mb-0">Perfis</h3>
         </div>
         <div class="table-responsive">
           <table class="table align-items-center table-flush">
@@ -36,15 +36,25 @@
                 <td>{{ perfil.descricao }}</td>
                 <td>{{ perfil.papeis.length }}</td>
                 <td class="text-right">
-                  <button type="button" class="btn btn-outline-secondary" title="Editar" (click)="alterar(perfil)">
+                  <button type="button" class="btn btn-outline-secondary" title="Editar" (click)="alterar(perfil)" ngbTooltip="Editar">
                     <i class="fa fa-pencil-alt"></i>
                   </button>
-                  <button type="button" class="btn btn-outline-secondary" title="Excluir" (click)="excluir(perfil)">
+                  <button type="button" class="btn btn-outline-secondary" title="Excluir" (click)="excluir(perfil)" ngbTooltip="Excluir">
                     <i class="fa fa-trash"></i>
                   </button>
                 </td>
               </tr>
             </tbody>
+            <tfoot [hidden]="!perfis.length">
+              <tr>
+                <td colspan="7">
+                  <h5 class="h3">Nenhum perfil encontrado</h5>
+                    <button class="btn n btn-outline-primary"  (click)="novo()">
+                      Adicionar novo
+                    </button>
+                </td>
+              </tr>
+            </tfoot>
           </table>
         </div>
       </div>

@@ -56,6 +56,13 @@ INSERT IGNORE INTO usuario (id_usuario, ativo, cpf, dt_inclusao, email, nome, re
 INSERT IGNORE INTO usuario (id_usuario, ativo, cpf, dt_inclusao, email, nome, registro, rg, senha, id_perfil) VALUES(3, TRUE, '333.333.333-33', NOW(), 'veterinario@doggis.com', 'Veterinario', '12345-6', '33.3333', '$2a$10$FNNqIkQyBm7RuSkmdWvxkejIPW5FiZGrvKQxa2D3IEh/iUjirgIiS', 3);
 INSERT IGNORE INTO usuario (id_usuario, ativo, cpf, dt_inclusao, email, nome, registro, rg, senha, id_perfil) VALUES(4, TRUE, '444.444.444-44', NOW(), 'cliente@doggis.com', 'Cliente', '', '44.4444', '$2a$10$FNNqIkQyBm7RuSkmdWvxkejIPW5FiZGrvKQxa2D3IEh/iUjirgIiS', 4);
 
+#PAGAMENTOS
+INSERT IGNORE INTO pagamento(id_pagamento, descricao, icone, dt_inclusao) VALUES
+(1, 'Dinheiro', 'icon-dinheiro', NOW()),
+(2, 'Débito', 'icon-debito', NOW()),
+(3, 'Crédito', 'icon-credito', NOW()),
+(4, 'Boleto', 'icon-boleto', NOW());
+
 #ESTADOS
 INSERT IGNORE INTO estado (id_estado, descricao) VALUES(1, 'Acre');
 INSERT IGNORE INTO estado (id_estado, descricao) VALUES(2, 'Alagoas');

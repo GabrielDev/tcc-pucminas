@@ -30,7 +30,7 @@ export class PedidoService {
   }
 
   public buscar(termo: string) {
-    return this.http.get<ItemVenda[]>(`${this.endpoint}?termo=${termo}`)
+    return this.http.get<ItemVenda[]>(`${this.endpoint}/buscar?termo=${termo}`)
   }
 
   public listarPagamentos() {

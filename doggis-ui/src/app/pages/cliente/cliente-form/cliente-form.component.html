@@ -1,0 +1,210 @@
+<form [formGroup]="clienteForm" (submit)="salvar()">
+    <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center">
+        <span class="mask bg-gradient-danger opacity-8"></span>
+        <div class="container-fluid d-flex align-items-center">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="display-2 text-white">{{ f.nome.value }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mt--7">
+        <div class="row">
+            <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+                <div class="card card-profile shadow">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-3 order-lg-2">
+                            <div class="card-profile-image pb-3">
+                                <a href="javascript:void(0)">
+                                    <img [hidden]="!f.foto.value" [src]="f.foto.value" class="rounded-circle">
+                                    <img [hidden]="f.foto.value" src="assets/img/theme/team-4-800x800.jpg"
+                                        class="rounded-circle">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+                    </div>
+                    <div class="card-body pt-8 pt-md-4">
+                        <div class="text-center">
+                            <h3>
+                                {{ f.nome.value }}
+                            </h3>
+                            <div class="h5 mt-4">
+                                <i class="ni business_briefcase-24 mr-2"></i>{{ f.email.value }}
+                            </div>
+                            <div>
+                                <i class="ni education_hat mr-2"></i>{{ f.endereco.value }}
+                            </div>
+                            <div class="h5 font-weight-300">
+                                <i class="ni location_pin mr-2"></i>{{ f.cidade.value }} - {{ f.estado.value?.descricao }}
+                            </div>
+                            <div [hidden]="!cliente?.totalPataz">
+                                <hr class="my-4" />
+                                <p>{{ cliente?.totalPataz }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card shadow mt-3">
+                    <div class="card-body">
+                        <div *ngFor="let pet of f.pets.value" class="row align-items-center">
+                            <div class="col-auto">
+                                <a href="#" class="avatar avatar-xl rounded-circle">
+                                    <img [alt]="pet.nome" [src]="pet.foto">
+                                </a>
+                            </div>
+                            <div class="col ml--2">
+                                <h4 class="mb-0">
+                                    <a (click)="editarPet(pet)">{{ pet.nome }}</a>
+                                </h4>
+                                <p class="text-sm text-muted mb-0">{{ pet.especie.descricao }} &middot;
+                                    {{ pet.raca.descricao }}</p>
+                                <span class="text-success">●</span>
+                                <small>{{ pet.Porte }}</small>
+                            </div>
+                            <div class="col-auto">
+                                <button type="button" class="btn btn-sm btn-primary" (click)="editarPet(pet)">Editar</button>
+                                <button type="button" class="btn btn-sm btn-primary" (click)="excluirPet(pet)">Excluir</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-8 order-xl-1">
+                <div class="card bg-secondary shadow">
+                    <div class="card-header bg-white border-0">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <h3 class="mb-0">Cliente</h3>
+                            </div>
+                            <div class="col-4 text-right">
+                                <app-pet [exibir]="abrirModal" (onSalvar)="salvarPet()"></app-pet>
+                                <a href="javascript:void(0)" class="btn btn-sm btn-primary" (click)="novoPet()">Adicionar pet</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="heading-small text-muted mb-4">Informaçōes pessoais</h6>
+                        <div class="pl-lg-4">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="nome">Nome</label>
+                                        <input
+                                            type="text"
+                                            id="nome"
+                                            class="form-control form-control-alternative"
+                                            formControlName="nome">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="email">E-mail</label>
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            class="form-control form-control-alternative"
+                                            formControlName="email">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="cpf">CPF</label>
+                                        <input
+                                            type="text"
+                                            id="cpf"
+                                            class="form-control form-control-alternative"
+                                            formControlName="cpf">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="rg">RG</label>
+                                        <input
+                                            type="text"
+                                            id="rg"
+                                            class="form-control form-control-alternative"
+                                            formControlName="rg">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <hr class="my-4" />
+                        <!-- Address -->
+                        <h6 class="heading-small text-muted mb-4">Contato</h6>
+                        <div class="pl-lg-4">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="endereco">Endereço</label>
+                                        <input
+                                            type="text"
+                                            id="endereco"
+                                            class="form-control form-control-alternative"
+                                            formControlName="endereco">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="bairro">Bairro</label>
+                                        <input
+                                            type="text"
+                                            id="bairro"
+                                            class="form-control form-control-alternative"
+                                            formControlName="bairro">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="cidade">Cidade</label>
+                                        <input
+                                            type="text"
+                                            id="cidade"
+                                            class="form-control form-control-alternative"
+                                            formControlName="cidade">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="estado">Estado</label>
+                                        <select
+                                            type="estado"
+                                            id="estado"
+                                            class="form-control form-control-alternative"
+                                            formControlName="estado">
+                                            <option value="">Selecione</option>
+                                            <option *ngFor="let estado of estados" [ngValue]="estado">{{ estado.descricao }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="my-4" />
+                        <h6 class="heading-small text-muted mb-4">Autorização</h6>
+                        <div class="pl-lg-4">
+                            <div class="form-group">
+                                <input type="checkbox" formControlName="isAutorizaFoto" id="isAutorizaFoto">
+                                <label class="ml-2" for="isAutorizaFoto">Autoriza a publicação de fotos dos seus pets em nossas redes sociais?</label>
+                            </div>
+
+                            <div>
+                                <button type="submit" class="btn btn-primary">Salvar</button>
+                                <button type="button" class="btn btn-outline-secondary" [routerLink]="['/cliente']">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- row -->
+    </div><!-- container-fluid -->
+</form>

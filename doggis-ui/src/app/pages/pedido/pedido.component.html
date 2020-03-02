@@ -1,24 +1,10 @@
 <div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
   <div class="container-fluid">
     <div class="header-body">
-      <div class="row align-items-center py-4">
-        <div class="col-lg-6 col-10">
-          <div class="form-group">
-            <label for="cliente" class="form-control-label">Cliente</label>
-            <input id="cliente" type="text" class="form-control" placeholder="Buscar cliente por nome ou CPF">
-          </div>
-        </div>
-        <div class="col-lg-6 col-2 text-right">
-          <a href="#" class="btn btn-sm btn-neutral">Novo cliente</a>
-        </div>
-      </div>
-
-      <div class="row align-items-center py-4">
-        <div class="col-12">
-          <div class="form-group">
-            <label for="item" class="form-control-label">Item</label>
-            <input id="item" type="text" class="form-control" placeholder="Buscar produto ou serviço por nome ou código">
-          </div>
+      <div class="row align-items-center">
+        <div class=" col-lg-6 col-7"></div>
+        <div class=" col-lg-6 col-5 text-right">
+          <button class="btn btn-info" [routerLink]="['/pedido/venda', photo.id]">Novo</button>
         </div>
       </div>
     </div>
@@ -37,331 +23,70 @@
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
               <tr>
-                <th scope="col">Item</th>
-                <th scope="col">Qtde</th>
-                <th scope="col">Unitário</th>
+                <th scope="col">Data</th>
+                <th scope="col">No. Pedido</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Responsável</th>
+                <th scope="col">Pataz bonus</th>
                 <th scope="col">Total</th>
+                <th scope="col">Pagamento</th>
                 <th scope="col"></th>
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr *ngFor="let pedido of pedidos.content" >
+                <td>{{ pedido.dataPedido | date: 'dd-MM-yyyy' }}</td>
+                <td>{{ pedido.id }}</td>
                 <th scope="row">
                   <div class="media align-items-center">
                     <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
-                      <img alt="Image placeholder" src="../assets/img/theme/bootstrap.jpg">
+                      <img [alt]="pedido.cliente.nome" [src]="pedido.cliente.foto">
                     </a>
                     <div class="media-body">
-                      <span class="mb-0 text-sm">Nome do produto</span>
+                      <span class="mb-0 text-sm">{{ pedido.cliente.nome }}</span>
+                      <div class="avatar-group">
+                        <a *ngFor="let pet of pedido.cliente.pets"
+                            href="javascript:void(0)"
+                            class="avatar avatar-sm"
+                            [ngbTooltip]="pet.nome">
+                          <img [alt]="pet.nome" [src]="pet.foto" class="rounded-circle">
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </th>
                 <td>
-                  <p-spinner formControlName="quantidade"></p-spinner>
+                  {{ pedido.usuario.nome }}
                 </td>
                 <td>
                   <span class="badge badge-dot mr-4">
-                    <i class="bg-warning"></i> pending
+                    <i class="bg-success"></i> {{ pedido.patazBonusTotal }}
                   </span>
                 </td>
                 <td>
-                  <div class="avatar-group">
-                    <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">
-                      <img alt="Image placeholder" src="../assets/img/theme/team-1-800x800.jpg" class="rounded-circle">
-                    </a>
-                    <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Romina Hadid">
-                      <img alt="Image placeholder" src="../assets/img/theme/team-2-800x800.jpg" class="rounded-circle">
-                    </a>
-                    <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Alexander Smith">
-                      <img alt="Image placeholder" src="../assets/img/theme/team-3-800x800.jpg" class="rounded-circle">
-                    </a>
-                    <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Jessica Doe">
-                      <img alt="Image placeholder" src="../assets/img/theme/team-4-800x800.jpg" class="rounded-circle">
-                    </a>
-                  </div>
+                  R$ {{ pedido.total }}
                 </td>
                 <td>
-                  <div class="d-flex align-items-center">
-                    <span class="mr-2">60%</span>
-                    <div>
-                      <div class="progress">
-                        <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
-                      </div>
-                    </div>
-                  </div>
+                  {{ pedido.pagamento.descricao }}
                 </td>
                 <td class="text-right">
-                  <div ngbDropdown placement="bottom-right">
-                    <a class="btn btn-sm btn-icon-only text-light"  ngbDropdownToggle>
-                      <i class="fas fa-ellipsis-v"></i>
-                    </a>
-                    <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
-                      <a class="dropdown-item" href="javascript:void(0)">Action</a>
-                      <a class="dropdown-item" href="javascript:void(0)">Another action</a>
-                      <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <div class="media align-items-center">
-                    <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
-                      <img alt="Image placeholder" src="../assets/img/theme/angular.jpg">
-                    </a>
-                    <div class="media-body">
-                      <span class="mb-0 text-sm">Angular Now UI Kit PRO</span>
-                    </div>
-                  </div>
-                </th>
-                <td>
-                  $1,800 USD
-                </td>
-                <td>
-                  <span class="badge badge-dot">
-                    <i class="bg-success"></i> completed
-                  </span>
-                </td>
-                <td>
-                  <div class="avatar-group">
-                    <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">
-                      <img alt="Image placeholder" src="../assets/img/theme/team-1-800x800.jpg" class="rounded-circle">
-                    </a>
-                    <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Romina Hadid">
-                      <img alt="Image placeholder" src="../assets/img/theme/team-2-800x800.jpg" class="rounded-circle">
-                    </a>
-                    <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Alexander Smith">
-                      <img alt="Image placeholder" src="../assets/img/theme/team-3-800x800.jpg" class="rounded-circle">
-                    </a>
-                    <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Jessica Doe">
-                      <img alt="Image placeholder" src="../assets/img/theme/team-4-800x800.jpg" class="rounded-circle">
-                    </a>
-                  </div>
-                </td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <span class="mr-2">100%</span>
-                    <div>
-                      <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td class="text-right">
-                  <div ngbDropdown  placement="bottom-right">
-                    <a class="btn btn-sm btn-icon-only text-light"  ngbDropdownToggle>
-                      <i class="fas fa-ellipsis-v"></i>
-                    </a>
-                    <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
-                      <a class="dropdown-item" href="javascript:void(0)">Action</a>
-                      <a class="dropdown-item" href="javascript:void(0)">Another action</a>
-                      <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <div class="media align-items-center">
-                    <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
-                      <img alt="Image placeholder" src="../assets/img/theme/sketch.jpg">
-                    </a>
-                    <div class="media-body">
-                      <span class="mb-0 text-sm">Black Dashboard</span>
-                    </div>
-                  </div>
-                </th>
-                <td>
-                  $3,150 USD
-                </td>
-                <td>
-                  <span class="badge badge-dot mr-4">
-                    <i class="bg-danger"></i> delayed
-                  </span>
-                </td>
-                <td>
-                  <div class="avatar-group">
-                    <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">
-                      <img alt="Image placeholder" src="../assets/img/theme/team-1-800x800.jpg" class="rounded-circle">
-                    </a>
-                    <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Romina Hadid">
-                      <img alt="Image placeholder" src="../assets/img/theme/team-2-800x800.jpg" class="rounded-circle">
-                    </a>
-                    <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Alexander Smith">
-                      <img alt="Image placeholder" src="../assets/img/theme/team-3-800x800.jpg" class="rounded-circle">
-                    </a>
-                    <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Jessica Doe">
-                      <img alt="Image placeholder" src="../assets/img/theme/team-4-800x800.jpg" class="rounded-circle">
-                    </a>
-                  </div>
-                </td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <span class="mr-2">72%</span>
-                    <div>
-                      <div class="progress">
-                        <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100" style="width: 72%;"></div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td class="text-right">
-                  <div ngbDropdown  placement="top-right">
-                    <a class="btn btn-sm btn-icon-only text-light"  ngbDropdownToggle>
-                      <i class="fas fa-ellipsis-v"></i>
-                    </a>
-                    <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
-                      <a class="dropdown-item" href="javascript:void(0)">Action</a>
-                      <a class="dropdown-item" href="javascript:void(0)">Another action</a>
-                      <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <div class="media align-items-center">
-                    <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
-                      <img alt="Image placeholder" src="../assets/img/theme/react.jpg">
-                    </a>
-                    <div class="media-body">
-                      <span class="mb-0 text-sm">React Material Dashboard</span>
-                    </div>
-                  </div>
-                </th>
-                <td>
-                  $4,400 USD
-                </td>
-                <td>
-                  <span class="badge badge-dot">
-                    <i class="bg-info"></i> on schedule
-                  </span>
-                </td>
-                <td>
-                  <div class="avatar-group">
-                    <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">
-                      <img alt="Image placeholder" src="../assets/img/theme/team-1-800x800.jpg" class="rounded-circle">
-                    </a>
-                    <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Romina Hadid">
-                      <img alt="Image placeholder" src="../assets/img/theme/team-2-800x800.jpg" class="rounded-circle">
-                    </a>
-                    <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Alexander Smith">
-                      <img alt="Image placeholder" src="../assets/img/theme/team-3-800x800.jpg" class="rounded-circle">
-                    </a>
-                    <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Jessica Doe">
-                      <img alt="Image placeholder" src="../assets/img/theme/team-4-800x800.jpg" class="rounded-circle">
-                    </a>
-                  </div>
-                </td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <span class="mr-2">90%</span>
-                    <div>
-                      <div class="progress">
-                        <div class="progress-bar bg-info" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 90%;"></div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td class="text-right">
-                  <div ngbDropdown   placement="top-right">
-                    <a class="btn btn-sm btn-icon-only text-light"  ngbDropdownToggle>
-                      <i class="fas fa-ellipsis-v"></i>
-                    </a>
-                    <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
-                      <a class="dropdown-item" href="javascript:void(0)">Action</a>
-                      <a class="dropdown-item" href="javascript:void(0)">Another action</a>
-                      <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <div class="media align-items-center">
-                    <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
-                      <img alt="Image placeholder" src="../assets/img/theme/vue.jpg">
-                    </a>
-                    <div class="media-body">
-                      <span class="mb-0 text-sm">Vue Paper UI Kit PRO</span>
-                    </div>
-                  </div>
-                </th>
-                <td>
-                  $2,200 USD
-                </td>
-                <td>
-                  <span class="badge badge-dot mr-4">
-                    <i class="bg-success"></i> completed
-                  </span>
-                </td>
-                <td>
-                  <div class="avatar-group">
-                    <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">
-                      <img alt="Image placeholder" src="../assets/img/theme/team-1-800x800.jpg" class="rounded-circle">
-                    </a>
-                    <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Romina Hadid">
-                      <img alt="Image placeholder" src="../assets/img/theme/team-2-800x800.jpg" class="rounded-circle">
-                    </a>
-                    <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Alexander Smith">
-                      <img alt="Image placeholder" src="../assets/img/theme/team-3-800x800.jpg" class="rounded-circle">
-                    </a>
-                    <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Jessica Doe">
-                      <img alt="Image placeholder" src="../assets/img/theme/team-4-800x800.jpg" class="rounded-circle">
-                    </a>
-                  </div>
-                </td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <span class="mr-2">100%</span>
-                    <div>
-                      <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td class="text-right">
-                  <div ngbDropdown   placement="top-right">
-                    <a class="btn btn-sm btn-icon-only text-light"  ngbDropdownToggle>
-                      <i class="fas fa-ellipsis-v"></i>
-                    </a>
-                    <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
-                      <a class="dropdown-item" href="javascript:void(0)">Action</a>
-                      <a class="dropdown-item" href="javascript:void(0)">Another action</a>
-                      <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
-                    </div>
-                  </div>
+                  <button type="button" class="btn btn-outline-secondary" title="Excluir" (click)="excluir(pedido)" ngbTooltip="Excluir">
+                    <i class="fa fa-trash"></i>
+                  </button>
                 </td>
               </tr>
             </tbody>
+            <tfoot [hidden]="!pedidos.content">
+              <tr>
+                <td colspan="7">
+                  <h5 class="h3">Nenhum pedido encontrado</h5>
+                    <button class="btn n btn-outline-primary" [routerLink]="['/pedido/venda']">
+                      Adicionar novo
+                    </button>
+                </td>
+              </tr>
+            </tfoot>
           </table>
-        </div>
-        <div class="card-footer py-4">
-          <nav aria-label="...">
-            <ul class="pagination justify-content-end mb-0">
-              <li class="page-item disabled">
-                <a class="page-link" href="javascript:void(0)" tabindex="-1">
-                  <i class="fas fa-angle-left"></i>
-                  <span class="sr-only">Previous</span>
-                </a>
-              </li>
-              <li class="page-item active">
-                <a class="page-link" href="javascript:void(0)">1</a>
-              </li>
-              <li class="page-item">
-                <a class="page-link" href="javascript:void(0)">2 <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="javascript:void(0)">
-                  <i class="fas fa-angle-right"></i>
-                  <span class="sr-only">Next</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
         </div>
       </div>
     </div>

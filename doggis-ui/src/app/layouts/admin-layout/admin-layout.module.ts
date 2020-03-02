@@ -6,15 +6,12 @@ import { FormsModule } from '@angular/forms';
 import { ClipboardModule } from 'ngx-clipboard';
 
 import { AdminLayoutRoutes } from './admin-layout.routing';
-import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
-import { IconsComponent } from '../../pages/icons/icons.component';
-import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
-import { TablesComponent } from '../../pages/tables/tables.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AgendaModule } from 'src/app/pages/agenda/agenda.module';
 import { AvaliacaoModule } from 'src/app/pages/avaliacao/avaliacao.module';
 import { CategoriaModule } from 'src/app/pages/categoria/categoria.module';
 import { ClienteModule } from 'src/app/pages/cliente/cliente.module';
+import { DashboardModule } from 'src/app/pages/dashboard/dashboard.module';
 import { EstoqueModule } from 'src/app/pages/estoque/estoque.module';
 import { FabricanteModule } from 'src/app/pages/fabricante/fabricante.module';
 import { MinhaContaModule } from 'src/app/pages/minha-conta/minha-conta.module';
@@ -24,7 +21,6 @@ import { ProdutoModule } from 'src/app/pages/produto/produto.module';
 import { PromocaoModule } from 'src/app/pages/promocao/promocao.module';
 import { ServicoModule } from 'src/app/pages/servico/servico.module';
 import { UsuarioModule } from 'src/app/pages/usuario/usuario.module';
-import { PerfilFormComponent } from 'src/app/pages/perfil/perfil-form/perfil-form.component';
 
 @NgModule({
   imports: [
@@ -38,6 +34,7 @@ import { PerfilFormComponent } from 'src/app/pages/perfil/perfil-form/perfil-for
     AvaliacaoModule,
     CategoriaModule,
     ClienteModule,
+    DashboardModule,
     EstoqueModule,
     FabricanteModule,
     MinhaContaModule,
@@ -48,12 +45,7 @@ import { PerfilFormComponent } from 'src/app/pages/perfil/perfil-form/perfil-for
     ServicoModule,
     UsuarioModule,
   ],
-  declarations: [
-    DashboardComponent,
-    UserProfileComponent,
-    TablesComponent,
-    IconsComponent,
-  ],
+  declarations: []
 })
 
 export class AdminLayoutModule {}

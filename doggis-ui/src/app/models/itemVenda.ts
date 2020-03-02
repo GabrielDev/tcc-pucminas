@@ -1,4 +1,5 @@
 import { Promocao, HistoricoPreco } from ".";
+import { TipoItem } from './tipoItem';
 
 export interface ItemVenda {
     id: number,
@@ -7,5 +8,8 @@ export interface ItemVenda {
     valor: number,
     promocao: Promocao,
     dataInclusao: Date,
-    historico: HistoricoPreco[]
+    historico: HistoricoPreco[],
+    tipo: TipoItem,
+    totalEstoque?: number,
+    patazBonus?: number,
 }

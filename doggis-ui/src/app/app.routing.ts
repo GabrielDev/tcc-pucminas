@@ -3,8 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
-import { AdminLayoutRoutes } from './layouts/admin-layout/admin-layout.routing';
-import { AuthLayoutRoutes } from './layouts/auth-layout/auth-layout.routing';
 
 const routes: Routes =[
   {

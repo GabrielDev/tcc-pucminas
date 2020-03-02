@@ -2,6 +2,7 @@ package br.pucminas.doggis.controller;
 
 import java.net.URI;
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -18,13 +19,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.pucminas.doggis.config.security.AutenticacaoService;
 import br.pucminas.doggis.dto.form.PedidoForm;
+import br.pucminas.doggis.model.ItemVenda;
+import br.pucminas.doggis.model.Pagamento;
 import br.pucminas.doggis.model.Pedido;
 import br.pucminas.doggis.model.Usuario;
+import br.pucminas.doggis.repository.PagamentoRepository;
 import br.pucminas.doggis.repository.PedidoRepository;
 
 @RestController
@@ -37,9 +42,23 @@ public class PedidoController {
 	@Autowired
 	private AutenticacaoService autenticacaoService;
 	
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
+	
 	@GetMapping()
 	public Page<Pedido> listar(@PageableDefault(size=10, sort="dataPedido") Pageable paginacao) {
 		return pedidoRepository.findAll(paginacao);
+	}
+	
+	@GetMapping("/buscar")
+	public List<Pedido> buscar(@RequestParam String termo) {
+//		return pedidoRepository.findItemVenda(termo);
+		return pedidoRepository.findAll();
+	}
+	
+	@GetMapping("/pagamento")
+	public List<Pagamento> listarPagamentos() {
+		return pagamentoRepository.findAll();
 	}
 	
 	@PostMapping

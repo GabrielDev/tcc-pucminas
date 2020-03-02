@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -151,6 +152,11 @@ public class Produto implements ItemVenda {
 
 	public void setHistorico(List<HistoricoPreco> historico) {
 		this.historico = historico;
+	}
+	
+	@Transient
+	public TipoItem getTipo() {
+		return TipoItem.PRODUTO;
 	}
 	
 	@Override

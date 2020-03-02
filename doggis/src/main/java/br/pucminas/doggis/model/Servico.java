@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -160,6 +161,11 @@ public class Servico implements ItemVenda {
 
 	public void setDataInclusao(Date dataInclusao) {
 		this.dataInclusao = dataInclusao;
+	}
+	
+	@Transient
+	public TipoItem getTipo() {
+		return TipoItem.PRODUTO;
 	}
 
 	@Override

@@ -1,6 +1,9 @@
 import { ItemVenda, Perfil, Promocao, HistoricoPreco, Produto } from ".";
+import { TipoItem } from './tipoItem';
 
 export class Servico implements ItemVenda {
+    tipo: TipoItem = TipoItem.SERVICO
+
     constructor(
         public id: number,
         public descricao: string,
