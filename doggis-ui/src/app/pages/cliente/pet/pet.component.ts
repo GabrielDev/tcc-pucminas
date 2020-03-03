@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PetService } from 'src/app/providers';
-import { Pet, Especie, Raca, Porte } from 'src/app/models';
+import { Pet, Especie, Raca, Porte, TipoEspecie } from 'src/app/models';
 
 @Component({
   selector: 'app-pet',
@@ -76,6 +76,19 @@ export class PetComponent implements OnInit {
     )
   }
 
+  exibirPortes() {
+    let { porte, raca } = this.f
+    let isExibir = raca.value && raca.value.id == TipoEspecie.CACHORRO
+
+    if(isExibir) {
+      porte.setValidators(Validators.required)
+    } else {
+      porte.clearValidators()
+    }
+
+    return isExibir
+  }
+
   salvar() {
     if(this.petForm.valid) {
       this.pet = this.petForm.value
@@ -89,11 +102,15 @@ export class PetComponent implements OnInit {
       nome: [null, Validators.required],
       especie: [null, Validators.required],
       raca: [null, Validators.required],
-      porte: [null, Validators.required],
+      porte: [],
       foto: [],
       alergia: [],
       descricao: [],
       dataInclusao: []
     })
+  }
+
+  compareFn(c1: any, c2:any): boolean {     
+    return c1 && c2 ? c1.id === c2.id : c1 === c2; 
   }
 }

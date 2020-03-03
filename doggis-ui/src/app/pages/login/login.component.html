@@ -16,7 +16,7 @@
   </div>
 </div>
 <!-- Page content -->
-<div class="container mt--8 pb-5">
+<form [formGroup]="loginForm" (submit)="logar()" class="container mt--8 pb-5">
   <div class="row justify-content-center">
     <div class="col-lg-5 col-md-7">
       <div class="card bg-secondary shadow border-0">
@@ -24,37 +24,48 @@
           <div class="text-center text-muted mb-4">
             <small>Acesse sua conta</small>
           </div>
-          <form role="form">
-            <div class="form-group mb-3">
-              <div class="input-group input-group-alternative">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="ni ni-email-83"></i></span>
-                </div>
-                <input class="form-control" placeholder="E-mail" type="email">
+          <div class="form-group mb-3" [ngClass]="{'has-danger': f.email.touched && f.email?.errors}">
+            <div class="input-group input-group-alternative">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="ni ni-email-83"></i></span>
               </div>
+              <input
+                class="form-control"
+                placeholder="E-mail*"
+                type="email"
+                formControlName="email"
+                [ngClass]="{'is-invalid': f.email.touched && f.email?.errors}">
+                <div class="invalid-feedback" *ngIf="f.email.touched && f.email?.errors?.required">Campo obrigatório</div>
+                <div class="invalid-feedback" *ngIf="f.email.touched && f.email?.errors?.email">Preencha com um e-mail valido</div>
             </div>
-            <div class="form-group">
-              <div class="input-group input-group-alternative">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
-                </div>
-                <input class="form-control" placeholder="Senha" type="password">
+          </div>
+          <div class="form-group" [ngClass]="{'has-danger': f.senha.touched && f.senha?.errors}">
+            <div class="input-group input-group-alternative">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
               </div>
+              <input
+                class="form-control"
+                placeholder="Senha"
+                type="password"
+                formControlName="senha"
+                [ngClass]="{'is-invalid': f.senha.touched && f.senha?.errors}">
+                <div class="invalid-feedback" *ngIf="f.senha.touched && f.senha?.errors?.required">Campo obrigatório</div>
             </div>
-            <div class="text-center">
-              <button type="button" class="btn btn-primary my-4">Entrar</button>
-            </div>
-          </form>
+          </div>
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary my-4" [disabled]="loginForm.invalid || loginForm.pending">Entrar</button>
+          </div>
         </div>
       </div>
       <div class="row mt-3">
         <div class="col-6"> 
-          <a href="javascript:void(0)" class="text-light"><small>Esqueceu sua senha?</small></a>
+          <a (click)="recuperarSenha()" class="text-light"><small>Esqueceu sua senha?</small></a>
         </div>
         <div class="col-6 text-right">
-          <a href="/cadastre-se" class="text-light"><small>Criar conta</small></a>
+          <a (click)="cadastrar()" class="text-light"><small>Criar conta</small></a>
         </div>
       </div>
     </div>
   </div>
-</div>
+</form>

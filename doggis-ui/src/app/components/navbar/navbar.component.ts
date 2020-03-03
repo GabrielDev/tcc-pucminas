@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ROUTES } from '../sidebar/sidebar.component';
 import { Location } from '@angular/common';
+import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, filter } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { ROUTES } from '../sidebar/sidebar.component';
+import { AuthService } from 'src/app/providers';
+import { Usuario } from 'src/app/models';
 
 @Component({
   selector: 'app-navbar',
@@ -8,32 +13,55 @@ import { Location } from '@angular/common';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  public focus;
-  public listTitles: any[];
-  public location: Location;
+
+  public focus: boolean
+  public rotas: any[]
+  public nomeUsuario: string
+  public usuario$: Observable<Usuario>
+  public resultadoBusca: any
 
   constructor(
-    location: Location  ) {
-    this.location = location;
+    public location: Location,
+    private service: AuthService,
+    private router: Router
+  ) { 
+    this.usuario$ = service.obterUsuario()
   }
 
   ngOnInit() {
-    this.listTitles = ROUTES.filter(listTitle => listTitle);
+    this.rotas = ROUTES.filter(rota => rota)
   }
 
-  getTitle(){
-    var title = this.location.prepareExternalUrl(this.location.path());
-    if(title.charAt(0) === '#'){
-        title = title.slice( 1 );
+  obterTitulo() {
+    let rotaAtual = this.location.prepareExternalUrl(this.location.path())
+    if (rotaAtual.charAt(0) === '#') {
+      rotaAtual = rotaAtual.slice(1)
     }
 
-    for(var item = 0; item < this.listTitles.length; item++){
-        if(this.listTitles[item].path === title){
-            return this.listTitles[item].title;
-        }
-    }
-    
-    return 'Dashboard';
+    let rota = this.rotas.find(rota => rota.path === rotaAtual)
+
+    return rota.title || 'Dashboard'
   }
 
+  buscar(text$: Observable<string>) {
+    return text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      filter(termo => termo.length >= 2),
+      map(termo => this.rotas.filter(rota => new RegExp(termo, 'mi').test(rota.title)).slice(0, 10))
+    )
+  }
+
+  formatar(rota: any) {
+    return rota.title
+  }
+
+  redirecionar() {
+    this.router.navigate([this.resultadoBusca.path])
+  }
+
+  sair() {
+    this.service.logout()
+    this.router.navigate([''])
+  }
 }

@@ -1,33 +1,106 @@
 <ng-template #petModal let-c="close" let-d="dismiss">
     <form [formGroup]="petForm" (submit)="salvar()" class="modal-content">
-      <div class="modal-header">
-        <h6 class="modal-title" id="modal-title-default">Pet</h6>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
-          <span aria-hidden="true">×</span>
-        </button>
-      </div>
-      
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-12">
-            <div class="form-group"
-              [ngClass]="{'has-danger': f.nome?.errors?.required}">
-              <label class="form-control-label" for="nome">Nome</label>
-              <input
-                type="text"
-                id="nome"
-                class="form-control form-control-alternative"
-                formControlName="nome"
-                [ngClass]="{'is-invalid': f.nome?.errors?.required}">
-            </div>
-          </div>
-          <div class="col-12">
-          </div>
+        <div class="modal-header">
+            <h6 class="modal-title" id="modal-title-default">Pet</h6>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">×</span>
+            </button>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Salvar</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="c('Close click')">Cancelar</button>
-      </div>
+
+        <div class="modal-body">
+            <div class="row mb-4">
+                <div *ngFor="let especie of especies" class="col-3">
+                    <label class="card card-stats">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <span class="h2 font-weight-bold mb-0">{{ especie.descricao }}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-red text-white rounded-circle shadow">
+                                        <i class="ni ni-active-40"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <input
+                            type="checkbox" 
+                            name="especie"
+                            [value]="especie.id"
+                            formControlName="especie"
+                            (change)="listarRacas()"/>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        {{ f.raca.value.id }} - {{ f.raca.value.descricao }}
+                        <label class="form-control-label" for="raca">Raça*</label>
+                        <select
+                            type="raca"
+                            id="raca"
+                            class="form-control form-control-alternative"
+                            formControlName="raca"
+                            [compareWith]="compareFn">
+                            <option [ngValue]="">Selecione</option>
+                            <option *ngFor="let raca of racas" [ngValue]="raca">{{ raca.descricao }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div [hidden]="!exibirPortes()" class="col">
+                    <div class="form-group">
+                        <label class="form-control-label" for="porte">Porte*</label>
+                        <select
+                            type="porte"
+                            id="porte"
+                            class="form-control form-control-alternative"
+                            formControlName="porte">
+                            <option value="">Selecione</option>
+                            <option *ngFor="let porte of portes" [ngValue]="porte">{{ porte }}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group" [ngClass]="{'has-danger': f.nome?.errors?.required}">
+                        <label class="form-control-label" for="nome">Nome*</label>
+                        <input
+                            type="text"
+                            id="nome"
+                            class="form-control form-control-alternative"
+                            formControlName="nome"
+                            [ngClass]="{'is-invalid': f.nome?.errors?.required}">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        <label class="form-control-label" for="alergia">Alergia</label>
+                        <textarea
+                            id="alergia"
+                            class="form-control form-control-alternative"
+                            formControlName="alergia"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label class="form-control-label" for="descricao">Descrição</label>
+                        <textarea
+                            id="descricao"
+                            class="form-control form-control-alternative"
+                            formControlName="descricao"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                (click)="c('Close click')">Cancelar</button>
+        </div>
     </form>
-  </ng-template>
+</ng-template>

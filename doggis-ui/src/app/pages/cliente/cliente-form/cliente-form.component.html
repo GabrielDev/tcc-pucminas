@@ -18,8 +18,7 @@
                             <div class="card-profile-image pb-3">
                                 <a href="javascript:void(0)">
                                     <img [hidden]="!f.foto.value" [src]="f.foto.value" class="rounded-circle">
-                                    <img [hidden]="f.foto.value" src="assets/img/theme/team-4-800x800.jpg"
-                                        class="rounded-circle">
+                                    <img [hidden]="f.foto.value" src="assets/img/theme/team-4-800x800.jpg" class="rounded-circle">
                                 </a>
                             </div>
                         </div>
@@ -42,7 +41,8 @@
                             </div>
                             <div [hidden]="!cliente?.totalPataz">
                                 <hr class="my-4" />
-                                <p>{{ cliente?.totalPataz }}</p>
+                                <p>Pataz</p>
+                                <h4>{{ cliente?.totalPataz }}</h4>
                             </div>
                         </div>
                     </div>
@@ -50,26 +50,35 @@
 
                 <div class="card shadow mt-3">
                     <div class="card-body">
-                        <div *ngFor="let pet of f.pets.value" class="row align-items-center">
-                            <div class="col-auto">
-                                <a href="#" class="avatar avatar-xl rounded-circle">
-                                    <img [alt]="pet.nome" [src]="pet.foto">
-                                </a>
-                            </div>
-                            <div class="col ml--2">
-                                <h4 class="mb-0">
-                                    <a (click)="editarPet(pet)">{{ pet.nome }}</a>
-                                </h4>
-                                <p class="text-sm text-muted mb-0">{{ pet.especie.descricao }} &middot;
-                                    {{ pet.raca.descricao }}</p>
-                                <span class="text-success">●</span>
-                                <small>{{ pet.Porte }}</small>
-                            </div>
-                            <div class="col-auto">
-                                <button type="button" class="btn btn-sm btn-primary" (click)="editarPet(pet)">Editar</button>
-                                <button type="button" class="btn btn-sm btn-primary" (click)="excluirPet(pet)">Excluir</button>
-                            </div>
-                        </div>
+                        <ul class="list-group list-group-flush list my--3">
+                            <li *ngFor="let pet of f.pets.value" class="list-group-item px-0">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <a href="#" class="avatar rounded-circle">
+                                            <img [alt]="pet.nome" [src]="pet.foto">
+                                        </a>
+                                    </div>
+                                    <div class="col ml--2">
+                                        <h4 class="mb-0">
+                                            <a (click)="editarPet(pet)">{{ pet.nome }}</a>
+                                        </h4>
+                                        <span class="text-success">●</span>
+                                        <small>{{ pet.especie.descricao }} - {{ pet.raca.descricao }}</small>
+                                    </div>
+                                    <div class="col-auto">
+                                        <button type="button" 
+                                                class="btn btn-sm btn-outline-secondary" 
+                                                ngbTooltip="Editar" 
+                                                (click)="editarPet(pet)"><i class="fa fa-pencil-alt"></i></button>
+                                                
+                                        <button type="button" 
+                                                class="btn btn-sm btn-outline-secondary" 
+                                                ngbTooltip="Excluir" 
+                                                (click)="excluirPet(pet)"><i class="fa fa-trash"></i></button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -91,46 +100,55 @@
                         <div class="pl-lg-4">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="nome">Nome</label>
+                                    <div class="form-group" [ngClass]="{'has-danger': f.nome.touched && f.nome?.errors?.required}">
+                                        <label class="form-control-label" for="nome">Nome*</label>
                                         <input
                                             type="text"
                                             id="nome"
                                             class="form-control form-control-alternative"
-                                            formControlName="nome">
+                                            formControlName="nome"
+                                            [ngClass]="{'is-invalid': f.nome.touched && f.nome?.errors?.required}">
+                                            <div class="invalid-feedback" *ngIf="f.nome.touched && f.nome?.errors?.required">Campo obrigatório</div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="email">E-mail</label>
+                                    <div class="form-group" [ngClass]="{'has-danger': f.email.touched && f.email?.errors}">
+                                        <label class="form-control-label" for="email">E-mail*</label>
                                         <input
                                             type="email"
                                             id="email"
                                             class="form-control form-control-alternative"
-                                            formControlName="email">
+                                            formControlName="email"
+                                            [ngClass]="{'is-invalid': f.email.touched && f.email?.errors}">
+                                            <div class="invalid-feedback" *ngIf="f.email.touched && f.email?.errors?.required">Campo obrigatório</div>
+                                            <div class="invalid-feedback" *ngIf="f.email.touched && f.email?.errors?.email">Preencha com um e-mail valido</div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="cpf">CPF</label>
+                                    <div class="form-group" [ngClass]="{'has-danger': f.cpf.touched && f.cpf?.errors}">
+                                        <label class="form-control-label" for="cpf">CPF*</label>
                                         <input
                                             type="text"
                                             id="cpf"
                                             class="form-control form-control-alternative"
-                                            formControlName="cpf">
+                                            formControlName="cpf"
+                                            [ngClass]="{'is-invalid': f.cpf.touched && f.cpf?.errors?.required}">
+                                            <div class="invalid-feedback" *ngIf="f.cpf.touched && f.cpf?.errors?.required">Campo obrigatório</div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="rg">RG</label>
+                                    <div class="form-group" [ngClass]="{'has-danger': f.rg.touched && f.rg?.errors}">
+                                        <label class="form-control-label" for="rg">RG*</label>
                                         <input
                                             type="text"
                                             id="rg"
                                             class="form-control form-control-alternative"
-                                            formControlName="rg">
+                                            formControlName="rg"
+                                            [ngClass]="{'is-invalid': f.rg.touched && f.rg?.errors?.required}">
+                                            <div class="invalid-feedback" *ngIf="f.rg.touched && f.rg?.errors?.required">Campo obrigatório</div>
                                     </div>
                                 </div>
                             </div>
@@ -142,49 +160,57 @@
                         <div class="pl-lg-4">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="endereco">Endereço</label>
+                                    <div class="form-group" [ngClass]="{'has-danger': f.endereco.touched && f.endereco?.errors}">
+                                        <label class="form-control-label" for="endereco">Endereço*</label>
                                         <input
                                             type="text"
                                             id="endereco"
                                             class="form-control form-control-alternative"
-                                            formControlName="endereco">
+                                            formControlName="endereco"
+                                            [ngClass]="{'is-invalid': f.endereco.touched && f.endereco?.errors?.required}">
+                                            <div class="invalid-feedback" *ngIf="f.endereco.touched && f.endereco?.errors?.required">Campo obrigatório</div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-lg-4">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="bairro">Bairro</label>
+                                    <div class="form-group" [ngClass]="{'has-danger': f.bairro.touched && f.bairro?.errors}">
+                                        <label class="form-control-label" for="bairro">Bairro*</label>
                                         <input
                                             type="text"
                                             id="bairro"
                                             class="form-control form-control-alternative"
-                                            formControlName="bairro">
+                                            formControlName="bairro"
+                                            [ngClass]="{'is-invalid': f.bairro.touched && f.bairro?.errors?.required}">
+                                            <div class="invalid-feedback" *ngIf="f.bairro.touched && f.bairro?.errors?.required">Campo obrigatório</div>
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="cidade">Cidade</label>
+                                    <div class="form-group" [ngClass]="{'has-danger': f.cidade.touched && f.cidade?.errors}">
+                                        <label class="form-control-label" for="cidade">Cidade*</label>
                                         <input
                                             type="text"
                                             id="cidade"
                                             class="form-control form-control-alternative"
-                                            formControlName="cidade">
+                                            formControlName="cidade"
+                                            [ngClass]="{'is-invalid': f.cidade.touched && f.cidade?.errors?.required}">
+                                            <div class="invalid-feedback" *ngIf="f.cidade.touched && f.cidade?.errors?.required">Campo obrigatório</div>
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="estado">Estado</label>
+                                    <div class="form-group" [ngClass]="{'has-danger': f.estado.touched && f.estado?.errors}">
+                                        <label class="form-control-label" for="estado">Estado*</label>
                                         <select
                                             type="estado"
                                             id="estado"
                                             class="form-control form-control-alternative"
-                                            formControlName="estado">
+                                            formControlName="estado"
+                                            [ngClass]="{'is-invalid': f.estado.touched && f.estado?.errors?.required}">
                                             <option value="">Selecione</option>
                                             <option *ngFor="let estado of estados" [ngValue]="estado">{{ estado.descricao }}</option>
                                         </select>
+                                        <div class="invalid-feedback" *ngIf="f.estado.touched && f.estado?.errors?.required">Campo obrigatório</div>
                                     </div>
                                 </div>
                             </div>

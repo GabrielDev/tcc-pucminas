@@ -13,6 +13,7 @@ import { AppComponent } from './app.component';
 import { ComponentsModule } from './components/components.module';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
+import { CoreModule } from './core/core.module';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component
     ComponentsModule,
     NgbModule,
     RouterModule,
+    CoreModule,
     AppRoutingModule,
     ToastrModule.forRoot(),
   ],

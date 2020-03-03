@@ -6,3 +6,7 @@ export class Especie {
         public dataInclusao: Date,
     ) {}
 }
+
+export enum TipoEspecie {
+    CACHORRO = 1
+}
