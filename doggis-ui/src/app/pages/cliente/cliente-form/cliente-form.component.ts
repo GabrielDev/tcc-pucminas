@@ -156,4 +156,8 @@ export class ClienteFormComponent implements OnInit {
       isAutorizaFoto: [false, Validators.required],
     })
   }
+
+  comparador(c1: any, c2: any): boolean {
+    return c1 && c2 ? c1.id === c2.id : c1 === c2;
+  }
 }

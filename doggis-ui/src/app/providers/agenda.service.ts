@@ -12,10 +12,12 @@ export class AgendaService extends GenericService<Agenda>{
   }
 
   public listarDisponiveis(servico: Servico, data: Date) {
-    return this.http.post<Usuario[]>(`${this.endpoint}/disponiveis`, { servico, data })
+    const headers = this.prepareHeader()
+    return this.http.post<Usuario[]>(`${this.endpoint}/disponiveis`, { servico, data }, headers)
   }
 
   public verificarDisponibilidade(servico: Servico, usuario: Usuario, data: Date) {
-    return this.http.post<boolean>(`${this.endpoint}/verificar`, { servico, usuario, data })
+    const headers = this.prepareHeader()
+    return this.http.post<boolean>(`${this.endpoint}/verificar`, { servico, usuario, data }, headers)
   }
 }

@@ -43,16 +43,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.authorizeRequests()
-					.antMatchers(HttpMethod.POST, "/auth").permitAll()
+					.antMatchers("/auth").permitAll()
+					.antMatchers("/auth/**").permitAll()
 					.antMatchers(HttpMethod.GET, "/categoria").permitAll()
 					.antMatchers(HttpMethod.GET, "/fabricante").permitAll()
 					.antMatchers(HttpMethod.GET, "/estado").permitAll()
 					.antMatchers(HttpMethod.GET, "/pagamento").permitAll()
 					.antMatchers(HttpMethod.GET, "/pet/especie").permitAll()
 					.antMatchers(HttpMethod.GET, "/pet/raca/*").permitAll()
-//					.antMatchers(HttpMethod.GET, "/produto/*/estoque").permitAll()
-//					.antMatchers(HttpMethod.GET, "/produto/*/promocao").permitAll()
-//					.antMatchers(HttpMethod.GET, "/produto/*/historico").permitAll()
 					.antMatchers("/usuario").permitAll() // TODO: APAGAR ESSAS REGRAS DE TESTE AO IMPLEMENTAR ACL
 					.antMatchers("/usuario/**").permitAll()
 					.antMatchers("/perfil").permitAll()

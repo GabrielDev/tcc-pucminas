@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import * as jwt_decode from 'jwt-decode';
-import { Login, Usuario } from '../models';
-import { TokenService } from '.';
 import { BehaviorSubject } from 'rxjs';
+import { TokenService } from '.';
+import { Login, Usuario, AuthResponse } from '../models';
 
 const API = environment.api
 
@@ -13,7 +13,8 @@ const API = environment.api
 })
 export class AuthService {
 
-  private endpoint = API + 'auth'
+  private endpoint = API + '/auth'
+  private endpointUsuario = API + '/usuario'
   private nomeUsuario: string
   private usuarioSubject = new BehaviorSubject<Usuario>(null)
 
@@ -25,15 +26,12 @@ export class AuthService {
   }
 
   public login(usuario: Login) {
-    return this.http.post(`${this.endpoint}/login`, { usuario })
+    return this.http.post<AuthResponse>(this.endpoint, usuario)
   }
 
   public logout() {
-    this.http.get(`${this.endpoint}/logout`).subscribe(
-        () => {
-          this.tokenService.removeToken()
-          this.usuarioSubject.next(null)
-        })
+    this.tokenService.removeToken()
+    this.usuarioSubject.next(null)
   }
 
   public setToken(token: string) {
@@ -54,9 +52,21 @@ export class AuthService {
   }
 
   private decodificar() {
-    const token = this.tokenService.getToken()
-    const usuario = jwt_decode(token) as Usuario
-    this.nomeUsuario = usuario.nome
-    this.usuarioSubject.next(usuario)
+    const hash = this.tokenService.getToken()
+    const token = jwt_decode(hash) as Token
+
+    this.http.get<Usuario>(`${this.endpointUsuario}/${token.sub}`)
+             .subscribe(
+               usuario => {
+                this.nomeUsuario = usuario.nome
+                this.usuarioSubject.next(usuario)
+               }, console.warn)
   }
+}
+
+export interface Token {
+  iss: string,
+  sub: string,
+  iat: Date,
+  exp: Date
 }

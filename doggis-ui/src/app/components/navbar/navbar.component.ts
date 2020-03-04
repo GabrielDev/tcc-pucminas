@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, filter } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { ROUTES } from '../sidebar/sidebar.component';
-import { AuthService } from 'src/app/providers';
 import { Usuario } from 'src/app/models';
+import { AuthService } from 'src/app/providers/auth.service';
 
 @Component({
   selector: 'app-navbar',

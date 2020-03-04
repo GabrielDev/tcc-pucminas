@@ -46,11 +46,11 @@ public class Produto implements ItemVenda {
 	private Fabricante fabricante;
 	
 	@JsonIgnore
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_estoque")
 	private Estoque estoque;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "id_promocao")
 	private Promocao promocao;
 

@@ -4,7 +4,8 @@
       <div class="row align-items-center">
         <div class=" col-lg-6 col-7"></div>
         <div class=" col-lg-6 col-5 text-right">
-          <button class="btn btn-info" [routerLink]="['/produto/novo']">Novo</button>
+          <app-produto-form [exibir]="abrirModal" (onSalvar)="listar()"></app-produto-form>
+          <button class="btn btn-info" (click)="novo()">Novo</button>
         </div>
       </div>
     </div>
@@ -23,17 +24,19 @@
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
               <tr>
-                <th scope="col">Código</th>
+                <th scope="col" class="text-center">Código</th>
                 <th scope="col">Descrição</th>
                 <th scope="col">Valor</th>
                 <th scope="col">Categoria</th>
                 <th scope="col">Fabricante</th>
-                <th scope="col">Estoque</th>
                 <th scope="col"></th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let produto of produtos.content">
+              <tr *ngFor="let produto of produtos?.content">
+                <td class="text-center">
+                  {{ produto.id }}
+                </td>
                 <th scope="row">
                   <div class="media align-items-center">
                     <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
@@ -45,19 +48,16 @@
                   </div>
                 </th>
                 <td>
-                  R$ {{ produto.valor }}
+                  {{ produto.valor | currency: 'BRL' }}
                 </td>
                 <td>
                   {{ produto.categoria.descricao }}
                 </td>
                 <td>
-                  {{ produto.fabricante.descricao }}
-                </td>
-                <td>
-                  {{ produto.estoque.quantidade }}
+                  {{ produto.fabricante.nome }}
                 </td>
                 <td class="text-right">
-                  <button type="button" class="btn btn-outline-secondary" title="Editar" [routerLink]="['/produto/editar', produto.id]" ngbTooltip="Editar">
+                  <button type="button" class="btn btn-outline-secondary" title="Editar" (click)="alterar(produto)" ngbTooltip="Editar">
                     <i class="fa fa-pencil-alt"></i>
                   </button>
                   <button type="button" class="btn btn-outline-secondary" title="Excluir" (click)="excluir(produto)" ngbTooltip="Excluir">
@@ -66,11 +66,11 @@
                 </td>
               </tr>
             </tbody>
-            <tfoot [hidden]="!produtos.content">
+            <tfoot [hidden]="produtos?.content">
               <tr>
-                <td colspan="7">
+                <td colspan="6" class="text-center">
                   <h5 class="h3">Nenhum produto encontrado</h5>
-                    <button class="btn n btn-outline-primary" [routerLink]="['/produto/novo']">
+                    <button class="btn n btn-outline-primary" (click)="novo()">
                       Adicionar novo
                     </button>
                 </td>

@@ -73,6 +73,7 @@ public class ProdutoController {
 		Usuario usuario = autenticacaoService.obterUsuario(principal.getName());
 		form.incluirEstoque(produto, usuario, estoqueRepository);
 		form.incluirHistoricoPreco(produto, usuario, historicoRepository);
+			
 		
 		URI uri = uriBuilder.path("/produto/{id}").buildAndExpand(produto.getId()).toUri();
 		return ResponseEntity.created(uri).body(produto);

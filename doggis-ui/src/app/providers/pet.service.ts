@@ -8,19 +8,23 @@ import { Paginacao } from '../models/paginacao';
   providedIn: 'root'
 })
 export class PetService extends GenericService<Pet>{
+  
   constructor(http: HttpClient) {
     super(http, '/pet')
   }
 
   public listarPaginado() {
-    return this.http.get<Paginacao<Pet>>(`${this.endpoint}/paginado`)
+    const headers = this.prepareHeader()
+    return this.http.get<Paginacao<Pet>>(`${this.endpoint}/paginado`, headers)
   }
 
   public listarEspecies() {
-    return this.http.get<Especie[]>(`${this.endpoint}/especie`)
+    const headers = this.prepareHeader()
+    return this.http.get<Especie[]>(`${this.endpoint}/especie`, headers)
   }
 
   public listarRacas(especie: Especie) {
-    return this.http.get<Raca[]>(`${this.endpoint}/raca/${especie.id}`)
+    const headers = this.prepareHeader()
+    return this.http.get<Raca[]>(`${this.endpoint}/raca/${especie.id}`, headers)
   }
 }

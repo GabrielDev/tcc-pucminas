@@ -2,30 +2,37 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Estoque, Paginacao } from '../models';
+import { HeaderInterceptorService } from './headerInterceptor.service';
 
 const API = environment.api
 
 @Injectable({
   providedIn: 'root'
 })
-export class EstoqueService {
+export class EstoqueService extends HeaderInterceptorService {
   private endpoint: string = API + '/estoque'
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    super()
+  }
 
   public obterPorId(id: number) {
-    return this.http.get<Estoque>(`${this.endpoint}/${id}`)
+    const headers = this.prepareHeader()
+    return this.http.get<Estoque>(`${this.endpoint}/${id}`, headers)
   }
 
   public listar() {
-    return this.http.get<Paginacao<Estoque>>(this.endpoint)
+    const headers = this.prepareHeader()
+    return this.http.get<Paginacao<Estoque>>(this.endpoint, headers)
   }
 
   public salvar(item: Estoque) {
-    return this.http.post<Estoque>(this.endpoint, item)
+    const headers = this.prepareHeader()
+    return this.http.post<Estoque>(this.endpoint, item, headers)
   }
 
   public excluir(id: number) {
-    return this.http.delete(`${this.endpoint}/${id}`)
+    const headers = this.prepareHeader()
+    return this.http.delete(`${this.endpoint}/${id}`, headers)
   }
 }

@@ -7,12 +7,14 @@ import { Promocao, Paginacao } from '../models';
   providedIn: 'root'
 })
 export class PromocaoService extends GenericService<Promocao>{
-  constructor(http: HttpClient) { 
+  
+  constructor(http: HttpClient) {
     super(http, '/promocao')
   }
 
   public listarPaginado() {
-    return this.http.get<Paginacao<Promocao>>(`${this.endpoint}/paginado`)
+    const headers = this.prepareHeader()
+    return this.http.get<Paginacao<Promocao>>(`${this.endpoint}/paginado`, headers)
   }
 
 }

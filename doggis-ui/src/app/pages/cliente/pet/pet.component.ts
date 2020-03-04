@@ -9,21 +9,21 @@ import { Pet, Especie, Raca, Porte, TipoEspecie } from 'src/app/models';
 @Component({
   selector: 'app-pet',
   templateUrl: './pet.component.html',
-  styleUrls: ['./pet.component.css']
+  styleUrls: ['./pet.component.scss']
 })
 export class PetComponent implements OnInit {
-  @Input('exibir') 
+  @Input('exibir')
   exibir: Subject<Pet>
-  @Output() 
+  @Output()
   onSalvar = new EventEmitter<Pet>()
 
-  @ViewChild('petModal') 
+  @ViewChild('petModal')
   private modalTemplate: TemplateRef<any>
   private modal: any
 
   public especies: Especie[] = []
   public racas: Raca[] = []
-  public portes: Porte[] = [ Porte.PEQUENO, Porte.MEDIO, Porte.GRANDE ]
+  public portes: Porte[] = [Porte.PEQUENO, Porte.MEDIO, Porte.GRANDE]
   public petForm: FormGroup
   public pet: Pet
 
@@ -44,7 +44,7 @@ export class PetComponent implements OnInit {
   }
 
   abrir(pet: Pet) {
-    if(pet) {
+    if (pet) {
       this.pet = pet
       this.petForm.setValue(pet)
       this.listarRacas()
@@ -80,7 +80,7 @@ export class PetComponent implements OnInit {
     let { porte, raca } = this.f
     let isExibir = raca.value && raca.value.id == TipoEspecie.CACHORRO
 
-    if(isExibir) {
+    if (isExibir) {
       porte.setValidators(Validators.required)
     } else {
       porte.clearValidators()
@@ -90,7 +90,7 @@ export class PetComponent implements OnInit {
   }
 
   salvar() {
-    if(this.petForm.valid) {
+    if (this.petForm.valid) {
       this.pet = this.petForm.value
       this.onSalvar.emit(this.pet)
     }
@@ -110,7 +110,7 @@ export class PetComponent implements OnInit {
     })
   }
 
-  compareFn(c1: any, c2:any): boolean {     
-    return c1 && c2 ? c1.id === c2.id : c1 === c2; 
+  comparador(c1: any, c2: any): boolean {
+    return c1 && c2 ? c1.id === c2.id : c1 === c2;
   }
 }

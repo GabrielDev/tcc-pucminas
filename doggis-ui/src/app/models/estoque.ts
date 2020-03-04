@@ -6,6 +6,7 @@ export class Estoque {
         public usuario: Usuario,
         public produto: Produto, 
         public quantidade: number,
+        public saldo: number,
         public tipo: TipoEstoque,
         public dataInclusao: Date,
     ) {}

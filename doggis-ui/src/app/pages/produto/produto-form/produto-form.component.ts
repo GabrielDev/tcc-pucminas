@@ -1,16 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, TemplateRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Subject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { ProdutoService, FabricanteService, CategoriaService } from 'src/app/providers';
 import { Fabricante, Categoria, Produto, HistoricoPreco } from 'src/app/models';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-produto-form',
   templateUrl: './produto-form.component.html',
-  styleUrls: ['./produto-form.component.css']
+  styleUrls: ['./produto-form.component.scss']
 })
 export class ProdutoFormComponent implements OnInit {
+
+  @Input('exibir') 
+  exibir: Subject<Produto>
+
+  @Output() 
+  onSalvar = new EventEmitter<Produto>()
+
+  @ViewChild('produtoModal') 
+  private modalTemplate: TemplateRef<any>
+  private modal: any
 
   public produtoForm: FormGroup
   public categorias: Categoria[] = []
@@ -19,38 +30,33 @@ export class ProdutoFormComponent implements OnInit {
   private produto: Produto
 
   constructor(
+    private modalService: NgbModal,
     private mensagem: ToastrService,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
     private produtoService: ProdutoService,
     private fabricanteService: FabricanteService,
     private categoriaService: CategoriaService
   ) { }
 
   ngOnInit(): void {
-    this.produto.id = this.route.snapshot.params.id
     this.gerarForm()
-    this.listarCategorias()
-    this.listarFabricantes()
-    this.obterProduto()
+    this.exibir.subscribe(produto => this.abrir(produto))
   }
 
   get f() {
     return this.produtoForm.controls
   }
 
-  obterProduto() {
-    this.produtoService.obterPorId(this.produto.id).subscribe(
-      resultado => {
-        this.produto = resultado
-        this.produtoForm.setValue(this.produto)
-      },
-      error => {
-        this.router.navigate(['/produto'])
-        this.mensagem.warning('Produto não encontrado')
-      }
-    )
+  abrir(produto: Produto) {
+    if(produto) {
+      this.produto = produto
+      this.produtoForm.setValue(produto)
+    }
+
+    this.listarCategorias()
+    this.listarFabricantes()
+
+    this.modal = this.modalService.open(this.modalTemplate, { windowClass: 'modal-mini', size: 'lg', centered: true })
   }
 
   listarFabricantes() {
@@ -97,21 +103,31 @@ export class ProdutoFormComponent implements OnInit {
 
   private criar() {
     this.produtoService.salvar(this.produto).subscribe(
-      resultado => this.mensagem.success(`Produto ${this.produto.descricao} salvo com sucesso!`),
+      () => {
+        this.mensagem.success(`Produto ${this.produto.descricao} salvo com sucesso!`)
+        this.produtoForm.reset()
+        this.onSalvar.emit()
+      },
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar salvar esse produto')
-      }
+      },
+      () => this.modal.close()
     )
   }
 
   private editar() {
     this.produtoService.salvar(this.produto).subscribe(
-      resultado => this.mensagem.success(`Produto ${this.produto.descricao} salvo com sucesso!`),
+      () => {
+        this.mensagem.success(`Produto ${this.produto.descricao} salvo com sucesso!`)
+        this.produtoForm.reset()
+        this.onSalvar.emit()
+      },
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar salvar esse produto')
-      }
+      },
+      () => this.modal.close()
     )
   }
 
@@ -123,7 +139,13 @@ export class ProdutoFormComponent implements OnInit {
       valor: [null, [Validators.required, Validators.min(1)]],
       categoria: [null, Validators.required],
       fabricante: [null, Validators.required],
+      promocao: [],
+      dataInclusao: [],
+      tipo: [],
     })
   }
 
+  comparador(c1: any, c2: any): boolean {
+    return c1 && c2 ? c1.id === c2.id : c1 === c2;
+  }
 }

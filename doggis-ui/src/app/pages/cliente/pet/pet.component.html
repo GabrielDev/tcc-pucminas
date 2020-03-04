@@ -36,14 +36,13 @@
             <div class="row">
                 <div class="col">
                     <div class="form-group">
-                        {{ f.raca.value.id }} - {{ f.raca.value.descricao }}
                         <label class="form-control-label" for="raca">Raça*</label>
                         <select
                             type="raca"
                             id="raca"
                             class="form-control form-control-alternative"
                             formControlName="raca"
-                            [compareWith]="compareFn">
+                            [compareWith]="comparador">
                             <option [ngValue]="">Selecione</option>
                             <option *ngFor="let raca of racas" [ngValue]="raca">{{ raca.descricao }}</option>
                         </select>

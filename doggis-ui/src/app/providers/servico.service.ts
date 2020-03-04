@@ -12,22 +12,27 @@ export class ServicoService extends GenericService<Servico>{
   }
 
   public listarPaginado() {
-    return this.http.get<Paginacao<Produto>>(`${this.endpoint}/paginado`)
+    const headers = this.prepareHeader()
+    return this.http.get<Paginacao<Produto>>(`${this.endpoint}/paginado`, headers)
   }
 
   public obterPromocao(servico: Servico) {
-    return this.http.get<Promocao>(`${this.endpoint}/${servico.id}/promocao`)
+    const headers = this.prepareHeader()
+    return this.http.get<Promocao>(`${this.endpoint}/${servico.id}/promocao`, headers)
   }
 
   public listarHistorico(servico: Servico) {
-    return this.http.get<HistoricoPreco[]>(`${this.endpoint}/${servico.id}/historico`)
+    const headers = this.prepareHeader()
+    return this.http.get<HistoricoPreco[]>(`${this.endpoint}/${servico.id}/historico`, headers)
   }
 
   public adicionarProduto(servico: Servico, produto: Produto) {
+    const headers = this.prepareHeader()
     return this.http.post<Servico>(`${this.endpoint}/${servico.id}/produto`, { produto })
   }
 
   public removerProduto(servico: Servico, produto: Produto) {
-    return this.http.delete<Servico>(`${this.endpoint}/${servico.id}/produto/${produto.id}`)
+    const headers = this.prepareHeader()
+    return this.http.delete<Servico>(`${this.endpoint}/${servico.id}/produto/${produto.id}`, headers)
   }
 }

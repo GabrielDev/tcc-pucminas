@@ -7,20 +7,24 @@ import { Usuario, Perfil, Avaliacao, Paginacao } from '../models';
   providedIn: 'root'
 })
 export class UsuarioService extends GenericService<Usuario> {
-  constructor(http: HttpClient) { 
+  
+  constructor(http: HttpClient) {
     super(http, '/usuario')
   }
 
   public listarPaginado(pagina: number = 1, totalPorPagina: number = 10) {
-    return this.http.get<Paginacao<Usuario>>(`${this.endpoint}/paginado?page=${pagina}&count=${totalPorPagina}`)
+    const headers = this.prepareHeader()
+    return this.http.get<Paginacao<Usuario>>(`${this.endpoint}/paginado?page=${pagina}&count=${totalPorPagina}`, headers)
   }
 
   public listarPorPerfil(perfis: Perfil[]) {
-    return this.http.post<Usuario[]>(this.endpoint, { perfis })
+    const headers = this.prepareHeader()
+    return this.http.post<Usuario[]>(this.endpoint, { perfis }, headers)
   }
 
   public listarAvaliacoes(usuario: Usuario) {
-    return this.http.get<Avaliacao[]>(`${this.endpoint}/avaliacoes/${usuario.id}`)
+    const headers = this.prepareHeader()
+    return this.http.get<Avaliacao[]>(`${this.endpoint}/avaliacoes/${usuario.id}`, headers)
   }
 
   public bloquear(usuario: Usuario) {

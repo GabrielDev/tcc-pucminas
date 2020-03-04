@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +33,7 @@ public class FabricanteController {
 	
 	@GetMapping
 	public List<Fabricante> listar() {
-		 return fabricanteRepository.findAll();
+		 return fabricanteRepository.findAll(Sort.by(Sort.Direction.ASC, "nome"));
 	}
 	
 	@PostMapping

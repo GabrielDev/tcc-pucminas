@@ -2,38 +2,47 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Pedido, Paginacao, ItemVenda, Pagamento } from '../models';
+import { HeaderInterceptorService } from './headerInterceptor.service';
 
 const API = environment.api
 
 @Injectable({
   providedIn: 'root'
 })
-export class PedidoService {
+export class PedidoService extends HeaderInterceptorService {
   private endpoint: string = API + '/pedido'
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    super()
+   }
 
   public obterPorId(id: number) {
-    return this.http.get<Pedido>(`${this.endpoint}/${id}`)
+    const headers = this.prepareHeader()
+    return this.http.get<Pedido>(`${this.endpoint}/${id}`, headers)
   }
 
   public listar() {
-    return this.http.get<Paginacao<Pedido>>(this.endpoint)
+    const headers = this.prepareHeader()
+    return this.http.get<Paginacao<Pedido>>(this.endpoint, headers)
   }
 
   public salvar(item: Pedido) {
-    return this.http.post<Pedido>(this.endpoint, item)
+    const headers = this.prepareHeader()
+    return this.http.post<Pedido>(this.endpoint, item, headers)
   }
 
   public excluir(id: number) {
-    return this.http.delete(`${this.endpoint}/${id}`)
+    const headers = this.prepareHeader()
+    return this.http.delete(`${this.endpoint}/${id}`, headers)
   }
 
   public buscar(termo: string) {
-    return this.http.get<ItemVenda[]>(`${this.endpoint}/buscar?termo=${termo}`)
+    const headers = this.prepareHeader()
+    return this.http.get<ItemVenda[]>(`${this.endpoint}/buscar?termo=${termo}`, headers)
   }
 
   public listarPagamentos() {
-    return this.http.get<Pagamento[]>(`${this.endpoint}/pagamentos`)
+    const headers = this.prepareHeader()
+    return this.http.get<Pagamento[]>(`${this.endpoint}/pagamentos`, headers)
   }
 }

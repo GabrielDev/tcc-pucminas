@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/providers';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { Login } from 'src/app/models';
+import { AuthService } from 'src/app/providers/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -29,7 +29,10 @@ export class LoginComponent implements OnInit {
     if(this.loginForm.valid) {
       let login: Login = this.loginForm.value
       this.service.login(login).subscribe(
-        () => this.router.navigate(['dashboard']),
+        resposta => {
+          this.service.setToken(resposta.token)
+          this.router.navigate(['dashboard'])
+        },
         error => {
           console.warn(error)
           this.mensagem.error(`Ocorreu um erro ao tentar efetuar o login\n Verifique seu e-mail e senha e tente novamente`)

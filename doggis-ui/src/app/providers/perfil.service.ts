@@ -7,19 +7,23 @@ import { Perfil, Papel } from '../models';
   providedIn: 'root'
 })
 export class PerfilService extends GenericService<Perfil>{
-  constructor(http: HttpClient) { 
+
+  constructor(http: HttpClient) {
     super(http, '/perfil')
   }
 
   public ativar(perfil: Perfil) {
-    return this.http.get<Perfil>(`${this.endpoint}/ativar/${perfil.id}`)
+    const headers = this.prepareHeader()
+    return this.http.get<Perfil>(`${this.endpoint}/ativar/${perfil.id}`, headers)
   }
 
   public listarPapeis() {
-    return this.http.get<Papel[]>(`${this.endpoint}/papel`)
+    const headers = this.prepareHeader()
+    return this.http.get<Papel[]>(`${this.endpoint}/papel`, headers)
   }
 
   public listarPapeisPorPerfil(perfil: Perfil) {
-    return this.http.get<Papel[]>(`${this.endpoint}/papel/${perfil.id}`)
+    const headers = this.prepareHeader()
+    return this.http.get<Papel[]>(`${this.endpoint}/papel/${perfil.id}`, headers)
   }
 }

@@ -64,7 +64,7 @@
                   </span>
                 </td>
                 <td>
-                  R$ {{ pedido.total }}
+                  {{ pedido.total | currency: 'BRL' }}
                 </td>
                 <td>
                   {{ pedido.pagamento.descricao }}

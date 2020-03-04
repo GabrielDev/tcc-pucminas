@@ -23,10 +23,6 @@ export const ROUTES: RouteInfo[] = [
     { grupo: 'Cadastro', path: '/fabricante', title: 'Fabricantes', icon: 'ni-building text-orange', class: ''},
     { grupo: 'Acesso', path: '/usuario', title: 'Usuários', icon: 'ni-circle-08 text-info', class: ''},
     { grupo: 'Acesso', path: '/perfil', title: 'Perfis', icon: 'ni-badge text-info', class: ''},
-    { grupo: 'DEMO', path: '/icons', title: 'Icons',  icon:'ni-planet text-blue', class: '' },
-    { grupo: 'DEMO', path: '/tables', title: 'Tables',  icon:'ni-bullet-list-67 text-red', class: '' },
-    { grupo: 'DEMO', path: '/login', title: 'Login',  icon:'ni-key-25 text-info', class: '' },
-    { grupo: 'DEMO', path: '/register', title: 'Register',  icon:'ni-circle-08 text-pink', class: '' }
 ];
 
 

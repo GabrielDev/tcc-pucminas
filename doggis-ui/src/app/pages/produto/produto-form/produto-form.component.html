@@ -1,1 +1,86 @@
-<p>produto-form works!</p>
+<ng-template #produtoModal let-c="close" let-d="dismiss">
+    <form [formGroup]="produtoForm" (submit)="salvar()" class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title" id="modal-title-default">Produto</h6>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group"
+                    [ngClass]="{'has-danger': f.categoria.touched && f.categoria?.errors?.required}">
+                    <label class="form-control-label" for="categoria">Categoria*</label>
+                    <select
+                        type="categoria"
+                        id="categoria"
+                        class="form-control form-control-alternative"
+                        formControlName="categoria"
+                        [compareWith]="comparador"
+                        [ngClass]="{'is-invalid': f.categoria.touched && f.categoria?.errors?.required}">
+                        <option [ngValue]="">Selecione</option>
+                        <option *ngFor="let categoria of categorias" [ngValue]="categoria">{{ categoria.descricao }}</option>
+                    </select>
+                    <div class="invalid-feedback" *ngIf="f.categoria.touched && f.categoria?.errors?.required">Campo obrigatório</div>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="form-group"
+                    [ngClass]="{'has-danger': f.fabricante.touched && f.fabricante?.errors?.required}">
+                    <label class="form-control-label" for="fabricante">Fabricante*</label>
+                    <select
+                        type="fabricante"
+                        id="fabricante"
+                        class="form-control form-control-alternative"
+                        formControlName="fabricante"
+                        [compareWith]="comparador"
+                        [ngClass]="{'is-invalid': f.fabricante.touched && f.fabricante?.errors?.required}">
+                        <option [ngValue]="">Selecione</option>
+                        <option *ngFor="let fabricante of fabricantes" [ngValue]="fabricante">{{ fabricante.nome }}</option>
+                    </select>
+                    <div class="invalid-feedback" *ngIf="f.fabricante.touched && f.fabricante?.errors?.required">Campo obrigatório</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group"
+              [ngClass]="{'has-danger': f.descricao.touched && f.descricao?.errors?.required}">
+              <label class="form-control-label" for="descricao">Descrição*</label>
+              <input
+                type="text"
+                id="descricao"
+                class="form-control form-control-alternative"
+                formControlName="descricao"
+                [ngClass]="{'is-invalid': f.descricao.touched && f.descricao?.errors?.required}">
+                <div class="invalid-feedback" *ngIf="f.descricao.touched && f.descricao?.errors?.required">Campo obrigatório</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group"
+              [ngClass]="{'has-danger': f.valor.touched && f.valor?.errors?.required}">
+              <label class="form-control-label" for="valor">Valor*</label>
+              <input
+                type="number"
+                id="valor"
+                class="form-control form-control-alternative"
+                formControlName="valor"
+                [ngClass]="{'is-invalid': f.valor.touched && f.valor?.errors?.required}">
+                <div class="invalid-feedback" *ngIf="f.valor.touched && f.valor?.errors?.required">Campo obrigatório</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="c('Close click')">Cancelar</button>
+      </div>
+    </form>
+  </ng-template>

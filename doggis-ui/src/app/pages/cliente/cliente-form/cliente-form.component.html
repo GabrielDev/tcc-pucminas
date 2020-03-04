@@ -206,6 +206,7 @@
                                             id="estado"
                                             class="form-control form-control-alternative"
                                             formControlName="estado"
+                                            [compareWith]="comparador"
                                             [ngClass]="{'is-invalid': f.estado.touched && f.estado?.errors?.required}">
                                             <option value="">Selecione</option>
                                             <option *ngFor="let estado of estados" [ngValue]="estado">{{ estado.descricao }}</option>

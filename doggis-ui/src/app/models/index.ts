@@ -1,4 +1,5 @@
 export * from './agenda'
+export * from './auth-response'
 export * from './avaliacao'
 export * from './categoria'
 export * from './cliente'

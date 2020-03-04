@@ -13,18 +13,22 @@ export class ClienteService extends GenericService<Cliente>{
   }
 
   public buscar(termo: string) {
-    return this.http.get<Cliente[]>(`${this.endpoint}?termo=${termo}`)
+    const headers = this.prepareHeader()
+    return this.http.get<Cliente[]>(`${this.endpoint}?termo=${termo}`, headers)
   }
 
   public listarPaginado() {
-    return this.http.get<Paginacao<Cliente>>(`${this.endpoint}/paginado`)
+    const headers = this.prepareHeader()
+    return this.http.get<Paginacao<Cliente>>(`${this.endpoint}/paginado`, headers)
   }
 
   public listarAvaliacoesPendentes(cliente: Cliente) {
-    return this.http.get<Avaliacao[]>(`${this.endpoint}/avaliacoes-pendentes/${cliente.id}`)
+    const headers = this.prepareHeader()
+    return this.http.get<Avaliacao[]>(`${this.endpoint}/avaliacoes-pendentes/${cliente.id}`, headers)
   }
 
   public listarAvaliacoes(cliente: Cliente) {
-    return this.http.get<Avaliacao[]>(`${this.endpoint}/avaliacoes/${cliente.id}`)
+    const headers = this.prepareHeader()
+    return this.http.get<Avaliacao[]>(`${this.endpoint}/avaliacoes/${cliente.id}`, headers)
   }
 }
