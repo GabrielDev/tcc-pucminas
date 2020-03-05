@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import * as jwt_decode from 'jwt-decode';
 import { BehaviorSubject } from 'rxjs';
 import { TokenService } from '.';
-import { Login, Usuario, AuthResponse } from '../models';
+import { Login, Usuario, AuthResponse, Papel } from '../models';
 
 const API = environment.api
 
@@ -16,6 +16,7 @@ export class AuthService {
   private endpoint = API + '/auth'
   private endpointUsuario = API + '/usuario'
   private nomeUsuario: string
+  private papeis: Papel[] = []
   private usuarioSubject = new BehaviorSubject<Usuario>(null)
 
   constructor(
@@ -47,6 +48,10 @@ export class AuthService {
     return this.nomeUsuario
   }
 
+  public temPermissao(recurso: string) {
+    return this.papeis.some(papel => papel.menu == recurso)
+  }
+
   public isLogado() {
     return this.tokenService.hasToken()
   }
@@ -59,6 +64,7 @@ export class AuthService {
              .subscribe(
                usuario => {
                 this.nomeUsuario = usuario.nome
+                this.papeis = usuario.perfil.papeis || []
                 this.usuarioSubject.next(usuario)
                }, console.warn)
   }

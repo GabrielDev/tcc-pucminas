@@ -12,3 +12,12 @@ export class Paginacao<T> {
         public content: T[]
     ) {}
 }
+
+export class Pagina {
+    constructor(
+        public first: number,
+        public rows: number,
+        public page: number = 1,
+        public pageCount: number
+    ) {}
+}

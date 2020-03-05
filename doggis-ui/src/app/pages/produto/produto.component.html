@@ -4,8 +4,7 @@
       <div class="row align-items-center">
         <div class=" col-lg-6 col-7"></div>
         <div class=" col-lg-6 col-5 text-right">
-          <app-produto-form [exibir]="abrirModal" (onSalvar)="listar()"></app-produto-form>
-          <button class="btn btn-info" (click)="novo()">Novo</button>
+          <button class="btn btn-info" [routerLink]="['/produto/novo']">Novo</button>
         </div>
       </div>
     </div>
@@ -57,7 +56,7 @@
                   {{ produto.fabricante.nome }}
                 </td>
                 <td class="text-right">
-                  <button type="button" class="btn btn-outline-secondary" title="Editar" (click)="alterar(produto)" ngbTooltip="Editar">
+                  <button type="button" class="btn btn-outline-secondary" title="Editar" [routerLink]="['/produto/novo', produto.id]" ngbTooltip="Editar">
                     <i class="fa fa-pencil-alt"></i>
                   </button>
                   <button type="button" class="btn btn-outline-secondary" title="Excluir" (click)="excluir(produto)" ngbTooltip="Excluir">
@@ -79,6 +78,11 @@
           </table>
         </div>
         <div class="card-footer py-4">
+          <p-paginator 
+            [rows]="produtos.numberOfElements" 
+            [totalRecords]="produtos.totalElements"
+            (onPageChange)="paginate($event)">
+          </p-paginator>
         </div>
       </div>
     </div>

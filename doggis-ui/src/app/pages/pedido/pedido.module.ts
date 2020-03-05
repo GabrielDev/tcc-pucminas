@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { AutoCompleteModule, SpinnerModule } from 'primeng';
+import { AutoCompleteModule, SpinnerModule, PaginatorModule } from 'primeng';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PedidoService, ClienteService, ProdutoService, ServicoService } from 'src/app/providers';
@@ -18,6 +18,7 @@ import { PedidoDetalheComponent } from './pedido-detalhe/pedido-detalhe.componen
     NgbModule,
     SpinnerModule,
     AutoCompleteModule,
+    PaginatorModule,
   ],
   declarations: [PedidoComponent, VendaComponent, PedidoDetalheComponent],
   exports: [PedidoComponent, VendaComponent, PedidoDetalheComponent],

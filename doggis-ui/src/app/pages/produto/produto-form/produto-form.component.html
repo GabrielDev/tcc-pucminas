@@ -1,86 +1,155 @@
-<ng-template #produtoModal let-c="close" let-d="dismiss">
-    <form [formGroup]="produtoForm" (submit)="salvar()" class="modal-content">
-      <div class="modal-header">
-        <h6 class="modal-title" id="modal-title-default">Produto</h6>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
-          <span aria-hidden="true">×</span>
-        </button>
+<form [formGroup]="produtoForm" (submit)="salvar()">
+  <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center">
+      <span class="mask bg-gradient-danger opacity-8"></span>
+      <div class="container-fluid d-flex align-items-center">
+          <div class="row">
+              <div class="col-12">
+                  <h1 class="display-2 text-white">{{ f.descricao.value }}</h1>
+              </div>
+          </div>
       </div>
-      
-      <div class="modal-body">
-        <div class="row">
-            <div class="col-6">
-                <div class="form-group"
-                    [ngClass]="{'has-danger': f.categoria.touched && f.categoria?.errors?.required}">
-                    <label class="form-control-label" for="categoria">Categoria*</label>
-                    <select
-                        type="categoria"
-                        id="categoria"
-                        class="form-control form-control-alternative"
-                        formControlName="categoria"
-                        [compareWith]="comparador"
-                        [ngClass]="{'is-invalid': f.categoria.touched && f.categoria?.errors?.required}">
-                        <option [ngValue]="">Selecione</option>
-                        <option *ngFor="let categoria of categorias" [ngValue]="categoria">{{ categoria.descricao }}</option>
-                    </select>
-                    <div class="invalid-feedback" *ngIf="f.categoria.touched && f.categoria?.errors?.required">Campo obrigatório</div>
+  </div>
+  <div class="container-fluid mt--7">
+      <div class="row">
+          <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+            <div class="card card-profile shadow">
+              <div class="row justify-content-center">
+                  <div class="col-lg-3 order-lg-2">
+                      <div class="card-profile-image pb-3">
+                          <a href="javascript:void(0)">
+                              <img [hidden]="!f.foto.value" [src]="f.foto.value" class="rounded-circle">
+                              <img [hidden]="f.foto.value" src="assets/img/theme/team-4-800x800.jpg" class="rounded-circle">
+                          </a>
+                      </div>
+                  </div>
+              </div>
+              <div class="card-body">
+                <div class="text-center">
+                  <h3>Histórico de preço</h3>
                 </div>
-            </div>
-
-            <div class="col-6">
-                <div class="form-group"
-                    [ngClass]="{'has-danger': f.fabricante.touched && f.fabricante?.errors?.required}">
-                    <label class="form-control-label" for="fabricante">Fabricante*</label>
-                    <select
-                        type="fabricante"
-                        id="fabricante"
-                        class="form-control form-control-alternative"
-                        formControlName="fabricante"
-                        [compareWith]="comparador"
-                        [ngClass]="{'is-invalid': f.fabricante.touched && f.fabricante?.errors?.required}">
-                        <option [ngValue]="">Selecione</option>
-                        <option *ngFor="let fabricante of fabricantes" [ngValue]="fabricante">{{ fabricante.nome }}</option>
-                    </select>
-                    <div class="invalid-feedback" *ngIf="f.fabricante.touched && f.fabricante?.errors?.required">Campo obrigatório</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="row">
-          <div class="col-12">
-            <div class="form-group"
-              [ngClass]="{'has-danger': f.descricao.touched && f.descricao?.errors?.required}">
-              <label class="form-control-label" for="descricao">Descrição*</label>
-              <input
-                type="text"
-                id="descricao"
-                class="form-control form-control-alternative"
-                formControlName="descricao"
-                [ngClass]="{'is-invalid': f.descricao.touched && f.descricao?.errors?.required}">
-                <div class="invalid-feedback" *ngIf="f.descricao.touched && f.descricao?.errors?.required">Campo obrigatório</div>
+                <ul class="list-group list-group-flush list my--3">
+                    <li *ngFor="let pet of f.pets.value" class="list-group-item px-0">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <a href="#" class="avatar rounded-circle">
+                                    <img [alt]="pet.nome" [src]="pet.foto">
+                                </a>
+                            </div>
+                            <div class="col ml--2">
+                                <h4 class="mb-0">
+                                    <a (click)="editarPet(pet)">{{ pet.nome }}</a>
+                                </h4>
+                                <span class="text-success">●</span>
+                                <small>{{ pet.especie.descricao }} - {{ pet.raca.descricao }}</small>
+                            </div>
+                            <div class="col-auto">
+                                <button type="button" 
+                                        class="btn btn-sm btn-outline-secondary" 
+                                        ngbTooltip="Editar" 
+                                        (click)="editarPet(pet)"><i class="fa fa-pencil-alt"></i></button>
+                                        
+                                <button type="button" 
+                                        class="btn btn-sm btn-outline-secondary" 
+                                        ngbTooltip="Excluir" 
+                                        (click)="excluirPet(pet)"><i class="fa fa-trash"></i></button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="row">
-          <div class="col-12">
-            <div class="form-group"
-              [ngClass]="{'has-danger': f.valor.touched && f.valor?.errors?.required}">
-              <label class="form-control-label" for="valor">Valor*</label>
-              <input
-                type="number"
-                id="valor"
-                class="form-control form-control-alternative"
-                formControlName="valor"
-                [ngClass]="{'is-invalid': f.valor.touched && f.valor?.errors?.required}">
-                <div class="invalid-feedback" *ngIf="f.valor.touched && f.valor?.errors?.required">Campo obrigatório</div>
-            </div>
+          <div class="col-xl-8 order-xl-1">
+              <div class="card bg-secondary shadow">
+                  <div class="card-header bg-white border-0">
+                      <div class="row align-items-center">
+                          <div class="col-12">
+                              <h3 class="mb-0">Produto</h3>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="card-body">
+                      <div class="pl-lg-4">
+                        <div class="row">
+                          <div class="col-6">
+                              <div class="form-group"
+                                  [ngClass]="{'has-danger': f.categoria.touched && f.categoria?.errors?.required}">
+                                  <label class="form-control-label" for="categoria">Categoria*</label>
+                                  <select
+                                      type="categoria"
+                                      id="categoria"
+                                      class="form-control form-control-alternative"
+                                      formControlName="categoria"
+                                      [compareWith]="comparador"
+                                      [ngClass]="{'is-invalid': f.categoria.touched && f.categoria?.errors?.required}">
+                                      <option [ngValue]="">Selecione</option>
+                                      <option *ngFor="let categoria of categorias" [ngValue]="categoria">{{ categoria.descricao }}</option>
+                                  </select>
+                                  <div class="invalid-feedback" *ngIf="f.categoria.touched && f.categoria?.errors?.required">Campo obrigatório</div>
+                              </div>
+                          </div>
+              
+                          <div class="col-6">
+                              <div class="form-group"
+                                  [ngClass]="{'has-danger': f.fabricante.touched && f.fabricante?.errors?.required}">
+                                  <label class="form-control-label" for="fabricante">Fabricante*</label>
+                                  <select
+                                      type="fabricante"
+                                      id="fabricante"
+                                      class="form-control form-control-alternative"
+                                      formControlName="fabricante"
+                                      [compareWith]="comparador"
+                                      [ngClass]="{'is-invalid': f.fabricante.touched && f.fabricante?.errors?.required}">
+                                      <option [ngValue]="">Selecione</option>
+                                      <option *ngFor="let fabricante of fabricantes" [ngValue]="fabricante">{{ fabricante.nome }}</option>
+                                  </select>
+                                  <div class="invalid-feedback" *ngIf="f.fabricante.touched && f.fabricante?.errors?.required">Campo obrigatório</div>
+                              </div>
+                          </div>
+                        </div>
+                        
+                        <div class="row">
+                          <div class="col-12">
+                            <div class="form-group"
+                              [ngClass]="{'has-danger': f.descricao.touched && f.descricao?.errors?.required}">
+                              <label class="form-control-label" for="descricao">Descrição*</label>
+                              <input
+                                type="text"
+                                id="descricao"
+                                class="form-control form-control-alternative"
+                                formControlName="descricao"
+                                [ngClass]="{'is-invalid': f.descricao.touched && f.descricao?.errors?.required}">
+                                <div class="invalid-feedback" *ngIf="f.descricao.touched && f.descricao?.errors?.required">Campo obrigatório</div>
+                            </div>
+                          </div>
+                        </div>
+                
+                        <div class="row">
+                          <div class="col-12">
+                            <div class="form-group"
+                              [ngClass]="{'has-danger': f.valor.touched && f.valor?.errors?.required}">
+                              <label class="form-control-label" for="valor">Valor*</label>
+                              <input
+                                type="number"
+                                id="valor"
+                                class="form-control form-control-alternative"
+                                formControlName="valor"
+                                [ngClass]="{'is-invalid': f.valor.touched && f.valor?.errors?.required}">
+                                <div class="invalid-feedback" *ngIf="f.valor.touched && f.valor?.errors?.required">Campo obrigatório</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <hr class="my-4" />
+                      <div class="pl-lg-4">
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                        <button type="button" class="btn btn-outline-secondary" [routerLink]="['/produto']">Cancelar</button>
+                      </div>
+                  </div>
+              </div>
           </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Salvar</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="c('Close click')">Cancelar</button>
-      </div>
-    </form>
-  </ng-template>
+      </div><!-- row -->
+  </div><!-- container-fluid -->
+</form>

@@ -22,6 +22,8 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Servico implements ItemVenda {
 	@Id
@@ -163,6 +165,7 @@ public class Servico implements ItemVenda {
 		this.dataInclusao = dataInclusao;
 	}
 	
+	@JsonIgnore
 	@Transient
 	public TipoItem getTipo() {
 		return TipoItem.PRODUTO;

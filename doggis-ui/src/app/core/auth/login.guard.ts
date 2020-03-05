@@ -16,7 +16,7 @@ export class LoginGuard implements CanActivate {
         state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean> {
 
         if (this.service.isLogado()) {
-            this.router.navigate(['dashboard', this.service.obterNomeUsuario()])
+            this.router.navigate(['dashboard'])
             return false;
         }
         return true;

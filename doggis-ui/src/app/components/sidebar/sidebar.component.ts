@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core'
+import { Router } from '@angular/router'
+import { Observable } from 'rxjs'
+import { AuthService } from 'src/app/providers/auth.service'
+import { Usuario } from 'src/app/models'
 
 declare interface RouteInfo {
     path: string
@@ -23,7 +26,7 @@ export const ROUTES: RouteInfo[] = [
     { grupo: 'Cadastro', path: '/fabricante', title: 'Fabricantes', icon: 'ni-building text-orange', class: ''},
     { grupo: 'Acesso', path: '/usuario', title: 'Usuários', icon: 'ni-circle-08 text-info', class: ''},
     { grupo: 'Acesso', path: '/perfil', title: 'Perfis', icon: 'ni-badge text-info', class: ''},
-];
+]
 
 
 @Component({
@@ -33,23 +36,40 @@ export const ROUTES: RouteInfo[] = [
 })
 export class SidebarComponent implements OnInit {
 
-  public menus: any[];
-  public isCollapsed = true;
+  public menus: any[]
+  public isCollapsed = true
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private service: AuthService
+  ) { }
 
   ngOnInit() {
-    this.menus = this.obterRotasPorGrupo()
-    this.router.events.subscribe((event) => {
-      this.isCollapsed = true;
-   });
+    this.service.obterUsuario().subscribe(
+     usuario => {
+       if(usuario) {
+         this.obterRotasPorPermissao(usuario)
+       }
+     },
+     console.warn)
   }
 
-  obterRotasPorGrupo() {
+  obterRotasPorPermissao(usuario: Usuario) {
+    const { papeis } = usuario.perfil
+
+    let rotas = ROUTES.filter(rota => this.service.temPermissao(rota.path.substr(1)))
+    this.menus = this.obterRotasPorGrupo(rotas)
+
+    this.router.events.subscribe((event) => {
+      this.isCollapsed = true
+   })
+  }
+
+  obterRotasPorGrupo(rotas: any) {
     let agrupador = []
     let grupos = []
 
-    ROUTES.forEach(item => {
+    rotas.forEach(item => {
       let {grupo, ...rota} = item
       if(!agrupador[grupo]) {
         agrupador[grupo] = []
@@ -63,4 +83,6 @@ export class SidebarComponent implements OnInit {
 
     return grupos
   }
+
+  
 }

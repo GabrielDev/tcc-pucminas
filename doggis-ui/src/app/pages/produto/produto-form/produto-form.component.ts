@@ -1,10 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ProdutoService, FabricanteService, CategoriaService } from 'src/app/providers';
 import { Fabricante, Categoria, Produto, HistoricoPreco } from 'src/app/models';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-produto-form',
@@ -13,16 +12,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ProdutoFormComponent implements OnInit {
 
-  @Input('exibir') 
-  exibir: Subject<Produto>
-
-  @Output() 
-  onSalvar = new EventEmitter<Produto>()
-
-  @ViewChild('produtoModal') 
-  private modalTemplate: TemplateRef<any>
-  private modal: any
-
   public produtoForm: FormGroup
   public categorias: Categoria[] = []
   public fabricantes: Fabricante[] = []
@@ -30,7 +19,8 @@ export class ProdutoFormComponent implements OnInit {
   private produto: Produto
 
   constructor(
-    private modalService: NgbModal,
+    private route: ActivatedRoute,
+    private router: Router,
     private mensagem: ToastrService,
     private formBuilder: FormBuilder,
     private produtoService: ProdutoService,
@@ -39,24 +29,29 @@ export class ProdutoFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    let { id } = this.route.snapshot.params
+
     this.gerarForm()
-    this.exibir.subscribe(produto => this.abrir(produto))
+    this.listarCategorias()
+    this.listarFabricantes()
+
+    if(id) {
+      this.obterProduto(id)
+    }
   }
 
   get f() {
     return this.produtoForm.controls
   }
 
-  abrir(produto: Produto) {
-    if(produto) {
-      this.produto = produto
-      this.produtoForm.setValue(produto)
-    }
-
-    this.listarCategorias()
-    this.listarFabricantes()
-
-    this.modal = this.modalService.open(this.modalTemplate, { windowClass: 'modal-mini', size: 'lg', centered: true })
+  obterProduto(id: number) {
+    this.produtoService.obterPorId(id).subscribe(
+      resultado => {
+        this.produto = resultado,
+        this.produtoForm.setValue(this.produto)
+        this.listarHistorico()
+      }
+    )
   }
 
   listarFabricantes() {
@@ -105,14 +100,12 @@ export class ProdutoFormComponent implements OnInit {
     this.produtoService.salvar(this.produto).subscribe(
       () => {
         this.mensagem.success(`Produto ${this.produto.descricao} salvo com sucesso!`)
-        this.produtoForm.reset()
-        this.onSalvar.emit()
+        this.router.navigate(['/produto'])
       },
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar salvar esse produto')
-      },
-      () => this.modal.close()
+      }
     )
   }
 
@@ -120,14 +113,12 @@ export class ProdutoFormComponent implements OnInit {
     this.produtoService.salvar(this.produto).subscribe(
       () => {
         this.mensagem.success(`Produto ${this.produto.descricao} salvo com sucesso!`)
-        this.produtoForm.reset()
-        this.onSalvar.emit()
+        this.router.navigate(['/produto'])
       },
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar salvar esse produto')
-      },
-      () => this.modal.close()
+      }
     )
   }
 
