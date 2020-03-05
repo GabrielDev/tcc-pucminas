@@ -56,7 +56,7 @@
                   {{ produto.fabricante.nome }}
                 </td>
                 <td class="text-right">
-                  <button type="button" class="btn btn-outline-secondary" title="Editar" [routerLink]="['/produto/novo', produto.id]" ngbTooltip="Editar">
+                  <button type="button" class="btn btn-outline-secondary" title="Editar" [routerLink]="['/produto/editar', produto.id]" ngbTooltip="Editar">
                     <i class="fa fa-pencil-alt"></i>
                   </button>
                   <button type="button" class="btn btn-outline-secondary" title="Excluir" (click)="excluir(produto)" ngbTooltip="Excluir">
@@ -77,11 +77,11 @@
             </tfoot>
           </table>
         </div>
-        <div class="card-footer py-4">
+        <div [hidden]="!produtos?.content.length" class="card-footer py-4">
           <p-paginator 
-            [rows]="produtos.numberOfElements" 
-            [totalRecords]="produtos.totalElements"
-            (onPageChange)="paginate($event)">
+            [rows]="produtos?.numberOfElements" 
+            [totalRecords]="produtos?.totalElements"
+            (onPageChange)="listar($event)">
           </p-paginator>
         </div>
       </div>

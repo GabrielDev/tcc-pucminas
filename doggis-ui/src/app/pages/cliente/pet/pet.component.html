@@ -35,30 +35,34 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <div class="form-group">
+                    <div class="form-group" [ngClass]="{'has-danger': f.raca.touched && f.raca?.errors}">
                         <label class="form-control-label" for="raca">Raça*</label>
                         <select
                             type="raca"
                             id="raca"
                             class="form-control form-control-alternative"
                             formControlName="raca"
-                            [compareWith]="comparador">
+                            [compareWith]="comparador"
+                            [ngClass]="{'is-invalid': f.raca.touched && f.raca?.errors?.required}">
                             <option [ngValue]="">Selecione</option>
                             <option *ngFor="let raca of racas" [ngValue]="raca">{{ raca.descricao }}</option>
                         </select>
+                        <div class="invalid-feedback" *ngIf="f.raca.touched && f.raca?.errors?.required">Campo obrigatório</div>
                     </div>
                 </div>
                 <div [hidden]="!exibirPortes()" class="col">
-                    <div class="form-group">
+                    <div class="form-group" [ngClass]="{'has-danger': f.porte.touched && f.porte?.errors}">
                         <label class="form-control-label" for="porte">Porte*</label>
                         <select
                             type="porte"
                             id="porte"
                             class="form-control form-control-alternative"
-                            formControlName="porte">
+                            formControlName="porte"
+                            [ngClass]="{'is-invalid': f.porte.touched && f.porte?.errors?.required}">
                             <option value="">Selecione</option>
                             <option *ngFor="let porte of portes" [ngValue]="porte">{{ porte }}</option>
                         </select>
+                        <div class="invalid-feedback" *ngIf="f.porte.touched && f.porte?.errors?.required">Campo obrigatório</div>
                     </div>
                 </div>
             </div>
@@ -72,6 +76,7 @@
                             class="form-control form-control-alternative"
                             formControlName="nome"
                             [ngClass]="{'is-invalid': f.nome?.errors?.required}">
+                        <div class="invalid-feedback" *ngIf="f.nome.touched && f.nome?.errors?.required">Campo obrigatório</div>
                     </div>
                 </div>
                 <div class="col-12">
@@ -97,9 +102,8 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Salvar</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                (click)="c('Close click')">Cancelar</button>
+            <button type="submit" class="btn btn-primary" [disabled]="">Salvar</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="c('Close click')">Cancelar</button>
         </div>
     </form>
 </ng-template>

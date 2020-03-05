@@ -23,7 +23,6 @@ public class HistoricoPreco {
 	@Column(name = "id_historico", unique = true, nullable = false)
 	private Long id;
 	
-	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;

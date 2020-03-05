@@ -33,7 +33,8 @@ INSERT IGNORE INTO papel (id_papel, dt_inclusao, menu, descricao) VALUES
 (18, NOW(), 'servico', 'Serviços'),
 (19, NOW(), 'usuario', 'Usuários'),
 (20, NOW(), 'meu-perfil', 'Perfil'),
-(21, NOW(), 'meus-pedidos', 'Meus pedidos');
+(21, NOW(), 'meus-pedidos', 'Meus pedidos')
+(22, NOW(), 'dashboard', 'Relatórios');
 
 #PERFIL_PAPEL · ADMINISTRADOR
 INSERT IGNORE INTO perfil_papel (id_perfil, id_papel) SELECT 1, id_papel FROM papel;

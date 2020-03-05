@@ -1,0 +1,60 @@
+<ng-template #petModal let-c="close" let-d="dismiss">
+    <form [formGroup]="promocaoForm" (submit)="salvar()" class="modal-content">
+        <div class="modal-header">
+            <h6 class="modal-title" id="modal-title-default">Promoção</h6>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label class="form-control-label" for="item">Item*</label>
+                        <p-autoComplete 
+                            id="item"
+                            formControlName="item" 
+                            [suggestions]="produtos" 
+                            (completeMethod)="buscar($event)"
+                            [forceSelection]="true"
+                            aria-placeholder="Buscar produto ou serviço por nome ou código">
+                        </p-autoComplete>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group" [ngClass]="{'has-danger': f.desconto?.errors?.required}">
+                        <label class="form-control-label" for="desconto">Desconto*</label>
+                        <input
+                            type="number"
+                            id="desconto"
+                            class="form-control form-control-alternative"
+                            formControlName="desconto"
+                            [ngClass]="{'is-invalid': f.desconto?.errors?.required}">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group" [ngClass]="{'has-danger': f.periodo?.errors?.required}">
+                        <label class="form-control-label" for="periodo">Validade*</label>
+                        <p-calendar
+                            id="periodo"
+                            formControlName="periodo"
+                            selectionMode="range"
+                            [minDate]="dataInicio"
+                            dateFormat="dd-mm-yyyy"
+                            (onSelect)="definirData()"
+                            [ngClass]="{'is-invalid': f.nome?.errors?.required}"
+                        ></p-calendar>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                (click)="c('Close click')">Cancelar</button>
+        </div>
+    </form>
+</ng-template>

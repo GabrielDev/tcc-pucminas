@@ -1,13 +1,7 @@
 <div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
   <div class="container-fluid">
     <div class="header-body">
-      <div class="row align-items-center">
-        <div class=" col-lg-6 col-7"></div>
-        <div class=" col-lg-6 col-5 text-right">
-          <app-estoque-form [exibir]="abrirModal" (onSalvar)="listar()"></app-estoque-form>
-          <button class="btn btn-info" (click)="novo()">Novo</button>
-        </div>
-      </div>
+      <app-estoque-form [estoque]="estoque" (onSelecionar)="filtrar()" (onSalvar)="listar()"></app-estoque-form>
     </div>
   </div>
 </div>
@@ -34,7 +28,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let estoque of estoques.content">
+              <tr *ngFor="let estoque of estoques?.content">
                 <td>
                   {{ estoque.dataInclusao | date: 'dd-MM-yyyy' }}
                 </td>
@@ -74,7 +68,7 @@
                 </td>
               </tr>
             </tbody>
-            <tfoot [hidden]="!estoque.content">
+            <tfoot [hidden]="!estoque?.content">
               <tr>
                 <td colspan="7">
                   <h5 class="h3">Nenhum produto encontrado</h5>
@@ -85,6 +79,13 @@
               </tr>
             </tfoot>
           </table>
+        </div>
+        <div [hidden]="!estoques?.content.length" class="card-footer py-4">
+          <p-paginator 
+            [rows]="estoques?.numberOfElements" 
+            [totalRecords]="estoques?.totalElements"
+            (onPageChange)="listar($event)">
+          </p-paginator>
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Pedido, Paginacao, ItemVenda, Pagamento } from '../models';
+import { Pedido, Paginacao, ItemVenda, Pagamento, Pagina } from '../models';
 import { HeaderInterceptorService } from './headerInterceptor.service';
 
 const API = environment.api
@@ -21,9 +21,9 @@ export class PedidoService extends HeaderInterceptorService {
     return this.http.get<Pedido>(`${this.endpoint}/${id}`, headers)
   }
 
-  public listar() {
+  public listar(pagina: Pagina) {
     const headers = this.prepareHeader()
-    return this.http.get<Paginacao<Pedido>>(this.endpoint, headers)
+    return this.http.get<Paginacao<Pedido>>(`${this.endpoint}?page=${pagina.page}`, headers)
   }
 
   public salvar(item: Pedido) {

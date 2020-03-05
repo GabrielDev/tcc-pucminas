@@ -1,1 +1,44 @@
-<p>estoque-form works!</p>
+<form [formControl]="estoqueForm" class="row align-items-center">
+    <div class="col-7">
+        <div class="form-group" [ngClass]="{'has-danger': f.produto.touched && f.produto?.errors}">
+            <label for="produto">Produto*</label>
+            <p-autoComplete
+                id="produto"
+                formControlName="produto"
+                [suggestions]="produtos"
+                (completeMethod)="buscar($event)"
+                (onSelect)="selecionar()">
+            </p-autoComplete>
+            <div class="invalid-feedback" *ngIf="f.produto.touched && f.produto?.errors?.required">Campo obrigatório</div>
+        </div>
+    </div>
+    <div class="col-5">
+        <div class="form-group" [ngClass]="{'has-danger': f.tipo.touched && f.tipo?.errors}">
+            <label class="form-control-label" for="tipo">Tipo*</label>
+            <select id="tipo" 
+                class="form-control form-control-alternative" 
+                formControlName="tipo"
+                [compareWith]="comparador" 
+                [ngClass]="{'is-invalid': f.tipo.touched && f.tipo?.errors?.required}">
+                <option value="">Selecione</option>
+                <option *ngFor="let tipo of tipos" [ngValue]="tipo">{{ tipo.descricao }}</option>
+            </select>
+            <div class="invalid-feedback" *ngIf="f.estado.touched && f.estado?.errors?.required">Campo obrigatório</div>
+        </div>
+    </div>
+    <div class="col-5">
+        <div class="form-group" [ngClass]="{'has-danger': f.quantidade.touched && f.quantidade?.errors}">
+            <label class="form-control-label" for="quantidade">Quantidade*</label>
+            <input
+                type="number"
+                id="quantidade"
+                class="form-control form-control-alternative"
+                formControlName="quantidade"
+                [ngClass]="{'is-invalid': f.quantidade.touched && f.quantidade?.errors?.required}">
+            <div class="invalid-feedback" *ngIf="f.quantidade.touched && f.quantidade?.errors?.required">Campo obrigatório</div>
+        </div>
+    </div>
+    <div class="col-5 text-right">
+        <button class="btn btn-info" (click)="adicionar()">Adicionar</button>
+    </div>
+</form>

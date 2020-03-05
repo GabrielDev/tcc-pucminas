@@ -12,6 +12,7 @@ import { Produto, Paginacao, Pagina } from 'src/app/models';
 export class ProdutoComponent implements OnInit {
 
   public produtos: Paginacao<Produto>
+  private paginaAtual: Pagina = { page: 0 }
 
   constructor(
     private service: ProdutoService,
@@ -23,7 +24,8 @@ export class ProdutoComponent implements OnInit {
   }
 
   listar(pagina?: Pagina) {
-    this.service.listarPaginado(pagina).subscribe(
+    this.paginaAtual = pagina || this.paginaAtual
+    this.service.listarPaginado(this.paginaAtual).subscribe(
       resultado => this.produtos = resultado,
       error => {
         console.warn(error)

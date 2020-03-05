@@ -1,10 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { EstoqueService } from 'src/app/providers';
-import { Estoque } from 'src/app/models';
+import { EstoqueService, ProdutoService } from 'src/app/providers';
+import { Estoque, Produto } from 'src/app/models';
 
 @Component({
   selector: 'app-estoque-form',
@@ -13,29 +12,29 @@ import { Estoque } from 'src/app/models';
 })
 export class EstoqueFormComponent implements OnInit {
 
-  @Input('exibir') 
-  exibir: Subject<Estoque>
+  @Input('estoque') 
+  estoque$: Subject<Estoque>
 
   @Output() 
   onSalvar = new EventEmitter<Estoque>()
 
-  @ViewChild('estoqueModal') 
-  private modalTemplate: TemplateRef<any>
-  private modal: any
+  @Output() 
+  onSelecionar = new EventEmitter<Estoque>()
 
   public estoqueForm: FormGroup
+  public produtos: Produto[] =[]
   private estoque: Estoque
 
   constructor(
-    private modalService: NgbModal,
     private mensagem: ToastrService,
     private formBuilder: FormBuilder,
     private estoqueService: EstoqueService,
+    private produtoService: ProdutoService
   ) { }
 
   ngOnInit(): void {
     this.gerarForm()
-    this.exibir.subscribe(estoque => this.abrir(estoque))
+    this.estoque$.subscribe(estoque => this.abrir(estoque))
   }
 
   get f() {
@@ -47,8 +46,18 @@ export class EstoqueFormComponent implements OnInit {
       this.estoque = estoque
       this.estoqueForm.setValue(estoque)
     }
+  }
 
-    this.modal = this.modalService.open(this.modalTemplate, { windowClass: 'modal-mini', size: 'lg', centered: true })
+  buscar(termo: string) {
+    this.produtoService.buscar(termo).subscribe(
+      resultado => this.produtos = resultado,
+      console.warn
+    )
+  }
+
+  selecionar() {
+    const { produto } = this.f
+    this.onSelecionar.next(produto.value)
   }
 
   salvar() {
@@ -65,23 +74,27 @@ export class EstoqueFormComponent implements OnInit {
 
   private criar() {
     this.estoqueService.salvar(this.estoque).subscribe(
-      () => this.mensagem.success(`Estoque do produto ${this.estoque.produto.descricao} salvo com sucesso!`),
+      () => {
+        this.mensagem.success(`Estoque do produto ${this.estoque.produto.descricao} salvo com sucesso!`)
+        this.onSalvar.emit()
+      },
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar salvar esse estoque')
-      },
-      () => this.modal.close()
+      }
     )
   }
 
   private editar() {
     this.estoqueService.salvar(this.estoque).subscribe(
-      () => this.mensagem.success(`Estoque do produto ${this.estoque.produto.descricao} salvo com sucesso!`),
+      () => {
+        this.mensagem.success(`Estoque do produto ${this.estoque.produto.descricao} salvo com sucesso!`)
+        this.onSalvar.emit()
+      },
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar salvar esse estoque')
-      },
-      () => this.modal.close()
+      }
     )
   }
 

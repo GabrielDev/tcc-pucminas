@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ProdutoService, FabricanteService, CategoriaService } from 'src/app/providers';
-import { Fabricante, Categoria, Produto, HistoricoPreco } from 'src/app/models';
+import { Fabricante, Categoria, Produto, HistoricoPreco, TipoItem } from 'src/app/models';
 
 @Component({
   selector: 'app-produto-form',
@@ -15,7 +15,7 @@ export class ProdutoFormComponent implements OnInit {
   public produtoForm: FormGroup
   public categorias: Categoria[] = []
   public fabricantes: Fabricante[] = []
-  public historico: HistoricoPreco[] = []
+  public historicos: HistoricoPreco[] = []
   private produto: Produto
 
   constructor(
@@ -76,7 +76,7 @@ export class ProdutoFormComponent implements OnInit {
 
   listarHistorico() {
     this.produtoService.listarHistorico(this.produto).subscribe(
-      resultado => this.historico = resultado,
+      resultado => this.historicos = resultado,
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar obter o histórico de preço desse produto')
@@ -132,7 +132,7 @@ export class ProdutoFormComponent implements OnInit {
       fabricante: [null, Validators.required],
       promocao: [],
       dataInclusao: [],
-      tipo: [],
+      tipo: [ TipoItem.PRODUTO ],
     })
   }
 

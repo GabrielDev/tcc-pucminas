@@ -4,7 +4,7 @@
       <div class="row align-items-center">
         <div class=" col-lg-6 col-7"></div>
         <div class=" col-lg-6 col-5 text-right">
-          <button class="btn btn-info" [routerLink]="['/pedido/venda', photo.id]">Novo</button>
+          <button class="btn btn-info" [routerLink]="['/pedido/venda']">Novo</button>
         </div>
       </div>
     </div>
@@ -34,7 +34,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let pedido of pedidos.content" >
+              <tr *ngFor="let pedido of pedidos?.content" >
                 <td>{{ pedido.dataPedido | date: 'dd-MM-yyyy' }}</td>
                 <td>{{ pedido.id }}</td>
                 <th scope="row">
@@ -76,9 +76,9 @@
                 </td>
               </tr>
             </tbody>
-            <tfoot [hidden]="!pedidos.content">
+            <tfoot [hidden]="!pedidos?.content">
               <tr>
-                <td colspan="7">
+                <td colspan="7" class="text-center">
                   <h5 class="h3">Nenhum pedido encontrado</h5>
                     <button class="btn n btn-outline-primary" [routerLink]="['/pedido/venda']">
                       Adicionar novo
@@ -87,6 +87,13 @@
               </tr>
             </tfoot>
           </table>
+        </div>
+        <div [hidden]="!pedidos?.content.length" class="card-footer py-4">
+          <p-paginator 
+            [rows]="pedidos?.numberOfElements" 
+            [totalRecords]="pedidos?.totalElements"
+            (onPageChange)="listar($event)">
+          </p-paginator>
         </div>
       </div>
     </div>

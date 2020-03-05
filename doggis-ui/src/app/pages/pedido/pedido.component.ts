@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { PedidoService } from 'src/app/providers';
-import { Pedido, Paginacao } from 'src/app/models';
+import { Pedido, Paginacao, Pagina } from 'src/app/models';
 
 @Component({
   selector: 'app-pedido',
@@ -11,6 +11,7 @@ import { Pedido, Paginacao } from 'src/app/models';
 export class PedidoComponent implements OnInit {
 
   public pedidos: Paginacao<Pedido>
+  private paginaAtual: Pagina = { page: 0 }
 
   constructor(
     private service: PedidoService,
@@ -18,11 +19,12 @@ export class PedidoComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-
+    this.listar()
   }
 
-  listar() {
-    this.service.listar().subscribe(
+  listar(pagina: Pagina = this.paginaAtual) {
+    this.paginaAtual = pagina
+    this.service.listar(this.paginaAtual).subscribe(
       resultado => this.pedidos = resultado,
       console.warn
     )

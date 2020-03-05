@@ -154,7 +154,6 @@ public class Produto implements ItemVenda {
 		this.historico = historico;
 	}
 	
-	@JsonIgnore
 	@Transient
 	public TipoItem getTipo() {
 		return TipoItem.PRODUTO;

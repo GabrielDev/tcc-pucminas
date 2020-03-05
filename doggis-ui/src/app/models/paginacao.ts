@@ -13,11 +13,9 @@ export class Paginacao<T> {
     ) {}
 }
 
-export class Pagina {
-    constructor(
-        public first: number,
-        public rows: number,
-        public page: number = 1,
-        public pageCount: number
-    ) {}
+export interface Pagina {
+    first?: number
+    rows?: number
+    page: number
+    pageCount?: number
 }

@@ -11,48 +11,47 @@
   </div>
   <div class="container-fluid mt--7">
       <div class="row">
-          <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+          <div class="col-xl-4 order-xl-2 mb-xl-0">
             <div class="card card-profile shadow">
-              <div class="row justify-content-center">
+              <div class="row justify-content-center mb-8">
                   <div class="col-lg-3 order-lg-2">
-                      <div class="card-profile-image pb-3">
+                      <div class="card-profile-image pb-4">
                           <a href="javascript:void(0)">
-                              <img [hidden]="!f.foto.value" [src]="f.foto.value" class="rounded-circle">
-                              <img [hidden]="f.foto.value" src="assets/img/theme/team-4-800x800.jpg" class="rounded-circle">
+                              <img [hidden]="!f.foto.value" [src]="f.foto.value" class="rounded-lg">
+                              <img [hidden]="f.foto.value" src="assets/img/theme/team-4-800x800.jpg" class="rounded-lg">
                           </a>
                       </div>
                   </div>
               </div>
               <div class="card-body">
-                <div class="text-center">
-                  <h3>Histórico de preço</h3>
+                <div class="text-center mb-4">
+                  Histórico de preços
                 </div>
-                <ul class="list-group list-group-flush list my--3">
-                    <li *ngFor="let pet of f.pets.value" class="list-group-item px-0">
+                <ul [hidden]="!historicos.length" class="list-group list-group-flush list my--3">
+                    <li *ngFor="let historico of historicos" class="list-group-item px-0">
                         <div class="row align-items-center">
                             <div class="col-auto">
-                                <a href="#" class="avatar rounded-circle">
-                                    <img [alt]="pet.nome" [src]="pet.foto">
-                                </a>
+                                <img class="avatar rounded-circle" [hidden]="!historico?.usuario.foto" [src]="historico?.usuario.foto" [alt]="historico?.usuario.nome">
+                                <img class="avatar rounded-circle" [hidden]="historico?.usuario.foto"  src="assets/img/theme/team-4-800x800.jpg" [alt]="historico?.usuario.nome">
                             </div>
-                            <div class="col ml--2">
-                                <h4 class="mb-0">
-                                    <a (click)="editarPet(pet)">{{ pet.nome }}</a>
-                                </h4>
-                                <span class="text-success">●</span>
-                                <small>{{ pet.especie.descricao }} - {{ pet.raca.descricao }}</small>
+                            <div class="col">
+                                <div>
+                                    <h4 class="mb-0 text-sm">{{ historico?.usuario.nome }}</h4>
+                                </div>
+                                <div class="text-muted">
+                                    <small>{{ historico?.dataInclusao | date: 'dd-MM-yyyy' }}</small>
+                                </div>
                             </div>
-                            <div class="col-auto">
-                                <button type="button" 
-                                        class="btn btn-sm btn-outline-secondary" 
-                                        ngbTooltip="Editar" 
-                                        (click)="editarPet(pet)"><i class="fa fa-pencil-alt"></i></button>
-                                        
-                                <button type="button" 
-                                        class="btn btn-sm btn-outline-secondary" 
-                                        ngbTooltip="Excluir" 
-                                        (click)="excluirPet(pet)"><i class="fa fa-trash"></i></button>
+                            <div class="col text-right">
+                                <h4 class="mb-0">{{ historico?.valor | currency: 'BRL' }}</h4>
                             </div>
+                        </div>
+                    </li>
+                </ul>
+                <ul [hidden]="historicos.length">
+                    <li>
+                        <div class="text-center">
+                            <h5 class="text-muted">Esse produto ainda não possui histórico de preço</h5>
                         </div>
                     </li>
                 </ul>
@@ -142,7 +141,6 @@
                         </div>
                       </div>
 
-                      <hr class="my-4" />
                       <div class="pl-lg-4">
                         <button type="submit" class="btn btn-primary">Salvar</button>
                         <button type="button" class="btn btn-outline-secondary" [routerLink]="['/produto']">Cancelar</button>

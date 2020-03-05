@@ -40,7 +40,7 @@ export class NavbarComponent implements OnInit {
 
     let rota = this.rotas.find(rota => rota.path === rotaAtual)
 
-    return rota.title || 'Dashboard'
+    return rota?.title || 'Dashboard'
   }
 
   buscar(text$: Observable<string>) {

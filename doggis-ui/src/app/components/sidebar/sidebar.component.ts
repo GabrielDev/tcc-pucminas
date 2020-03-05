@@ -48,15 +48,13 @@ export class SidebarComponent implements OnInit {
     this.service.obterUsuario().subscribe(
      usuario => {
        if(usuario) {
-         this.obterRotasPorPermissao(usuario)
+         this.obterRotasPorPermissao()
        }
      },
      console.warn)
   }
 
-  obterRotasPorPermissao(usuario: Usuario) {
-    const { papeis } = usuario.perfil
-
+  obterRotasPorPermissao() {
     let rotas = ROUTES.filter(rota => this.service.temPermissao(rota.path.substr(1)))
     this.menus = this.obterRotasPorGrupo(rotas)
 

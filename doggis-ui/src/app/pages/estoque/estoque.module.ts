@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { PaginatorModule } from 'primeng';
+import { PaginatorModule, AutoCompleteModule } from 'primeng';
 import { EstoqueComponent } from './estoque.component';
 import { EstoqueFormComponent } from './estoque-form/estoque-form.component';
 
@@ -14,6 +14,7 @@ import { EstoqueFormComponent } from './estoque-form/estoque-form.component';
     FormsModule,
     RouterModule,
     NgbModule,
+    AutoCompleteModule,
     PaginatorModule,
   ],
   declarations: [EstoqueComponent, EstoqueFormComponent],

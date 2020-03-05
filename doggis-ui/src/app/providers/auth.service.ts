@@ -49,7 +49,7 @@ export class AuthService {
   }
 
   public temPermissao(recurso: string) {
-    return this.papeis.some(papel => papel.menu == recurso)
+    return this.papeis.some(papel => recurso.includes(papel.menu))
   }
 
   public isLogado() {
