@@ -38,8 +38,9 @@
                 </td>
                 <th scope="row">
                   <div class="media align-items-center">
-                    <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
-                      <img [alt]="produto.descricao" [src]="produto.foto">
+                    <a href="javascript:void(0)" class="avatar mr-3">
+                      <img class="rounded" [hidden]="!produto.foto" [alt]="produto.descricao" [src]="produto.foto">
+                      <img class="rounded" [hidden]="produto.foto" [alt]="produto.descricao" src="../assets/img/produto.jpg">
                     </a>
                     <div class="media-body">
                       <span class="mb-0 text-sm">{{ produto.descricao }}</span>
@@ -77,11 +78,12 @@
             </tfoot>
           </table>
         </div>
-        <div [hidden]="!produtos?.content.length" class="card-footer py-4">
+        <div class="card-footer py-4">
           <p-paginator 
-            [rows]="produtos?.numberOfElements" 
+            [rows]="produtos?.size" 
             [totalRecords]="produtos?.totalElements"
-            (onPageChange)="listar($event)">
+            (onPageChange)="listar($event)"
+            alwaysShow="false">
           </p-paginator>
         </div>
       </div>

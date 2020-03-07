@@ -12,33 +12,34 @@ import br.pucminas.doggis.repository.EstoqueRepository;
 public class EstoqueForm {
 	
 	private Long id;
-	
-	@NotNull
+
 	private Usuario usuario;
 	
 	@NotNull
 	private Produto produto;
 	
-	@NotNull
 	private Pedido pedido;
 	
 	private Integer quantidade;
 	
 	private Integer saldo;
 	
-	private TipoEstoque tipo = TipoEstoque.ENTRADA;
+	private String tipo;
+	
+	private TipoEstoque tipoEstoque = TipoEstoque.ENTRADA;
 	
 	public Estoque converter(Usuario usuario, EstoqueRepository estoqueRepository) {
 		this.setUsuario(usuario);
 		
-		Estoque ultimoEstoque = estoqueRepository.findLastByProduto(this.getProduto());
-		if(this.tipo == TipoEstoque.ENTRADA) {
+		Estoque ultimoEstoque = estoqueRepository.findFirstByProdutoOrderByDataInclusaoDesc(this.getProduto());
+		if(this.tipo.equals(TipoEstoque.ENTRADA.label)) {
 			this.setSaldo(ultimoEstoque.getSaldo() + this.getQuantidade());
 		} else {
+			this.setTipoEstoque(TipoEstoque.SAIDA);
 			this.setSaldo(ultimoEstoque.getSaldo() - this.getQuantidade());
 		}
 		
-		return new Estoque(this.getId(), this.getUsuario(), this.getProduto(), this.getPedido(), this.getQuantidade(), this.getSaldo(), this.getTipo());
+		return new Estoque(this.getId(), this.getUsuario(), this.getProduto(), this.getPedido(), this.getQuantidade(), this.getSaldo(), this.getTipoEstoque());
 	}
 
 	public Long getId() {
@@ -89,12 +90,20 @@ public class EstoqueForm {
 		this.saldo = saldo;
 	}
 
-	public TipoEstoque getTipo() {
+	public String getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(TipoEstoque tipo) {
+	public void setTipo(String tipo) {
 		this.tipo = tipo;
+	}
+
+	public TipoEstoque getTipoEstoque() {
+		return tipoEstoque;
+	}
+
+	public void setTipoEstoque(TipoEstoque tipoEstoque) {
+		this.tipoEstoque = tipoEstoque;
 	}
 
 }

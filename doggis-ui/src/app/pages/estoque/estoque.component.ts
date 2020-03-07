@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { EstoqueService, ProdutoService } from 'src/app/providers';
-import { Paginacao, Estoque, Produto, Pagina } from 'src/app/models';
+import { Paginacao, Estoque, Produto, Pagina, TipoEstoque } from 'src/app/models';
 
 @Component({
   selector: 'app-estoque',
@@ -11,20 +10,23 @@ import { Paginacao, Estoque, Produto, Pagina } from 'src/app/models';
 })
 export class EstoqueComponent implements OnInit {
 
+  public estoque: Estoque
   public estoques: Paginacao<Estoque>
-  public abrirModal: Subject<Estoque> = new Subject()
   public produtos: Produto[] = []
   public termo: string
   private paginaAtual: Pagina = { page: 0 }
 
   constructor(
     private estoqueService: EstoqueService,
-    private produtoService: ProdutoService,
     private mensagem: ToastrService,
   ) { }
 
   ngOnInit() {
     this.listar()
+  }
+
+  filtrar(produto: Produto) {
+    this.listar({ page: 0 }, produto)
   }
 
   listar(pagina: Pagina = this.paginaAtual, produto?: Produto) {
@@ -38,20 +40,6 @@ export class EstoqueComponent implements OnInit {
     )
   }
 
-  buscarProduto() {
-    this.produtoService.buscar(this.termo).subscribe(
-      resultado => this.produtos = resultado,
-      error => {
-        console.warn(error)
-        this.mensagem.warning('Ocorreu um erro ao tentar listar os produtos')
-      }
-    )
-  }
-
-  novo() {
-    this.abrirModal.next()
-  }
-
   excluir(estoque: Estoque) {
     this.estoqueService.excluir(estoque.id).subscribe(
       () => {
@@ -63,5 +51,10 @@ export class EstoqueComponent implements OnInit {
         this.mensagem.warning('Ocorreu um erro ao tentar excluir esse estoque')
       }
     )
+  }
+
+  isEntrada(tipo: TipoEstoque) {
+    let [ ENTRADA ] = Object.keys(TipoEstoque)
+    return tipo == ENTRADA
   }
 }

@@ -15,10 +15,10 @@
                 <div class="card card-profile shadow">
                     <div class="row justify-content-center">
                         <div class="col-lg-3 order-lg-2">
-                            <div class="card-profile-image pb-3">
+                            <div class="card-profile-image mb-6 pb-3">
                                 <a href="javascript:void(0)">
                                     <img [hidden]="!f.foto.value" [src]="f.foto.value" class="rounded-circle">
-                                    <img [hidden]="f.foto.value" src="assets/img/theme/team-4-800x800.jpg" class="rounded-circle">
+                                    <img [hidden]="f.foto.value" src="assets/img/usuario.jpg" class="rounded-circle">
                                 </a>
                             </div>
                         </div>
@@ -30,8 +30,8 @@
                             <h3>
                                 {{ f.nome.value }}
                             </h3>
-                            <div class="h5 mt-4">
-                                <i class="ni business_briefcase-24 mr-2"></i>{{ f.email.value }}
+                            <div class="h5 font-weight-300 mt-4">
+                                <a href="mailto:{{ f.email.value }}" target="_blank"><i class="ni business_briefcase-24 mr-2"></i>{{ f.email.value }}</a>
                             </div>
                             <div>
                                 <i class="ni education_hat mr-2"></i>{{ f.endereco.value }}
@@ -55,7 +55,8 @@
                                 <div class="row align-items-center">
                                     <div class="col-auto">
                                         <a href="#" class="avatar rounded-circle">
-                                            <img [alt]="pet.nome" [src]="pet.foto">
+                                            <img [hidden]="!pet.foto" [alt]="pet.nome" [src]="pet.foto">
+                                            <img [hidden]="pet.foto" [alt]="pet.nome" src="../assets/img/pet.jpg">
                                         </a>
                                     </div>
                                     <div class="col ml--2">
@@ -79,6 +80,13 @@
                                 </div>
                             </li>
                         </ul>
+                        <div [hidden]="f.pets.value.length" class="pt-4 text-center">
+                            Que pena!
+                            <div class="h5 font-weight-300 pb-3">
+                                Esse cliente ainda não possui nenhum pet
+                            </div>
+                            <a href="javascript:void(0)" class="btn btn-sm btn-outline-primary btn-block" (click)="novoPet()">Adicionar pet</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -90,7 +98,7 @@
                                 <h3 class="mb-0">Cliente</h3>
                             </div>
                             <div class="col-4 text-right">
-                                <app-pet [exibir]="abrirModal" (onSalvar)="salvarPet()"></app-pet>
+                                <app-pet [exibir]="abrirModal" (onSalvar)="salvarPet($event)"></app-pet>
                                 <a href="javascript:void(0)" class="btn btn-sm btn-primary" (click)="novoPet()">Adicionar pet</a>
                             </div>
                         </div>

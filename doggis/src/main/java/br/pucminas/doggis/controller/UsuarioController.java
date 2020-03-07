@@ -25,7 +25,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import br.pucminas.doggis.dto.UsuarioDto;
 import br.pucminas.doggis.dto.form.UsuarioForm;
 import br.pucminas.doggis.model.Usuario;
-import br.pucminas.doggis.repository.EspecieRepository;
 import br.pucminas.doggis.repository.PerfilRepository;
 import br.pucminas.doggis.repository.UsuarioRepository;
 
@@ -38,9 +37,6 @@ public class UsuarioController {
 	
 	@Autowired
 	private PerfilRepository perfilRepository;
-	
-	@Autowired
-	private EspecieRepository especieRepository;
 	
 	@GetMapping
 	public List<UsuarioDto> listar() {
@@ -57,7 +53,7 @@ public class UsuarioController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<UsuarioDto> novo(@RequestBody @Valid UsuarioForm form, UriComponentsBuilder uriBuilder) {
-		Usuario usuario = form.converter(perfilRepository, especieRepository);
+		Usuario usuario = form.converter(perfilRepository);
 		usuarioRepository.save(usuario);
 		
 		URI uri = uriBuilder.path("/perfil/{id}").buildAndExpand(usuario.getId()).toUri();
@@ -68,7 +64,7 @@ public class UsuarioController {
 	@Transactional
 	public ResponseEntity<UsuarioDto> editar(@PathVariable("id") Long id, @RequestBody @Valid UsuarioForm form, UriComponentsBuilder uriBuilder) {
 		try {
-			Usuario usuario = form.atualizar(id, usuarioRepository, perfilRepository, especieRepository);
+			Usuario usuario = form.atualizar(id, usuarioRepository);
 			usuarioRepository.save(usuario);
 			
 			return ResponseEntity.ok(new UsuarioDto(usuario));

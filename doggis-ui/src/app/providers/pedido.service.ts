@@ -43,6 +43,6 @@ export class PedidoService extends HeaderInterceptorService {
 
   public listarPagamentos() {
     const headers = this.prepareHeader()
-    return this.http.get<Pagamento[]>(`${this.endpoint}/pagamentos`, headers)
+    return this.http.get<Pagamento[]>(`${this.endpoint}/pagamento`, headers)
   }
 }

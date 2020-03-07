@@ -24,7 +24,7 @@ export class ClienteComponent implements OnInit {
 
   listar(pagina: Pagina = this.paginaAtual) {
     this.paginaAtual = pagina
-    this.service.listarPaginado().subscribe(
+    this.service.listarPaginado(this.paginaAtual).subscribe(
       resultado => this.clientes = resultado,
       error => {
         console.warn(error)

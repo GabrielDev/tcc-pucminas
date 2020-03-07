@@ -7,7 +7,7 @@ export class Estoque {
         public produto: Produto, 
         public quantidade: number,
         public saldo: number,
-        public tipo: TipoEstoque,
+        public tipo: TipoEstoque | string,
         public dataInclusao: Date,
     ) {}
 }

@@ -31,6 +31,8 @@ import br.pucminas.doggis.model.Pedido;
 import br.pucminas.doggis.model.Usuario;
 import br.pucminas.doggis.repository.PagamentoRepository;
 import br.pucminas.doggis.repository.PedidoRepository;
+import br.pucminas.doggis.repository.ProdutoRepository;
+import br.pucminas.doggis.repository.ServicoRepository;
 
 @RestController
 @RequestMapping("/pedido")
@@ -45,15 +47,25 @@ public class PedidoController {
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
 	
+	@Autowired
+	private ProdutoRepository produtoRepository;
+	
+	@Autowired
+	private ServicoRepository servicoRepository;
+	
 	@GetMapping()
 	public Page<Pedido> listar(@PageableDefault(size=10, sort="dataPedido") Pageable paginacao) {
 		return pedidoRepository.findAll(paginacao);
 	}
 	
 	@GetMapping("/buscar")
-	public List<Pedido> buscar(@RequestParam String termo) {
-//		return pedidoRepository.findItemVenda(termo);
-		return pedidoRepository.findAll();
+	public List<ItemVenda> buscar(@RequestParam String termo) {
+		List<ItemVenda> produtos = produtoRepository.findByDescricaoContainingIgnoreCase(termo);
+		List<ItemVenda> servicos = servicoRepository.findByDescricaoContainingIgnoreCase(termo);
+		
+		produtos.addAll(servicos);
+		
+		return produtos;
 	}
 	
 	@GetMapping("/pagamento")

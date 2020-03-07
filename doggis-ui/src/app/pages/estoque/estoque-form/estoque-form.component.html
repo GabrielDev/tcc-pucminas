@@ -1,44 +1,57 @@
-<form [formControl]="estoqueForm" class="row align-items-center">
-    <div class="col-7">
-        <div class="form-group" [ngClass]="{'has-danger': f.produto.touched && f.produto?.errors}">
-            <label for="produto">Produto*</label>
-            <p-autoComplete
-                id="produto"
-                formControlName="produto"
-                [suggestions]="produtos"
-                (completeMethod)="buscar($event)"
-                (onSelect)="selecionar()">
-            </p-autoComplete>
-            <div class="invalid-feedback" *ngIf="f.produto.touched && f.produto?.errors?.required">Campo obrigatório</div>
+<form [formGroup]="estoqueForm" (submit)="salvar()">
+    <div class="row align-items-center">
+        <div class="col-lg-5 col-12">
+            <div class="form-group" [ngClass]="{'has-danger': f.produto.touched && f.produto?.errors}">
+                <label class="form-control-label" for="produto">Produto*</label>
+                <p-autoComplete
+                    id="produto"
+                    name="produto"
+                    styleClass="btn-block"
+                    inputStyleClass="form-control form-control-alternative border-0"
+                    field="descricao"
+                    formControlName="produto"
+                    [suggestions]="produtos"
+                    (completeMethod)="buscar($event)"
+                    (onSelect)="selecionar()"
+                    placeholder="Buscar produto por nome">
+                </p-autoComplete>
+                <div class="invalid-feedback" *ngIf="f.produto.touched && f.produto?.errors?.required">Campo obrigatório</div>
+            </div>
         </div>
-    </div>
-    <div class="col-5">
-        <div class="form-group" [ngClass]="{'has-danger': f.tipo.touched && f.tipo?.errors}">
-            <label class="form-control-label" for="tipo">Tipo*</label>
-            <select id="tipo" 
-                class="form-control form-control-alternative" 
-                formControlName="tipo"
-                [compareWith]="comparador" 
-                [ngClass]="{'is-invalid': f.tipo.touched && f.tipo?.errors?.required}">
-                <option value="">Selecione</option>
-                <option *ngFor="let tipo of tipos" [ngValue]="tipo">{{ tipo.descricao }}</option>
-            </select>
-            <div class="invalid-feedback" *ngIf="f.estado.touched && f.estado?.errors?.required">Campo obrigatório</div>
+
+        <div class="col-lg-2 col-12">
+            <div class="form-group" [ngClass]="{'has-danger': f.quantidade.touched && f.quantidade?.errors}">
+                <label class="form-control-label" for="quantidade">Quantidade*</label>
+                <input
+                    type="number"
+                    id="quantidade"
+                    name="quantidade"
+                    class="form-control form-control-alternative"
+                    formControlName="quantidade"
+                    [ngClass]="{'is-invalid': f.quantidade.touched && f.quantidade?.errors?.required}">
+                <div class="invalid-feedback" *ngIf="f.quantidade.touched && f.quantidade?.errors?.required">Campo obrigatório</div>
+            </div>
         </div>
-    </div>
-    <div class="col-5">
-        <div class="form-group" [ngClass]="{'has-danger': f.quantidade.touched && f.quantidade?.errors}">
-            <label class="form-control-label" for="quantidade">Quantidade*</label>
-            <input
-                type="number"
-                id="quantidade"
-                class="form-control form-control-alternative"
-                formControlName="quantidade"
-                [ngClass]="{'is-invalid': f.quantidade.touched && f.quantidade?.errors?.required}">
-            <div class="invalid-feedback" *ngIf="f.quantidade.touched && f.quantidade?.errors?.required">Campo obrigatório</div>
+        
+        <div class="col-lg-3 col-12">
+            <div class="form-group" [ngClass]="{'has-danger': f.tipo.touched && f.tipo?.errors}">
+                <div *ngFor="let tipoEstoque of tipos" class="custom-control custom-radio custom-control-inline mt-4">
+                    <input
+                        type="radio"
+                        [id]="tipoEstoque.tipo"
+                        name="tipo"
+                        class="custom-control-input"
+                        [value]="tipoEstoque.tipo"
+                        [checked]="tipoEstoque.tipo == f.tipo.value"
+                        (change)="selecionarTipo(tipoEstoque.tipo)">
+                    <label class="custom-control-label" [for]="tipoEstoque.tipo">{{ tipoEstoque.titulo }}</label>
+                </div>
+                <div class="invalid-feedback" *ngIf="f.tipo.touched && f.tipo?.errors?.required">Campo obrigatório</div>
+            </div>
         </div>
-    </div>
-    <div class="col-5 text-right">
-        <button class="btn btn-info" (click)="adicionar()">Adicionar</button>
+        
+        <div class="col-lg-1 col-12 text-center">
+            <button type="submit" class="btn btn-outline-primary" >Adicionar</button>
+        </div>
     </div>
 </form>

@@ -1,15 +1,26 @@
 <div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
   <div class="container-fluid">
     <div class="header-body">
-      <app-estoque-form [estoque]="estoque" (onSelecionar)="filtrar()" (onSalvar)="listar()"></app-estoque-form>
+      <div [hidden]="!estqoue?.produto" class="row d-flex align-items-center">
+        <div class="col-12">
+          <h1 class="display-2 text-white">{{ estoque?.produto.descricao }}</h1>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-<!-- Page content -->
+
 <div class="container-fluid mt--7">
-  <!-- Table -->
   <div class="row">
-    <div class="col">
+    <div class="col-12 mb-3 mb-xl-0">
+      <div class="card shadow">
+        <div class="card-body pt-0 pt-md-4">
+          <app-estoque-form [estoque]="estoque" (onSelecionar)="filtrar($event)" (onSalvar)="filtrar($event)"></app-estoque-form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 pt-3">
       <div class="card shadow">
         <div class="card-header border-0">
           <h3 class="mb-0">Estoque</h3>
@@ -18,24 +29,25 @@
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
               <tr>
-                <th scope="col">Data</th>
+                <th class="text-center" scope="col">Data</th>
                 <th scope="col">Usuário</th>
                 <th scope="col">Produto</th>
-                <th scope="col">Tipo</th>
-                <th scope="col">Quantidade</th>
-                <th scope="col">Saldo</th>
+                <th class="text-center" scope="col">Tipo</th>
+                <th class="text-center" scope="col">Qtde</th>
+                <th class="text-center" scope="col">Saldo</th>
                 <th scope="col"></th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let estoque of estoques?.content">
                 <td>
-                  {{ estoque.dataInclusao | date: 'dd-MM-yyyy' }}
+                  {{ estoque.dataInclusao | date: 'dd-MM-yy  hh:mm' }}
                 </td>
                 <th scope="row">
                   <div class="media align-items-center">
                     <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
-                      <img [alt]="estoque.usuario.nome" [src]="estoque.usuario.foto">
+                      <img [hidden]="!estoque.usuario.foto" [alt]="estoque.usuario.nome" [src]="estoque.usuario.foto">
+                      <img [hidden]="estoque.usuario.foto" [alt]="estoque.usuario.nome" src="assets/img/usuario.jpg">
                     </a>
                     <div class="media-body">
                       <span class="mb-0 text-sm">{{ estoque.usuario.nome }}</span>
@@ -44,22 +56,23 @@
                 </th>
                 <th scope="row">
                   <div class="media align-items-center">
-                    <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
-                      <img [alt]="estoque.produto.descricao" [src]="estoque.produto.foto">
+                    <a href="javascript:void(0)" class="avatar mr-3">
+                      <img class="rounded" [hidden]="!estoque.produto.foto" [alt]="estoque.produto.descricao" [src]="estoque.produto.foto">
+                      <img class="rounded" [hidden]="estoque.produto.foto" [alt]="estoque.produto.descricao" src="assets/img/produto.jpg">
                     </a>
                     <div class="media-body">
                       <span class="mb-0 text-sm">{{ estoque.produto.descricao }}</span>
                     </div>
                   </div>
                 </th>
-                <td>
-                  {{ estoque.tipo }}
+                <td class="text-center">
+                  <span class="badge" [ngClass]="{'badge-info': isEntrada(estoque.tipo), 'badge-warning': !isEntrada(estoque.tipo)}">{{ estoque.tipo }}</span>
                 </td>
-                <td>
+                <td class="text-center">
                   {{ estoque.quantidade }}
                 </td>
-                <td>
-                  {{ estoque.saldo }}
+                <td class="text-center">
+                  <span [ngClass]="{'text-danger': estoque.saldo < 0}">{{ estoque.saldo }}</span>
                 </td>
                 <td class="text-right">
                   <button type="button" class="btn btn-outline-secondary" title="Excluir" (click)="excluir(estoque)" ngbTooltip="Excluir">
@@ -80,11 +93,12 @@
             </tfoot>
           </table>
         </div>
-        <div [hidden]="!estoques?.content.length" class="card-footer py-4">
+        <div class="card-footer py-4">
           <p-paginator 
-            [rows]="estoques?.numberOfElements" 
+            [rows]="estoques?.size" 
             [totalRecords]="estoques?.totalElements"
-            (onPageChange)="listar($event)">
+            (onPageChange)="listar($event)"
+            alwaysShow="false">
           </p-paginator>
         </div>
       </div>

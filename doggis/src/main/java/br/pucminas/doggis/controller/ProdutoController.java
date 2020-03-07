@@ -133,7 +133,7 @@ public class ProdutoController {
 	public Estoque obterEstoque(@PathVariable Long id) {
 		Produto produto = new Produto();
 		produto.setId(id);
-		return estoqueRepository.findLastByProduto(produto);
+		return estoqueRepository.findFirstByProdutoOrderByDataInclusaoDesc(produto);
 	}
 
 	

@@ -23,7 +23,10 @@ export class EstoqueService extends HeaderInterceptorService {
 
   public listar(pagina: Pagina, produto?: Produto) {
     const headers = this.prepareHeader()
-    return this.http.get<Paginacao<Estoque>>(`${this.endpoint}?page=${pagina.page}&produto=${produto?.id}`, headers)
+    let url = `${this.endpoint}?page=${pagina.page}`
+    url += produto? `&idProduto=${produto?.id}`: ``
+
+    return this.http.get<Paginacao<Estoque>>(url, headers)
   }
 
   public salvar(item: Estoque) {

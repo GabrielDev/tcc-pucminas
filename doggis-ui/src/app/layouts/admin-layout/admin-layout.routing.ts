@@ -16,6 +16,7 @@ import { ProdutoFormComponent } from 'src/app/pages/produto/produto-form/produto
 import { PromocaoComponent } from 'src/app/pages/promocao/promocao.component';
 import { ServicoComponent } from 'src/app/pages/servico/servico.component';
 import { UsuarioComponent } from 'src/app/pages/usuario/usuario.component';
+import { UsuarioFormComponent } from 'src/app/pages/usuario/usuario-form/usuario-form.component';
 import { VendaComponent } from 'src/app/pages/pedido/venda/venda.component';
 
 export const AdminLayoutRoutes: Routes = [
@@ -38,5 +39,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'produto/editar/:id', component: ProdutoFormComponent },
     { path: 'promocao', component: PromocaoComponent },
     { path: 'servico', component: ServicoComponent },
-    { path: 'usuario', component: UsuarioComponent }
+    { path: 'usuario', component: UsuarioComponent },
+    { path: 'usuario/novo', component: UsuarioFormComponent },
+    { path: 'usuario/editar/:id', component: UsuarioFormComponent },
 ];

@@ -40,7 +40,7 @@ public class PromocaoController {
 	}
 	
 	@GetMapping("/paginado")
-	public Page<Promocao> listar(@PageableDefault(size = 10, sort = "dataInclusao", direction = Direction.DESC) Pageable paginacao) {
+	public Page<Promocao> listar(@PageableDefault(size = 10, sort = "id", direction = Direction.DESC) Pageable paginacao) {
 		 return promocaoRepository.findAll(paginacao);
 	}
 	

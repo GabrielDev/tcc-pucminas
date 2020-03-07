@@ -21,6 +21,9 @@ public class Pagamento {
 
 	@Column(nullable = false, length = 50)
 	private String descricao;
+	
+	@Column(nullable = false)
+	private String icone;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreationTimestamp
@@ -31,23 +34,32 @@ public class Pagamento {
 		return id;
 	}
 
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public Date getDataInclusao() {
-		return dataInclusao;
-	}
-
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getDescricao() {
+		return descricao;
 	}
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
 
+	public String getIcone() {
+		return icone;
+	}
+
+	public void setIcone(String icone) {
+		this.icone = icone;
+	}
+
+	public Date getDataInclusao() {
+		return dataInclusao;
+	}
+
 	public void setDataInclusao(Date dataInclusao) {
 		this.dataInclusao = dataInclusao;
 	}
+
 }

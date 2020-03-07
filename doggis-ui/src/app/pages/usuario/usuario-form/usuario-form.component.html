@@ -1,0 +1,179 @@
+<form [formGroup]="usuarioForm" (submit)="salvar()">
+    <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center">
+        <span class="mask bg-gradient-danger opacity-8"></span>
+        <div class="container-fluid d-flex align-items-center">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="display-2 text-white">{{ f.nome.value }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mt--7">
+        <div class="row">
+            <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+                <div class="card card-profile shadow">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-3 order-lg-2">
+                            <div class="card-profile-image mb-6 pb-3">
+                                <a href="javascript:void(0)">
+                                    <img [hidden]="!f.foto.value" [src]="f.foto.value" class="rounded-circle">
+                                    <img [hidden]="f.foto.value" src="assets/img/usuario.jpg" class="rounded-circle">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+                    </div>
+                    <div class="card-body pt-8 pt-md-4">
+                        <div class="text-center">
+                            <h3>
+                                {{ f.nome.value }}
+                            </h3>
+                            <div class="h5 font-weight-300 mt-4">
+                                <a href="mailto:{{ f.email.value }}" target="_blank"><i class="ni business_briefcase-24 mr-2"></i>{{ f.email.value }}</a>
+                            </div>
+                            <div class="h5 font-weight-300">
+                                <i class="ni location_pin mr-2"></i>{{ f.perfil?.descricao }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-8 order-xl-1">
+                <div class="card bg-secondary shadow">
+                    <div class="card-header bg-white border-0">
+                        <div class="row align-items-center">
+                            <div class="col-12">
+                                <h3 class="mb-0">Usuário</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="heading-small text-muted mb-4">Informaçōes pessoais</h6>
+                        <div class="pl-lg-4">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group" [ngClass]="{'has-danger': f.nome.touched && f.nome?.errors?.required}">
+                                        <label class="form-control-label" for="nome">Nome*</label>
+                                        <input
+                                            type="text"
+                                            id="nome"
+                                            class="form-control form-control-alternative"
+                                            formControlName="nome"
+                                            [ngClass]="{'is-invalid': f.nome.touched && f.nome?.errors?.required}">
+                                            <div class="invalid-feedback" *ngIf="f.nome.touched && f.nome?.errors?.required">Campo obrigatório</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group" [ngClass]="{'has-danger': f.email.touched && f.email?.errors}">
+                                        <label class="form-control-label" for="email">E-mail*</label>
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            class="form-control form-control-alternative"
+                                            formControlName="email"
+                                            [ngClass]="{'is-invalid': f.email.touched && f.email?.errors}">
+                                            <div class="invalid-feedback" *ngIf="f.email.touched && f.email?.errors?.required">Campo obrigatório</div>
+                                            <div class="invalid-feedback" *ngIf="f.email.touched && f.email?.errors?.email">Preencha com um e-mail valido</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group" [ngClass]="{'has-danger': f.cpf.touched && f.cpf?.errors}">
+                                        <label class="form-control-label" for="cpf">CPF*</label>
+                                        <input
+                                            type="text"
+                                            id="cpf"
+                                            class="form-control form-control-alternative"
+                                            formControlName="cpf"
+                                            [ngClass]="{'is-invalid': f.cpf.touched && f.cpf?.errors?.required}">
+                                            <div class="invalid-feedback" *ngIf="f.cpf.touched && f.cpf?.errors?.required">Campo obrigatório</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group" [ngClass]="{'has-danger': f.rg.touched && f.rg?.errors}">
+                                        <label class="form-control-label" for="rg">RG*</label>
+                                        <input
+                                            type="text"
+                                            id="rg"
+                                            class="form-control form-control-alternative"
+                                            formControlName="rg"
+                                            [ngClass]="{'is-invalid': f.rg.touched && f.rg?.errors?.required}">
+                                            <div class="invalid-feedback" *ngIf="f.rg.touched && f.rg?.errors?.required">Campo obrigatório</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4" />
+                        <h6 class="heading-small text-muted mb-4">Informaçōes profissionais</h6>
+                        <div class="pl-lg-4">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group" [ngClass]="{'has-danger': f.perfil.touched && f.perfil?.errors}">
+                                        <label class="form-control-label" for="perfil">Perfil*</label>
+                                        <select
+                                            id="perfil"
+                                            class="form-control form-control-alternative"
+                                            formControlName="perfil"
+                                            [compareWith]="comparador"
+                                            [ngClass]="{'is-invalid': f.perfil.touched && f.perfil?.errors?.required}">
+                                            <option value="">Selecione</option>
+                                            <option *ngFor="let perfil of perfis" [ngValue]="perfil">{{ perfil.descricao }}</option>
+                                        </select>
+                                        <div class="invalid-feedback" *ngIf="f.perfil.touched && f.perfil?.errors?.required">Campo obrigatório</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" [hidden]="!possuiPerfilVeterinario()">
+                                <div class="col-lg-4">
+                                    <div class="form-group" [ngClass]="{'has-danger': f.registro.touched && f.registro?.errors}">
+                                        <label class="form-control-label" for="registro">Registro*</label>
+                                        <input
+                                            type="text"
+                                            id="registro"
+                                            class="form-control form-control-alternative"
+                                            formControlName="registro"
+                                            [ngClass]="{'is-invalid': f.registro.touched && f.registro?.errors?.required}">
+                                            <div class="invalid-feedback" *ngIf="f.registro.touched && f.registro?.errors?.required">Campo obrigatório</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-8">
+                                    <div class="form-group" [ngClass]="{'has-danger': f.especialidades.touched && f.especialidades?.errors}">
+                                        <label class="form-control-label" for="especialidades">Especialidades*</label>
+                                        <p-multiSelect
+                                            id="especialidades"
+                                            styleClass="form-control form-control-alternative border-0"
+                                            [options]="especies"
+                                            formControlName="especialidades"
+                                            [filter]="true"
+                                            filterBy="value.descricao"
+                                            optionLabel="descricao"
+                                            defaultLabel="Selecione"
+                                            selectedItemsLabel="{0} itens selecionados"
+                                            emptyFilterMessage="Nenhum resultado encontrado">
+                                        </p-multiSelect>
+                                        <div class="invalid-feedback" *ngIf="f.especialidades.touched && f.especialidades?.errors?.required">Campo obrigatório</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="my-4" />
+                        <div class="pl-lg-4">
+                            <div>
+                                <button type="submit" class="btn btn-primary">Salvar</button>
+                                <button type="button" class="btn btn-outline-secondary" [routerLink]="['/usuario']">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- row -->
+    </div><!-- container-fluid -->
+</form>

@@ -36,7 +36,8 @@
                 <th scope="row">
                   <div class="media align-items-center">
                     <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
-                      <img [alt]="cliente.nome" [src]="cliente.foto">
+                      <img [hidden]="!cliente.foto" [alt]="cliente.nome" [src]="cliente.foto">
+                      <img [hidden]="cliente.foto" [alt]="cliente.nome" src="../assets/img/usuario.jpg">
                     </a>
                     <div class="media-body">
                       <span class="mb-0 text-sm btn-block">{{ cliente.nome }}</span>
@@ -57,7 +58,8 @@
                       href="javascript:void(0)"
                       class="avatar avatar-sm"
                       [ngbTooltip]="pet.nome">
-                      <img [alt]="pet.nome" [src]="pet.foto" class="rounded-circle">
+                      <img [hidden]="!pet?.foto" [alt]="pet.nome" [src]="pet.foto" class="rounded-circle">
+                      <img [hidden]="pet?.foto" [alt]="pet.nome" src="../assets/img/pet.jpg" class="rounded-circle">
                     </a>
                   </div>
                 </td>
@@ -88,11 +90,12 @@
             </tfoot>
           </table>
         </div>
-        <div [hidden]="!clientes?.content.length" class="card-footer py-4">
+        <div class="card-footer py-4">
           <p-paginator 
-            [rows]="clientes?.numberOfElements" 
+            [rows]="clientes?.size" 
             [totalRecords]="clientes?.totalElements"
-            (onPageChange)="listar($event)">
+            (onPageChange)="listar($event)"
+            alwaysShow="false">
           </p-paginator>
         </div>
       </div>

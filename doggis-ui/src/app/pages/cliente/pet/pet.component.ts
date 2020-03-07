@@ -76,9 +76,14 @@ export class PetComponent implements OnInit {
     )
   }
 
+  selecionarEspecie(especie: Especie) {
+    this.f.especie.setValue(especie)
+    this.listarRacas()
+  }
+
   exibirPortes() {
-    let { porte, raca } = this.f
-    let isExibir = raca.value && raca.value.id == TipoEspecie.CACHORRO
+    let { porte, especie } = this.f
+    let isExibir = especie.value && especie.value.id == TipoEspecie.CACHORRO
 
     if (isExibir) {
       porte.setValidators(Validators.required)
@@ -93,6 +98,8 @@ export class PetComponent implements OnInit {
     if (this.petForm.valid) {
       this.pet = this.petForm.value
       this.onSalvar.emit(this.pet)
+      this.petForm.reset()
+      this.modal.close()
     }
   }
 

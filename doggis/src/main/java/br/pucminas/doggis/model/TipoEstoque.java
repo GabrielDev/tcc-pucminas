@@ -1,15 +1,20 @@
 package br.pucminas.doggis.model;
 
 public enum TipoEstoque {
-	ENTRADA("Entrada"), SAIDA("Saída");
+	ENTRADA("E"), SAIDA("S");
 
-	private final String descricao;
-
-	TipoEstoque(String descricao) {
-		this.descricao = descricao;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
+	public final String label;
+	 
+    private TipoEstoque(String label) {
+        this.label = label;
+    }
+    
+    public static TipoEstoque valueOfLabel(String label) {
+        for (TipoEstoque e : values()) {
+            if (e.label.equals(label)) {
+                return e;
+            }
+        }
+        return null;
+    }
 }

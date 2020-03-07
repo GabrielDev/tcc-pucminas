@@ -25,11 +25,11 @@
                         </div>
 
                         <input
-                            type="checkbox" 
+                            type="radio" 
                             name="especie"
-                            [value]="especie.id"
-                            formControlName="especie"
-                            (change)="listarRacas()"/>
+                            [value]="especie"
+                            [checked]="especie.id == f.especie.id"
+                            (change)="selecionarEspecie(especie)"/>
                     </label>
                 </div>
             </div>
@@ -68,14 +68,14 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <div class="form-group" [ngClass]="{'has-danger': f.nome?.errors?.required}">
+                    <div class="form-group" [ngClass]="{'has-danger': f.nome.touched && f.nome?.errors?.required}">
                         <label class="form-control-label" for="nome">Nome*</label>
                         <input
                             type="text"
                             id="nome"
                             class="form-control form-control-alternative"
                             formControlName="nome"
-                            [ngClass]="{'is-invalid': f.nome?.errors?.required}">
+                            [ngClass]="{'is-invalid': f.nome.touched && f.nome?.errors?.required}">
                         <div class="invalid-feedback" *ngIf="f.nome.touched && f.nome?.errors?.required">Campo obrigatório</div>
                     </div>
                 </div>
@@ -102,7 +102,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button type="submit" class="btn btn-primary" [disabled]="">Salvar</button>
+            <button type="submit" class="btn btn-primary">Salvar</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="c('Close click')">Cancelar</button>
         </div>
     </form>

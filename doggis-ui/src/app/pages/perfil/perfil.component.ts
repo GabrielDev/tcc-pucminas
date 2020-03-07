@@ -20,7 +20,6 @@ export class PerfilComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.mensagem.info('Teste')
     this.listar()
   }
 

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -45,8 +46,16 @@ public class EstoqueController {
 	AutenticacaoService autenticacaoService;
 	
 	@GetMapping
-	public Page<Estoque> listar(@PageableDefault(size = 10, sort = "dataInclusao", direction = Direction.DESC) Pageable paginacao) {
-		Page<Estoque> estoque = estoqueRepository.findAll(paginacao);
+	public Page<Estoque> listar(@PageableDefault(size = 10, sort = "dataInclusao", direction = Direction.DESC) Pageable paginacao,
+			@RequestParam(required = false) Long idProduto) {
+		Page<Estoque> estoque;
+		
+		if(idProduto != null) {
+			estoque = estoqueRepository.findByIdProduto(paginacao, idProduto);
+		} else {
+			estoque = estoqueRepository.findAll(paginacao);
+		}
+		
 		return estoque;
 	}
 

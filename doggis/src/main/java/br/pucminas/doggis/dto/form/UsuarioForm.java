@@ -1,7 +1,5 @@
 package br.pucminas.doggis.dto.form;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.validation.constraints.Email;
@@ -10,6 +8,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
@@ -17,7 +16,6 @@ import org.springframework.util.StringUtils;
 import br.pucminas.doggis.model.Especie;
 import br.pucminas.doggis.model.Perfil;
 import br.pucminas.doggis.model.Usuario;
-import br.pucminas.doggis.repository.EspecieRepository;
 import br.pucminas.doggis.repository.PerfilRepository;
 import br.pucminas.doggis.repository.UsuarioRepository;
 
@@ -32,8 +30,6 @@ public class UsuarioForm {
 	@Email
 	private String email;
 	
-	@NotNull
-	@Length(min=3)
 	private String senha;
 	
 	private String foto;
@@ -48,22 +44,20 @@ public class UsuarioForm {
 	private String registro;
 	
 	@NotNull
-	private Long perfil;
+	private Perfil perfil;
 	
-	private Set<Long> especialidades;
+	private Set<Especie> especialidades;
 	
-	public Usuario atualizar(Long id, UsuarioRepository usuarioRepository, PerfilRepository perfilRepository, EspecieRepository especieRepository) {
+	public Usuario atualizar(Long id, UsuarioRepository usuarioRepository) {
 		Usuario usuario = usuarioRepository.getOne(id);
-		Perfil perfil = perfilRepository.getOne(this.getPerfil());
-		Set<Especie> especialidades = this.getEspecialidades(especieRepository);
 		
-		usuario.setNome(this.nome);
-		usuario.setFoto(this.foto);
-		usuario.setCpf(this.cpf);
-		usuario.setRg(this.rg);
-		usuario.setRegistro(this.registro);
-		usuario.setPerfil(perfil);
-		usuario.setEspecialidades(especialidades);
+		usuario.setNome(this.getNome());
+		usuario.setFoto(this.getFoto());
+		usuario.setCpf(this.getCpf());
+		usuario.setRg(this.getRg());
+		usuario.setRegistro(this.getRegistro());
+		usuario.setPerfil(this.getPerfil());
+		usuario.setEspecialidades(this.getEspecialidades());
 		
 		if(!StringUtils.isEmpty(this.senha)) {
 			usuario.setSenha(this.passwordEncoder().encode(this.getSenha()));
@@ -72,10 +66,12 @@ public class UsuarioForm {
 		return usuario;
 	}
 	
-	public Usuario converter(PerfilRepository perfilRepository, EspecieRepository especieRepository) {
-		Perfil perfil = perfilRepository.getOne(this.getPerfil());
-		Set<Especie> especialidades = this.getEspecialidades(especieRepository);
-		this.setSenha(this.passwordEncoder().encode(this.getSenha()));
+	public Usuario converter(PerfilRepository perfilRepository) {
+		if(!StringUtils.isEmpty(this.senha)) {
+			this.setSenha(this.passwordEncoder().encode(this.getSenha()));
+		} else {
+			throw new ResourceNotFoundException("Senha nao encontrada");
+		}
 		
 		return new Usuario(
 				this.getNome(), 
@@ -85,8 +81,8 @@ public class UsuarioForm {
 				this.getCpf(), 
 				this.getRg(), 
 				this.getRegistro(), 
-				perfil, 
-				especialidades);
+				this.getPerfil(), 
+				this.getEspecialidades());
 	}
 	
 	@Bean
@@ -98,79 +94,71 @@ public class UsuarioForm {
 		return nome;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public String getFoto() {
-		return foto;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public String getRg() {
-		return rg;
-	}
-
-	public String getRegistro() {
-		return registro;
-	}
-
-	public Long getPerfil() {
-		return perfil;
-	}
-
-	public Set<Especie> getEspecialidades(EspecieRepository especieRepository) {
-		Set<Especie> especialidades = new HashSet<>();
-		
-		if(!this.especialidades.isEmpty()) {
-			Iterable<Long> ids = (Iterable<Long>) this.especialidades;
-			List<Especie> especies = especieRepository.findAllById(ids);
-			especialidades = new HashSet<>(especies);
-		}
-		
-		return especialidades;
-	}
-
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public String getEmail() {
+		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
+	public String getSenha() {
+		return senha;
+	}
+
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public String getFoto() {
+		return foto;
 	}
 
 	public void setFoto(String foto) {
 		this.foto = foto;
 	}
 
+	public String getCpf() {
+		return cpf;
+	}
+
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+
+	public String getRg() {
+		return rg;
 	}
 
 	public void setRg(String rg) {
 		this.rg = rg;
 	}
 
+	public String getRegistro() {
+		return registro;
+	}
+
 	public void setRegistro(String registro) {
 		this.registro = registro;
 	}
 
-	public void setPerfil(Long perfil) {
+	public Perfil getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
 	}
 
-	public void setEspecialidades(Set<Long> especialidades) {
+	public Set<Especie> getEspecialidades() {
+		return especialidades;
+	}
+
+	public void setEspecialidades(Set<Especie> especialidades) {
 		this.especialidades = especialidades;
 	}
 	

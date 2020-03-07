@@ -86,18 +86,26 @@ export class ClienteFormComponent implements OnInit {
   }
 
   excluirPet(pet: Pet) {
-    this.petService.excluir(pet.id).subscribe(
-      () => {
-        let pets = this.cliente.pets.filter(p => p.id != pet.id)
-        this.cliente.pets = pets
-        this.f.pets.setValue(pets)
-        this.mensagem.success(`${pet.nome} excluído com sucesso`)
-      },
-      error => {
-        console.warn(error)
-        this.mensagem.warning('Ocorreu um erro ao tentar excluir esse pet')
-      }
-    )
+    if(pet.id) {
+      this.petService.excluir(pet.id).subscribe(
+        () => {
+          let pets = this.cliente.pets.filter(p => p.id != pet.id)
+          this.cliente.pets = pets
+          this.f.pets.setValue(pets)
+          this.mensagem.success(`${pet.nome} excluído com sucesso`)
+        },
+        error => {
+          console.warn(error)
+          this.mensagem.warning('Ocorreu um erro ao tentar excluir esse pet')
+        }
+      )
+    } else {
+      let pets = this.f.pets.value
+      pets = pets.filter(item => item.nome != pet.nome)          
+      this.cliente.pets = pets
+      this.f.pets.setValue(pets)
+      this.mensagem.success(`${pet.nome} excluído com sucesso`)
+    }
   }
 
   salvar() {
@@ -142,7 +150,7 @@ export class ClienteFormComponent implements OnInit {
     this.clienteForm = this.formBuilder.group({
       id: [],
       nome: [null, [Validators.required, Validators.min(3)]],
-      email: [null, [Validators.required, Validators.min(3)]],
+      email: [null, [Validators.required, Validators.email]],
       foto: [],
       cpf: [null, [Validators.required]],
       rg: [null, Validators.required],

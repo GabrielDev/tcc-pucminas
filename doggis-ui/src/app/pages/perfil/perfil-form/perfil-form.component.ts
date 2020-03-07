@@ -65,8 +65,8 @@ export class PerfilFormComponent implements OnInit {
 
   private listarPapeis() {
     this.service.listarPapeis().subscribe(
-      result => {
-        this.papeis = result.filter(papel => !this.papeisSelecionados.some(selecionado => selecionado.id === papel.id))
+      resultado => {
+        this.papeis = resultado.filter(papel => !this.papeisSelecionados.some(selecionado => selecionado.id === papel.id))
       },
       console.warn
     )

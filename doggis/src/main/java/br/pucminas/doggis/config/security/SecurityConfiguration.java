@@ -49,7 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 					.antMatchers(HttpMethod.GET, "/categoria").permitAll()
 					.antMatchers(HttpMethod.GET, "/fabricante").permitAll()
 					.antMatchers(HttpMethod.GET, "/estado").permitAll()
-					.antMatchers(HttpMethod.GET, "/pagamento").permitAll()
+					.antMatchers(HttpMethod.GET, "/pedido/pagamento").permitAll()
 					.antMatchers(HttpMethod.GET, "/pet/especie").permitAll()
 					.antMatchers(HttpMethod.GET, "/pet/raca/*").permitAll()
 			        .anyRequest()

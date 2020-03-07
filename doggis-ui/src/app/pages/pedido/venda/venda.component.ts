@@ -25,30 +25,29 @@ export class VendaComponent implements OnInit {
     private formBuilder: FormBuilder,
     private mensagem: ToastrService,
     private router: Router
-  ) { }
+  ) {  }
 
   ngOnInit() {
     this.gerarForm()
     this.obterPagamentos()
   }
 
-  teste() {
-    this.mensagem.success('Teste')
+  get f() {
+    return this.pedidoForm.controls
   }
 
   private gerarForm() {
     this.pedidoForm = this.formBuilder.group({
+      id: [],
+      usuario: [],
+      dataPedido: [],
+      patazBonusTotal: [0],
+      patazDescontoTotal: [0],
+      total: [0],
       cliente: [null, Validators.required],
-      itens: this.formBuilder.group({
-       quantidade: [1, [Validators.required, Validators.min(1)]],
-       item: [null, Validators.required]
-      }),
-      pagamento: [null, Validators.required]
+      itens: this.formBuilder.array([], Validators.required),
+      pagamento: [null, Validators.required],
     })
-  }
-
-  f() {
-    return this.pedidoForm.controls
   }
 
   buscarClientes(event) {
@@ -59,7 +58,8 @@ export class VendaComponent implements OnInit {
     )
   }
 
-  buscarItensVenda(termo: string) {
+  buscarItensVenda(event) {
+    const termo = event.query
     this.pedidoService.buscar(termo).subscribe(
       resultado => this.itensVenda = resultado,
       console.warn
@@ -67,21 +67,39 @@ export class VendaComponent implements OnInit {
   }
 
   adicionar(item: ItemVenda) {
-    let pedidoItem: PedidoItem = {
-      id: 0,
-      item,
-      quantidade: 1,
-      precoUnitario: item.valor,
-      precoTotal: item.valor,
-      patazBonusTotal: (item.tipo ==  TipoItem.SERVICO)? item.patazBonus: 0,
+    let itens = this.f.itens.value
+    const possuiItem = itens.some(pedido => pedido.item.id == item.id)
+
+    if(possuiItem) {
+      itens = itens.map(pedido => {
+        if(pedido.item.id == item.id) {
+          pedido.quantidade++
+        }
+        return pedido
+      })
+
+    } else {
+      let pedidoItem: PedidoItem = {
+        id: 0,
+        item,
+        quantidade: 1,
+        precoUnitario: item.valor,
+        precoTotal: item.valor,
+        patazBonusTotal: (item.tipo ==  TipoItem.SERVICO)? item.patazBonus: 0,
+      }
+  
+      itens.push(pedidoItem)
     }
 
-    this.pedido.itens.push(pedidoItem)
+    this.f.itens.setValue(itens)
     this.calcularTotal()
   }
 
   remover(item: ItemVenda) {
-    this.pedido.itens = this.pedido.itens.filter(pedidoItem => pedidoItem.item.id != item.id)
+    let itens = this.f.itens.value
+    itens = itens.filter(pedidoItem => pedidoItem.item.id != item.id)
+    
+    this.f.itens.setValue(itens)
     this.calcularTotal()
   }
 

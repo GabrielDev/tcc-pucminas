@@ -1,9 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { EstoqueService, ProdutoService } from 'src/app/providers';
-import { Estoque, Produto } from 'src/app/models';
+import { Estoque, Produto, TipoEstoque } from 'src/app/models';
 
 @Component({
   selector: 'app-estoque-form',
@@ -13,17 +12,17 @@ import { Estoque, Produto } from 'src/app/models';
 export class EstoqueFormComponent implements OnInit {
 
   @Input('estoque') 
-  estoque$: Subject<Estoque>
+  estoque: Estoque
 
   @Output() 
-  onSalvar = new EventEmitter<Estoque>()
+  onSalvar = new EventEmitter<Produto>()
 
   @Output() 
-  onSelecionar = new EventEmitter<Estoque>()
+  onSelecionar = new EventEmitter<Produto>()
 
   public estoqueForm: FormGroup
   public produtos: Produto[] =[]
-  private estoque: Estoque
+  public tipos = [{titulo: 'Entrada', tipo: TipoEstoque.ENTRADA }, {titulo: 'Saída', tipo: TipoEstoque.SAIDA }]
 
   constructor(
     private mensagem: ToastrService,
@@ -34,21 +33,14 @@ export class EstoqueFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.gerarForm()
-    this.estoque$.subscribe(estoque => this.abrir(estoque))
   }
 
   get f() {
     return this.estoqueForm.controls
   }
 
-  abrir(estoque: Estoque) {
-    if(estoque) {
-      this.estoque = estoque
-      this.estoqueForm.setValue(estoque)
-    }
-  }
-
-  buscar(termo: string) {
+  buscar(event: any) {
+    const termo = event.query
     this.produtoService.buscar(termo).subscribe(
       resultado => this.produtos = resultado,
       console.warn
@@ -58,6 +50,10 @@ export class EstoqueFormComponent implements OnInit {
   selecionar() {
     const { produto } = this.f
     this.onSelecionar.next(produto.value)
+  }
+
+  selecionarTipo(tipo: TipoEstoque) {
+    this.f.tipo.setValue(tipo)
   }
 
   salvar() {
@@ -76,7 +72,7 @@ export class EstoqueFormComponent implements OnInit {
     this.estoqueService.salvar(this.estoque).subscribe(
       () => {
         this.mensagem.success(`Estoque do produto ${this.estoque.produto.descricao} salvo com sucesso!`)
-        this.onSalvar.emit()
+        this.onSalvar.emit(this.estoque.produto)
       },
       error => {
         console.warn(error)
@@ -89,7 +85,7 @@ export class EstoqueFormComponent implements OnInit {
     this.estoqueService.salvar(this.estoque).subscribe(
       () => {
         this.mensagem.success(`Estoque do produto ${this.estoque.produto.descricao} salvo com sucesso!`)
-        this.onSalvar.emit()
+        this.onSalvar.emit(this.estoque.produto)
       },
       error => {
         console.warn(error)
@@ -105,8 +101,12 @@ export class EstoqueFormComponent implements OnInit {
       saldo: [],
       dataInclusao: [],
       produto: [null, Validators.required],
-      quantidade: [null, [Validators.required, Validators.min(1)]],
-      tipo: [null, Validators.required]
+      quantidade: [1, [Validators.required, Validators.min(1)]],
+      tipo: [TipoEstoque.ENTRADA, Validators.required]
     })
+  }
+
+  comparador(c1: any, c2: any): boolean {
+    return c1 && c2 ? c1.id === c2.id : c1 === c2;
   }
 }

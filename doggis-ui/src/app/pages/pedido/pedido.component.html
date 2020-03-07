@@ -88,11 +88,12 @@
             </tfoot>
           </table>
         </div>
-        <div [hidden]="!pedidos?.content.length" class="card-footer py-4">
+        <div class="card-footer py-4">
           <p-paginator 
-            [rows]="pedidos?.numberOfElements" 
+            [rows]="pedidos?.size" 
             [totalRecords]="pedidos?.totalElements"
-            (onPageChange)="listar($event)">
+            (onPageChange)="listar($event)"
+            alwaysShow="false">
           </p-paginator>
         </div>
       </div>
