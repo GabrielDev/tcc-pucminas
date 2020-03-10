@@ -30,9 +30,9 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let fabricante of fabricantes">
+              <tr *ngFor="let fabricante of fabricantes?.content">
                 <th scope="row">{{ fabricante.dataInclusao | date: "dd-MM-yyyy" }}</th>
-                <td>{{ fabricante.descricao }}</td>
+                <td>{{ fabricante.nome }}</td>
                 <td class="text-right">
                   <button type="button" class="btn btn-outline-secondary" title="Editar" (click)="alterar(fabricante)" ngbTooltip="Editar">
                     <i class="fa fa-pencil-alt"></i>
@@ -43,7 +43,7 @@
                 </td>
               </tr>
             </tbody>
-            <tfoot [hidden]="perfis.length">
+            <tfoot [hidden]="fabricantes.content.length">
               <tr>
                 <td colspan="7" class="text-center">
                   <h5 class="h3">Nenhum fabricante encontrado</h5>
@@ -54,6 +54,14 @@
               </tr>
             </tfoot>
           </table>
+        </div>
+        <div class="card-footer py-4">
+          <p-paginator 
+            [rows]="fabricantes?.size" 
+            [totalRecords]="fabricantes?.totalElements"
+            (onPageChange)="listar($event)"
+            alwaysShow="false">
+          </p-paginator>
         </div>
       </div>
     </div>

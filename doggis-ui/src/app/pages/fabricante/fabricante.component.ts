@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { FabricanteService } from 'src/app/providers';
-import { Fabricante } from 'src/app/models';
+import { Fabricante, Paginacao, Pagina } from 'src/app/models';
 
 @Component({
   selector: 'app-fabricante',
@@ -11,8 +11,9 @@ import { Fabricante } from 'src/app/models';
 })
 export class FabricanteComponent implements OnInit {
 
-  public fabricantes: Fabricante[] = []
+  public fabricantes: Paginacao<Fabricante>
   public abrirModal: Subject<Fabricante> = new Subject()
+  private paginaAtual: Pagina = { page: 0 }
 
   constructor(
     private service: FabricanteService,
@@ -23,8 +24,9 @@ export class FabricanteComponent implements OnInit {
     this.listar()
   }
 
-  listar() {
-    this.service.listar().subscribe(
+  listar(pagina: Pagina = this.paginaAtual) {
+    this.paginaAtual = pagina
+    this.service.listarPaginado(this.paginaAtual).subscribe(
       resultado => this.fabricantes = resultado,
       console.warn
     )
@@ -33,8 +35,8 @@ export class FabricanteComponent implements OnInit {
   excluir(fabricante: Fabricante) {
     this.service.excluir(fabricante.id).subscribe(
       () => {
-        this.mensagem.success(`Fabricante ${fabricante.descricao} foi excluído`)
-        this.fabricantes = this.fabricantes.filter(item => item.id != fabricante.id)
+        this.mensagem.success(`Fabricante ${fabricante.nome} foi excluído`)
+        this.listar()
       },
       console.warn
     )

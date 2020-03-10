@@ -46,6 +46,7 @@ export class PromocaoFormComponent implements OnInit {
   }
 
   abrir(promocao: Promocao) {
+    this.promocaoForm.reset()
     if(promocao) {
       this.promocao = promocao
       this.promocaoForm.setValue({...promocao, periodo:[new Date(promocao.inicio), new Date(promocao.fim)]})
@@ -90,6 +91,8 @@ export class PromocaoFormComponent implements OnInit {
       } else {
         this.criar()
       }
+    } else {
+      this.promocaoForm.markAllAsTouched()
     }
   }
 
@@ -97,6 +100,7 @@ export class PromocaoFormComponent implements OnInit {
     this.promocaoService.salvar(this.promocao).subscribe(
       () => {
         this.mensagem.success(`Promoção ${this.promocao.item.descricao} salva com sucesso!`)
+        this.promocaoForm.reset()
         this.onSalvar.emit()
       },
       error => {
@@ -108,9 +112,10 @@ export class PromocaoFormComponent implements OnInit {
   }
 
   private editar() {
-    this.promocaoService.salvar(this.promocao).subscribe(
+    this.promocaoService.editar(this.promocao.id, this.promocao).subscribe(
       () => {
         this.mensagem.success(`Promoção ${this.promocao.item.descricao} salvo com sucesso!`)
+        this.promocaoForm.reset()
         this.onSalvar.emit()
       },
       error => {

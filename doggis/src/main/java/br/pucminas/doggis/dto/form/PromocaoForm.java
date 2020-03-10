@@ -15,8 +15,6 @@ public class PromocaoForm {
 	
 	private Long id;
 	
-	private Usuario usuario;
-
 	private Produto produto;
 
 	private Servico servico;
@@ -31,10 +29,9 @@ public class PromocaoForm {
 	private Date fim;
 	
 	public Promocao converter(Usuario usuario) {
-		this.setUsuario(usuario);
 		return new Promocao(
 				this.getId(),
-				this.getUsuario(),
+				usuario,
 				this.getProduto(),
 				this.getServico(),
 				this.getDesconto(),
@@ -44,7 +41,6 @@ public class PromocaoForm {
 	}
 	
 	public Promocao atualizar(Long id, PromocaoRepository promocaoRepository, Usuario usuario) {
-		this.setUsuario(usuario);
 		Promocao promocao = new Promocao();
 		Optional<Promocao> promocaoExistente = promocaoRepository.findById(id);
 
@@ -52,7 +48,7 @@ public class PromocaoForm {
 			promocao = promocaoExistente.get();
 		}
 		
-		promocao.setUsuario(this.getUsuario());
+		promocao.setUsuario(usuario);
 		promocao.setProduto(this.getProduto());
 		promocao.setServico(this.getServico());
 		promocao.setDesconto(this.getDesconto());
@@ -68,15 +64,6 @@ public class PromocaoForm {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
 	}
 
 	public Produto getProduto() {
@@ -118,7 +105,6 @@ public class PromocaoForm {
 	public void setFim(Date fim) {
 		this.fim = fim;
 	}
-	
-	
+
 	
 }

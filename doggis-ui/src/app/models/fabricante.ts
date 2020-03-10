@@ -1,7 +1,7 @@
 export class Fabricante {
     constructor(
         public id: number,
-        public descricao: string,
+        public nome: string,
         public dataInclusao: Date,
     ) {}
 }

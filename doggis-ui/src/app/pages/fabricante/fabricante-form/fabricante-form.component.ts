@@ -69,7 +69,7 @@ export class FabricanteFormComponent implements OnInit {
   private criar() {
     this.service.salvar(this.fabricante).subscribe(
       resultado => {
-        this.mensagem.success(`Fabricante ${resultado.descricao} salvo com sucesso!`)
+        this.mensagem.success(`Fabricante ${resultado.nome} salvo com sucesso!`)
         this.onSalvar.emit(resultado)
       },
       error => {
@@ -83,7 +83,7 @@ export class FabricanteFormComponent implements OnInit {
   private editar() {
     this.service.editar(this.fabricante.id, this.fabricante).subscribe(
       resultado => {
-        this.mensagem.success(`Fabricante ${resultado.descricao} alterado com sucesso!`)
+        this.mensagem.success(`Fabricante ${resultado.nome} alterado com sucesso!`)
         this.onSalvar.emit(resultado)
       },
       error => {
