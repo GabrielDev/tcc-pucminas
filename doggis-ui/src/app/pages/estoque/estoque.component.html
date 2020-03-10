@@ -75,7 +75,22 @@
                   <span [ngClass]="{'text-danger': estoque.saldo < 0}">{{ estoque.saldo }}</span>
                 </td>
                 <td class="text-right">
-                  <button type="button" class="btn btn-outline-secondary" title="Excluir" (click)="excluir(estoque)" ngbTooltip="Excluir">
+                  <swal
+                    #excluir
+                    title="Deseja excluir esse estoque?"
+                    text="Ao excluir esse estoque, todos os estoque posteriores serão recalculados"
+                    icon="question"
+                    [showCancelButton]="true"
+                    [focusCancel]="true"
+                    (confirm)="excluir(estoque)">
+                  </swal>
+
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    title="Excluir"
+                    ngbTooltip="Excluir"
+                    [swal]="excluir">
                     <i class="fa fa-trash"></i>
                   </button>
                 </td>

@@ -1,4 +1,6 @@
 import { Usuario, ItemVenda } from ".";
+import { Produto } from './produto';
+import { Servico } from './servico';
 
 export class Promocao {
     constructor(
@@ -7,6 +9,8 @@ export class Promocao {
         public item: ItemVenda,
         public desconto: number,
         public inicio: Date,
-        public fim: Date
+        public fim: Date,
+        public produto?: Produto,
+        public servico?: Servico,
     ) {}
 }

@@ -1,6 +1,7 @@
 package br.pucminas.doggis.controller;
 
 import java.net.URI;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,8 +24,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.pucminas.doggis.config.security.AutenticacaoService;
 import br.pucminas.doggis.dto.form.PromocaoForm;
 import br.pucminas.doggis.model.Promocao;
+import br.pucminas.doggis.model.Usuario;
 import br.pucminas.doggis.repository.PromocaoRepository;
 
 @RestController
@@ -33,6 +36,9 @@ public class PromocaoController {
 	
 	@Autowired
 	private PromocaoRepository promocaoRepository;
+	
+	@Autowired
+	private AutenticacaoService autenticacaoService;
 	
 	@GetMapping
 	public List<Promocao> listar() {
@@ -46,8 +52,9 @@ public class PromocaoController {
 	
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Promocao> novo(@RequestBody @Valid PromocaoForm form, UriComponentsBuilder uriBuilder) {
-		Promocao promocao = form.converter();
+	public ResponseEntity<Promocao> novo(@RequestBody @Valid PromocaoForm form, UriComponentsBuilder uriBuilder, Principal principal) {
+		Usuario usuario = autenticacaoService.obterUsuario(principal.getName());
+		Promocao promocao = form.converter(usuario);
 		promocaoRepository.save(promocao);
 		
 		URI uri = uriBuilder.path("/promocao/{id}").buildAndExpand(promocao.getId()).toUri();
@@ -56,9 +63,10 @@ public class PromocaoController {
 	
 	@PutMapping("/{id}")
 	@Transactional
-	public ResponseEntity<Promocao> editar(@PathVariable("id") Long id, @RequestBody @Valid PromocaoForm form, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<Promocao> editar(@PathVariable("id") Long id, @RequestBody @Valid PromocaoForm form, UriComponentsBuilder uriBuilder, Principal principal) {
 		try {
-			Promocao promocao = form.atualizar(id, promocaoRepository);
+			Usuario usuario = autenticacaoService.obterUsuario(principal.getName());
+			Promocao promocao = form.atualizar(id, promocaoRepository, usuario);
 			promocaoRepository.save(promocao);
 			
 			return ResponseEntity.ok(promocao);

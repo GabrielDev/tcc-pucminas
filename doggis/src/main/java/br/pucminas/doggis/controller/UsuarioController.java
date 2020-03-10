@@ -1,6 +1,7 @@
 package br.pucminas.doggis.controller;
 
 import java.net.URI;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,10 +23,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.pucminas.doggis.config.security.AutenticacaoService;
 import br.pucminas.doggis.dto.UsuarioDto;
 import br.pucminas.doggis.dto.form.UsuarioForm;
 import br.pucminas.doggis.model.Usuario;
-import br.pucminas.doggis.repository.PerfilRepository;
 import br.pucminas.doggis.repository.UsuarioRepository;
 
 @RestController
@@ -36,7 +37,7 @@ public class UsuarioController {
 	private UsuarioRepository usuarioRepository;
 	
 	@Autowired
-	private PerfilRepository perfilRepository;
+	private AutenticacaoService autenticacaoService;
 	
 	@GetMapping
 	public List<UsuarioDto> listar() {
@@ -53,7 +54,7 @@ public class UsuarioController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<UsuarioDto> novo(@RequestBody @Valid UsuarioForm form, UriComponentsBuilder uriBuilder) {
-		Usuario usuario = form.converter(perfilRepository);
+		Usuario usuario = form.converter();
 		usuarioRepository.save(usuario);
 		
 		URI uri = uriBuilder.path("/perfil/{id}").buildAndExpand(usuario.getId()).toUri();
@@ -65,6 +66,21 @@ public class UsuarioController {
 	public ResponseEntity<UsuarioDto> editar(@PathVariable("id") Long id, @RequestBody @Valid UsuarioForm form, UriComponentsBuilder uriBuilder) {
 		try {
 			Usuario usuario = form.atualizar(id, usuarioRepository);
+			usuarioRepository.save(usuario);
+			
+			return ResponseEntity.ok(new UsuarioDto(usuario));
+		} catch(Exception e) {
+			return ResponseEntity.notFound().build();
+		}
+	}
+	
+	
+	@PostMapping("/minha-conta")
+	@Transactional
+	public ResponseEntity<UsuarioDto> editarMinhaConta(@RequestBody @Valid UsuarioForm form, UriComponentsBuilder uriBuilder, Principal principal) {
+		try {
+			Usuario usuario = autenticacaoService.obterUsuario(principal.getName());
+			usuario = form.associar(usuario);
 			usuarioRepository.save(usuario);
 			
 			return ResponseEntity.ok(new UsuarioDto(usuario));

@@ -25,14 +25,14 @@ export class PerfilComponent implements OnInit {
 
   listar() {
     this.service.listar().subscribe(
-      result => this.perfis = result,
+      resultado => this.perfis = resultado,
       console.warn
     )
   }
 
   excluir(perfil: Perfil) {
     this.service.excluir(perfil.id).subscribe(
-      result => {
+      resultado => {
         this.mensagem.success(`Perfil ${perfil.descricao} foi excluído`)
         this.perfis = this.perfis.filter(item => item.id != perfil.id)
       },

@@ -44,6 +44,11 @@ export class AuthService {
     return this.usuarioSubject.asObservable()
   }
 
+  public notificar(usuario: Usuario) {
+    this.nomeUsuario = usuario.nome
+    this.usuarioSubject.next(usuario)
+  }
+
   public obterNomeUsuario(): any {
     return this.nomeUsuario
   }

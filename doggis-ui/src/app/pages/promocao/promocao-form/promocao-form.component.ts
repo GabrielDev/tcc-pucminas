@@ -3,8 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { Promocao, Produto } from 'src/app/models';
-import { PromocaoService, ProdutoService } from 'src/app/providers';
+import { Promocao, ItemVenda, TipoItem, Produto, Servico } from 'src/app/models';
+import { PromocaoService, PedidoService } from 'src/app/providers';
 
 @Component({
   selector: 'app-promocao-form',
@@ -24,7 +24,7 @@ export class PromocaoFormComponent implements OnInit {
   private modal: any
 
   public promocaoForm: FormGroup
-  public produtos: Produto[] = []
+  public itens: ItemVenda[] = []
   public dataInicio: Date = new Date()
   private promocao: Promocao
 
@@ -33,7 +33,7 @@ export class PromocaoFormComponent implements OnInit {
     private mensagem: ToastrService,
     private formBuilder: FormBuilder,
     private promocaoService: PromocaoService,
-    private produtoService: ProdutoService
+    private pedidoService: PedidoService
   ) { }
 
   ngOnInit(): void {
@@ -48,31 +48,42 @@ export class PromocaoFormComponent implements OnInit {
   abrir(promocao: Promocao) {
     if(promocao) {
       this.promocao = promocao
-      this.promocaoForm.setValue(promocao)
+      this.promocaoForm.setValue({...promocao, periodo:[new Date(promocao.inicio), new Date(promocao.fim)]})
     }
 
     this.modal = this.modalService.open(this.modalTemplate, { windowClass: 'modal-mini', size: 'lg', centered: true })
   }
 
-  buscar(termo: string) {
-    this.produtoService.buscar(termo).subscribe(
-      resultado => this.produtos = resultado,
+  buscar(event) {
+    const termo = event.query
+    this.pedidoService.buscar(termo).subscribe(
+      resultado => this.itens = resultado,
       console.warn
     )
   }
 
-  definirData(periodo: any) {
-    if(periodo) {
-      console.log(periodo)
-      let { inicio, fim } = this.f
-      inicio.setValue(periodo)
-      fim.setValue(periodo)
+  definirData() {
+    let { inicio, fim, periodo } = this.f
+    let [dataInicio, dataFim] = periodo.value
+    
+    if(dataInicio) {
+      inicio.setValue(dataInicio)
+    }
+
+    if(dataFim) {
+      fim.setValue(dataFim)
     }
   }
 
   salvar() {
     if(this.promocaoForm.valid) {
       this.promocao = this.promocaoForm.value
+
+      if(this.promocao.item.tipo == TipoItem.PRODUTO) {
+        this.promocao.produto = <Produto> this.promocao.item
+      } else {
+        this.promocao.servico = <Servico> this.promocao.item
+      }
 
       if(this.promocao.id) {
         this.editar()
@@ -114,6 +125,8 @@ export class PromocaoFormComponent implements OnInit {
     this.promocaoForm = this.formBuilder.group({
       id: [],
       usuario: [],
+      produto: [],
+      servico: [],
       item: [null, Validators.required],
       desconto: [null, [Validators.required, Validators.min(1)]],
       inicio: [null, Validators.required],

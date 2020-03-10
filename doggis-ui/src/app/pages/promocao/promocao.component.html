@@ -25,11 +25,11 @@
             <thead class="thead-light">
               <tr>
                 <th scope="col">Responsável</th>
-                <th scope="col">Produto</th>
+                <th scope="col">Item</th>
                 <th scope="col">Valor</th>
-                <th scope="col">Desconto</th>
-                <th scope="col">Início</th>
-                <th scope="col">Fim</th>
+                <th class="text-center" scope="col">Desconto</th>
+                <th class="text-center" scope="col">Início</th>
+                <th class="text-center" scope="col">Fim</th>
                 <th scope="col"></th>
               </tr>
             </thead>
@@ -38,7 +38,8 @@
                 <th scope="row">
                   <div class="media align-items-center">
                     <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
-                      <img [alt]="promocao.usuario.nome" [src]="promocao.usuario.foto">
+                      <img [hidden]="!promocao.usuario.foto" [alt]="promocao.usuario.nome" [src]="promocao.usuario.foto">
+                      <img [hidden]="promocao.usuario.foto" [alt]="promocao.usuario.nome" src="../assets/img/usuario.jpg">
                     </a>
                     <div class="media-body">
                       <span class="mb-0 text-sm">{{ promocao.usuario.nome }}</span>
@@ -47,25 +48,32 @@
                 </th>
                 <th scope="row">
                   <div class="media align-items-center">
-                    <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
-                      <img [alt]="promocao.item.descricao" [src]="promocao.item.foto">
+                    <a *ngIf="promocao.produto" href="javascript:void(0)" class="avatar rounded-circle mr-3">
+                      <img [hidden]="!promocao.produto.foto" [alt]="promocao.item.descricao" [src]="promocao.produto.foto">
+                      <img [hidden]="promocao.produto.foto" [alt]="promocao.item.descricao" src="../assets/img/produto.jpg">
                     </a>
+
+                    <a *ngIf="promocao.servico" href="javascript:void(0)" class="avatar rounded-circle mr-3">
+                      <img [hidden]="!promocao.servico.foto" [alt]="promocao.item.descricao" [src]="promocao.servico.foto">
+                      <img [hidden]="promocao.servico.foto" [alt]="promocao.item.descricao" src="../assets/img/servico.jpg">
+                    </a>
+
                     <div class="media-body">
                       <span class="mb-0 text-sm">{{ promocao.item.descricao }}</span>
                     </div>
                   </div>
                 </th>
                 <td>
-                  <p>De {{ promocao.item.valor | currency: 'BRL' }}</p>
-                  <p>Por {{ valorComDesconto(promocao) | currency: 'BRL' }}</p>
+                  <small class="text-muted">De {{ promocao.item.valor | currency: 'BRL' }}</small>
+                  <span class="mb-0 text-sm btn-block">Por {{ valorComDesconto(promocao) | currency: 'BRL' }}</span>
                 </td>
-                <td>
-                  {{ promocao.desconto }}
+                <td class="text-center">
+                  {{ promocao.desconto }}%
                 </td>
-                <td>
+                <td class="text-center">
                   {{ promocao.inicio | date: 'dd-MM-yyyy' }}
                 </td>
-                <td>
+                <td class="text-center">
                   {{ promocao.fim | date: 'dd-MM-yyyy' }}
                 </td>
                 <td class="text-right">
@@ -78,7 +86,7 @@
                 </td>
               </tr>
             </tbody>
-            <tfoot [hidden]="!promocoes?.content">
+            <tfoot [hidden]="promocoes?.content">
               <tr>
                 <td colspan="7" class="text-center">
                   <h5 class="h3">Nenhuma promoção encontrada</h5>

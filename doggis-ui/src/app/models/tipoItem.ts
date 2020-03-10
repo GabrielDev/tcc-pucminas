@@ -1,4 +1,4 @@
 export enum TipoItem {
-    PRODUTO = 'P',
-    SERVICO = 'S'
+    PRODUTO = 'PRODUTO',
+    SERVICO = 'SERVICO'
 }

@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 import { AppRoutingModule } from './app.routing';
 import { AppComponent } from './app.component';
@@ -28,6 +29,7 @@ import { RequestInterceptor } from './core/auth/request.interceptor';
     CoreModule,
     AppRoutingModule,
     ToastrModule.forRoot(),
+    SweetAlert2Module.forRoot(),
   ],
   declarations: [
     AppComponent,

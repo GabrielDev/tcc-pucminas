@@ -106,16 +106,22 @@ export class VendaComponent implements OnInit {
   atualizarQuantidade(pedidoItem: PedidoItem) {
     if(pedidoItem.item.tipo == TipoItem.PRODUTO) {
       this.validarEstoque(pedidoItem)
+    } else {
+      pedidoItem.precoTotal = pedidoItem.precoUnitario * pedidoItem.quantidade
     }
 
-    pedidoItem.precoTotal = pedidoItem.precoUnitario * pedidoItem.quantidade
     this.calcularTotal()
   }
   
   private validarEstoque(pedidoItem: PedidoItem) {
-    if(pedidoItem.quantidade > pedidoItem.item.totalEstoque) {
+    if(pedidoItem.item.totalEstoque <= 0) {
+      this.mensagem.warning(`Produto não está disponível no estoque`)
+      this.remover(pedidoItem.item)
+      
+    } else if(pedidoItem.quantidade > pedidoItem.item.totalEstoque) {
       this.mensagem.warning(`Estoque disponível para esse item: ${pedidoItem.item.totalEstoque}`)
       pedidoItem.quantidade = pedidoItem.item.totalEstoque
+      pedidoItem.precoTotal = pedidoItem.precoUnitario * pedidoItem.quantidade
     }
   }
 

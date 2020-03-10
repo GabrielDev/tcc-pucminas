@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { PromocaoService } from 'src/app/providers';
-import { Paginacao, Promocao, Pagina } from 'src/app/models';
+import { Paginacao, Promocao, Pagina, ItemVenda, TipoItem } from 'src/app/models';
 
 @Component({
   selector: 'app-promocao',
@@ -27,7 +27,14 @@ export class PromocaoComponent implements OnInit {
   listar(pagina: Pagina = this.paginaAtual) {
     this.paginaAtual = pagina
     this.service.listarPaginado(this.paginaAtual).subscribe(
-      resultado => this.promocoes = resultado,
+      resultado => {
+        this.promocoes = resultado
+
+        this.promocoes.content = this.promocoes.content.map(promocao => {
+          promocao.item = promocao.produto || promocao.servico
+          return promocao
+        })
+      },
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar listar os promoçōes')
@@ -57,6 +64,6 @@ export class PromocaoComponent implements OnInit {
   }
 
   valorComDesconto(promocao: Promocao) {
-    return (promocao.item.valor * promocao.desconto) / 100
+    return (1 - promocao.desconto/100) * promocao.item.valor
   }
 }

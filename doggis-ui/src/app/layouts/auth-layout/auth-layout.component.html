@@ -17,29 +17,8 @@
                 <img src="assets/img/brand/blue.png">
               </a>
             </div>
-            <div class="col-6 collapse-close">
-              <button type="button" class="navbar-toggler" (click)="isCollapsed=!isCollapsed" >
-                <span></span>
-                <span></span>
-              </button>
-            </div>
           </div>
         </div>
-        <!-- Navbar items -->
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link nav-link-icon" routerLinkActive="active" [routerLink]="['/cadastre-se']">
-              <i class="ni ni-circle-08"></i>
-              <span class="nav-link-inner--text">Cadastre-se</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link nav-link-icon" routerLinkActive="active" [routerLink]="['/login']">
-              <i class="ni ni-key-25"></i>
-              <span class="nav-link-inner--text">Login</span>
-            </a>
-          </li>
-        </ul>
       </div>
     </div>
   </nav>
@@ -50,7 +29,7 @@
     <div class="row align-items-center justify-content-xl-between">
       <div class="col-xl-6">
         <div class="copyright text-center text-xl-left text-muted">
-          &copy; {{ test | date: "yyyy" }} <a href="#" class="font-weight-bold ml-1" target="_blank">Doggis</a>
+          &copy; {{ copyright | date: "yyyy" }} <a href="#" class="font-weight-bold ml-1" target="_blank">Doggis</a>
         </div>
       </div>
       <div class="col-xl-6">

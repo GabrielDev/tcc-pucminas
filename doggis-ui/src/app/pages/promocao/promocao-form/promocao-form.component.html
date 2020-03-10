@@ -9,22 +9,46 @@
 
         <div class="modal-body">
             <div class="row">
-                <div class="col">
-                    <div class="form-group">
+                <div class="col-12">
+                    <div class="form-group" [ngClass]="{'has-danger': f.item.touched && f.item?.errors}">
                         <label class="form-control-label" for="item">Item*</label>
                         <p-autoComplete 
                             id="item"
+                            styleClass="btn-block"
+                            inputStyleClass="form-control form-control-alternative border-0"
+                            field="descricao"
                             formControlName="item" 
-                            [suggestions]="produtos" 
+                            [suggestions]="itens" 
                             (completeMethod)="buscar($event)"
                             [forceSelection]="true"
                             aria-placeholder="Buscar produto ou serviço por nome ou código">
+                            <ng-template let-item pTemplate="item">
+                                <div class="list-group-item list-group-item-action">
+                                  <div class="row align-items-center">
+                                    <div class="col-auto">
+                                      <img [hidden]="!item.foto" [alt]="item.descricao" [src]="item.foto" class="avatar rounded-pill">
+                                      <img [hidden]="item.foto" [alt]="item.descricao" src="../assets/img/produto.jpg" class="avatar rounded-pill">
+                                    </div>
+                                    <div class="col ml--2">
+                                      <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                          <h4 class="mb-0 text-sm">{{ item.descricao }}</h4>
+                                        </div>
+                                        <div class="text-right text-muted">
+                                          <h4>{{ item.valor | currency: 'BRL' }}</h4>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            </ng-template>
                         </p-autoComplete>
+                        <div class="invalid-feedback" *ngIf="f.item.touched && f.item?.errors?.required">Campo obrigatório</div>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-12">
+                <div class="col-6">
                     <div class="form-group" [ngClass]="{'has-danger': f.desconto?.errors?.required}">
                         <label class="form-control-label" for="desconto">Desconto*</label>
                         <input
@@ -32,29 +56,33 @@
                             id="desconto"
                             class="form-control form-control-alternative"
                             formControlName="desconto"
-                            [ngClass]="{'is-invalid': f.desconto?.errors?.required}">
+                            [ngClass]="{'is-invalid': f.desconto.touched && f.desconto?.errors?.required}">
+                        <div class="invalid-feedback" *ngIf="f.desconto.touched && f.desconto?.errors?.required">Campo obrigatório</div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-6">
                     <div class="form-group" [ngClass]="{'has-danger': f.periodo?.errors?.required}">
                         <label class="form-control-label" for="periodo">Validade*</label>
                         <p-calendar
                             id="periodo"
+                            styleClass="btn-block"
+                            inputStyleClass="form-control form-control-alternative border-0 text-center"
                             formControlName="periodo"
                             selectionMode="range"
                             [minDate]="dataInicio"
-                            dateFormat="dd-mm-yyyy"
-                            (onSelect)="definirData()"
-                            [ngClass]="{'is-invalid': f.nome?.errors?.required}"
+                            dateFormat="dd-mm-yy"
+                            rangeSeparator=" à "
+                            (onSelect)="definirData($event)"
+                            [ngClass]="{'is-invalid': f.periodo.touched && f.periodo?.errors?.required}"
                         ></p-calendar>
+                        <div class="invalid-feedback" *ngIf="f.periodo.touched && f.periodo?.errors?.required">Campo obrigatório</div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
             <button type="submit" class="btn btn-primary">Salvar</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                (click)="c('Close click')">Cancelar</button>
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" (click)="c('Close click')">Cancelar</button>
         </div>
     </form>
 </ng-template>

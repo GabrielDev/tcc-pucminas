@@ -16,7 +16,6 @@ import org.springframework.util.StringUtils;
 import br.pucminas.doggis.model.Especie;
 import br.pucminas.doggis.model.Perfil;
 import br.pucminas.doggis.model.Usuario;
-import br.pucminas.doggis.repository.PerfilRepository;
 import br.pucminas.doggis.repository.UsuarioRepository;
 
 public class UsuarioForm {
@@ -66,7 +65,7 @@ public class UsuarioForm {
 		return usuario;
 	}
 	
-	public Usuario converter(PerfilRepository perfilRepository) {
+	public Usuario converter() {
 		if(!StringUtils.isEmpty(this.senha)) {
 			this.setSenha(this.passwordEncoder().encode(this.getSenha()));
 		} else {
@@ -83,6 +82,19 @@ public class UsuarioForm {
 				this.getRegistro(), 
 				this.getPerfil(), 
 				this.getEspecialidades());
+	}
+	
+	public Usuario associar(Usuario usuario) {
+		if(!StringUtils.isEmpty(this.senha)) {
+			this.setSenha(this.passwordEncoder().encode(this.getSenha()));
+			usuario.setSenha(this.getSenha());
+		}
+		
+		usuario.setEmail(this.getEmail());
+		usuario.setCpf(this.getCpf());
+		usuario.setRg(this.getRg());
+		
+		return usuario;
 	}
 	
 	@Bean
