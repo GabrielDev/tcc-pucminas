@@ -53,6 +53,7 @@ public class Usuario implements UserDetails {
 	private String senha;
 	
 	@Lob
+	@Column(columnDefinition = "LONGBLOB")
 	private String foto;
 
 	@Length(max = 15)

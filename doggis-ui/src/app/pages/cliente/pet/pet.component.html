@@ -8,95 +8,101 @@
         </div>
 
         <div class="modal-body">
-            <div class="row mb-4">
-                <div *ngFor="let especie of especies" class="col-3">
-                    <label class="card card-stats">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <span class="h2 font-weight-bold mb-0">{{ especie.descricao }}</span>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="icon icon-shape bg-red text-white rounded-circle shadow">
-                                        <i class="ni ni-active-40"></i>
-                                    </div>
-                                </div>
+            <div class="row">
+                <div class="col-3">
+                    <a href="javascript:void(0)" (click)="imagePet.abrir()" class="pr-4">
+                        <img [hidden]="!f.foto.value" [src]="f.foto.value" class="img-fluid rounded-circle">
+                        <img [hidden]="f.foto.value" src="assets/img/pet.jpg" class="img-fluid rounded-circle">
+                    </a>
+                    <app-image-crop #imagePet [imagem]="f.foto.value" (onConcluir)="aplicarFoto($event)"></app-image-crop>
+                </div>
+                <div class="col-9">
+                    <div class="row mb-4">
+                        <div class="col form-group">
+                            <label class="form-control-label">Especie*</label>
+                            <ul class="nav nav-pills-icons justify-content-center">
+                                <li *ngFor="let especie of especies" class="nav-item">
+                                    <input 
+                                        [id]="especie.descricao"
+                                        type="radio"
+                                        [value]="especie.id"
+                                        [checked]="especieSelecionada == especie.id"
+                                        (change)="selecionarEspecie(especie)" 
+                                        class="d-none"/>
+    
+                                  <label [for]="especie.descricao" class="nav-link">
+                                    <i class="icone" [ngClass]="especie.icone"></i> {{ especie.descricao }} 
+                                  </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group" [ngClass]="{'has-danger': f.raca.touched && f.raca?.errors}">
+                                <label class="form-control-label" for="raca">Raça*</label>
+                                <select
+                                    type="raca"
+                                    id="raca"
+                                    class="form-control form-control-alternative"
+                                    formControlName="raca"
+                                    [compareWith]="comparador"
+                                    [ngClass]="{'is-invalid': f.raca.touched && f.raca?.errors?.required}">
+                                    <option [ngValue]="">Selecione</option>
+                                    <option *ngFor="let raca of racas" [ngValue]="raca">{{ raca.descricao }}</option>
+                                </select>
+                                <div class="invalid-feedback" *ngIf="f.raca.touched && f.raca?.errors?.required">Campo obrigatório</div>
                             </div>
                         </div>
-
-                        <input
-                            type="radio" 
-                            name="especie"
-                            [value]="especie"
-                            [checked]="especie.id == f.especie.id"
-                            (change)="selecionarEspecie(especie)"/>
-                    </label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="form-group" [ngClass]="{'has-danger': f.raca.touched && f.raca?.errors}">
-                        <label class="form-control-label" for="raca">Raça*</label>
-                        <select
-                            type="raca"
-                            id="raca"
-                            class="form-control form-control-alternative"
-                            formControlName="raca"
-                            [compareWith]="comparador"
-                            [ngClass]="{'is-invalid': f.raca.touched && f.raca?.errors?.required}">
-                            <option [ngValue]="">Selecione</option>
-                            <option *ngFor="let raca of racas" [ngValue]="raca">{{ raca.descricao }}</option>
-                        </select>
-                        <div class="invalid-feedback" *ngIf="f.raca.touched && f.raca?.errors?.required">Campo obrigatório</div>
+                        <div [hidden]="!exibirPortes()" class="col">
+                            <div class="form-group" [ngClass]="{'has-danger': f.porte.touched && f.porte?.errors}">
+                                <label class="form-control-label" for="porte">Porte*</label>
+                                <select
+                                    type="porte"
+                                    id="porte"
+                                    class="form-control form-control-alternative"
+                                    formControlName="porte"
+                                    [ngClass]="{'is-invalid': f.porte.touched && f.porte?.errors?.required}">
+                                    <option value="">Selecione</option>
+                                    <option *ngFor="let porte of portes" [ngValue]="porte.value">{{ porte.nome }}</option>
+                                </select>
+                                <div class="invalid-feedback" *ngIf="f.porte.touched && f.porte?.errors?.required">Campo obrigatório</div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div [hidden]="!exibirPortes()" class="col">
-                    <div class="form-group" [ngClass]="{'has-danger': f.porte.touched && f.porte?.errors}">
-                        <label class="form-control-label" for="porte">Porte*</label>
-                        <select
-                            type="porte"
-                            id="porte"
-                            class="form-control form-control-alternative"
-                            formControlName="porte"
-                            [ngClass]="{'is-invalid': f.porte.touched && f.porte?.errors?.required}">
-                            <option value="">Selecione</option>
-                            <option *ngFor="let porte of portes" [ngValue]="porte">{{ porte }}</option>
-                        </select>
-                        <div class="invalid-feedback" *ngIf="f.porte.touched && f.porte?.errors?.required">Campo obrigatório</div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group" [ngClass]="{'has-danger': f.nome.touched && f.nome?.errors?.required}">
+                                <label class="form-control-label" for="nome">Nome*</label>
+                                <input
+                                    type="text"
+                                    id="nome"
+                                    class="form-control form-control-alternative"
+                                    formControlName="nome"
+                                    [ngClass]="{'is-invalid': f.nome.touched && f.nome?.errors?.required}">
+                                <div class="invalid-feedback" *ngIf="f.nome.touched && f.nome?.errors?.required">Campo obrigatório</div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="form-control-label" for="alergia">Alergia</label>
+                                <textarea
+                                    id="alergia"
+                                    class="form-control form-control-alternative"
+                                    formControlName="alergia"></textarea>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="form-group" [ngClass]="{'has-danger': f.nome.touched && f.nome?.errors?.required}">
-                        <label class="form-control-label" for="nome">Nome*</label>
-                        <input
-                            type="text"
-                            id="nome"
-                            class="form-control form-control-alternative"
-                            formControlName="nome"
-                            [ngClass]="{'is-invalid': f.nome.touched && f.nome?.errors?.required}">
-                        <div class="invalid-feedback" *ngIf="f.nome.touched && f.nome?.errors?.required">Campo obrigatório</div>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="form-group">
-                        <label class="form-control-label" for="alergia">Alergia</label>
-                        <textarea
-                            id="alergia"
-                            class="form-control form-control-alternative"
-                            formControlName="alergia"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="form-group">
-                        <label class="form-control-label" for="descricao">Descrição</label>
-                        <textarea
-                            id="descricao"
-                            class="form-control form-control-alternative"
-                            formControlName="descricao"></textarea>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="form-control-label" for="descricao">Descrição</label>
+                                <textarea
+                                    id="descricao"
+                                    class="form-control form-control-alternative"
+                                    formControlName="descricao"></textarea>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -133,10 +133,10 @@ public class ClienteController {
 			}
 			
 			pets.add(pet);
-//			petRepository.saveAndFlush(pet);
+			petRepository.saveAndFlush(pet);
 		}
 		
-		petRepository.saveAll(pets);
+//		petRepository.saveAll(pets);
 	}
 
 }

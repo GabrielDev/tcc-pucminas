@@ -80,6 +80,7 @@
         </div>
         <div class="card-footer py-4">
           <p-paginator 
+            styleClass="pagination"
             [rows]="produtos?.size" 
             [totalRecords]="produtos?.totalElements"
             (onPageChange)="listar($event)"

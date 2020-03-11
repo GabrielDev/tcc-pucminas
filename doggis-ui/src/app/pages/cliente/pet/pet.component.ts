@@ -21,11 +21,16 @@ export class PetComponent implements OnInit {
   private modalTemplate: TemplateRef<any>
   private modal: any
 
+  public especieSelecionada: number
   public especies: Especie[] = []
   public racas: Raca[] = []
-  public portes: Porte[] = [Porte.PEQUENO, Porte.MEDIO, Porte.GRANDE]
   public petForm: FormGroup
   public pet: Pet
+  public portes: {nome: string, value: Porte}[] = [
+    {nome: 'Pequeno', value: Porte.PEQUENO},
+    {nome: 'Médio', value: Porte.MEDIO},
+    {nome: 'Grande', value: Porte.GRANDE}
+  ]
 
   constructor(
     private formBuilder: FormBuilder,
@@ -44,14 +49,17 @@ export class PetComponent implements OnInit {
   }
 
   abrir(pet: Pet) {
+    this.petForm.reset()
+    
     if (pet) {
       this.pet = pet
+      this.especieSelecionada = pet.especie.id
       this.petForm.setValue(pet)
       this.listarRacas()
     }
 
     this.listarEspecies()
-    this.modal = this.modalService.open(this.modalTemplate, { windowClass: 'modal-mini', size: 'lg', centered: true })
+    this.modal = this.modalService.open(this.modalTemplate, { windowClass: 'modal-mini', size: 'xl', centered: true })
   }
 
   listarEspecies() {
@@ -77,6 +85,7 @@ export class PetComponent implements OnInit {
   }
 
   selecionarEspecie(especie: Especie) {
+    this.especieSelecionada = especie.id
     this.f.especie.setValue(especie)
     this.listarRacas()
   }
@@ -92,6 +101,10 @@ export class PetComponent implements OnInit {
     }
 
     return isExibir
+  }
+
+  aplicarFoto(foto: string) {
+    this.f.foto.setValue(foto)
   }
 
   salvar() {
@@ -113,7 +126,7 @@ export class PetComponent implements OnInit {
       foto: [],
       alergia: [],
       descricao: [],
-      dataInclusao: []
+      dataInclusao: [],
     })
   }
 

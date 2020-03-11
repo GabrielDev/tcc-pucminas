@@ -64,6 +64,10 @@ export class MinhaContaComponent implements OnInit {
       )
     }
   }
+  
+  aplicarFoto(foto: string) {
+    this.f.foto.setValue(foto)
+  }
 
   private gerarForm() {
     this.usuarioForm = this.formBuilder.group({

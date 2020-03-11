@@ -47,6 +47,7 @@ public class Cliente {
 	private String rg;
 
 	@Lob
+	@Column(columnDefinition = "LONGBLOB")
 	private String foto;
 	
 	private String endereco;

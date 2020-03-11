@@ -16,10 +16,11 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-3 order-lg-2">
                             <div class="card-profile-image mb-6 pb-3">
-                                <a href="javascript:void(0)">
+                                <a href="javascript:void(0)" (click)="image.abrir()">
                                     <img [hidden]="!f.foto.value" [src]="f.foto.value" class="rounded-circle">
                                     <img [hidden]="f.foto.value" src="assets/img/usuario.jpg" class="rounded-circle">
                                 </a>
+                                <app-image-crop #image [(imagem)]="f.foto.value"></app-image-crop>
                             </div>
                         </div>
                     </div>

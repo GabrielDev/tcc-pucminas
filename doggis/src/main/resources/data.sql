@@ -33,6 +33,7 @@ INSERT IGNORE INTO papel (id_papel, dt_inclusao, menu, descricao) VALUES(19, NOW
 INSERT IGNORE INTO papel (id_papel, dt_inclusao, menu, descricao) VALUES(20, NOW(), 'meu-perfil', 'Perfil');
 INSERT IGNORE INTO papel (id_papel, dt_inclusao, menu, descricao) VALUES(21, NOW(), 'meus-pedidos', 'Meus pedidos');
 INSERT IGNORE INTO papel (id_papel, dt_inclusao, menu, descricao) VALUES(22, NOW(), 'dashboard', 'Relatórios');
+INSERT IGNORE INTO papel (id_papel, dt_inclusao, menu, descricao) VALUES(23, NOW(), 'venda', 'Vendas');
 
 #PERFIL_PAPEL · ADMINISTRADOR
 INSERT IGNORE INTO perfil_papel (id_perfil, id_papel) SELECT 1, id_papel FROM papel;
@@ -41,6 +42,7 @@ INSERT IGNORE INTO perfil_papel (id_perfil, id_papel) SELECT 1, id_papel FROM pa
 INSERT IGNORE INTO perfil_papel (id_perfil, id_papel) VALUES(2, 1);
 INSERT IGNORE INTO perfil_papel (id_perfil, id_papel) VALUES(2, 4);
 INSERT IGNORE INTO perfil_papel (id_perfil, id_papel) VALUES(2, 20);
+INSERT IGNORE INTO perfil_papel (id_perfil, id_papel) VALUES(2, 23);
 
 #PERFIL_PAPEL · VETERINARIO
 

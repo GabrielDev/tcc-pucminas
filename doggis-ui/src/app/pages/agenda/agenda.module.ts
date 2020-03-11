@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AgendaComponent } from './agenda.component';
+import { FullCalendarModule } from 'primeng';
 
 @NgModule({
-  declarations: [AgendaComponent],
   imports: [
-    CommonModule
-  ]
+    CommonModule,
+    FullCalendarModule
+  ],
+  declarations: [AgendaComponent],
+  exports: [AgendaComponent],
 })
 export class AgendaModule { }

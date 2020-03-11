@@ -11,6 +11,6 @@ import { ToastrModule } from 'ngx-toastr';
         HttpClientModule,
         ToastrModule
     ],
-    providers: []
+    providers: [],
 })
 export class CoreModule { }

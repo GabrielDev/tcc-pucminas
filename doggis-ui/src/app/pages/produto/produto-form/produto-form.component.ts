@@ -84,6 +84,10 @@ export class ProdutoFormComponent implements OnInit {
     )
   }
 
+  aplicarFoto(foto: string) {
+    this.f.foto.setValue(foto)
+  }
+
   salvar() {
     if(this.produtoForm.valid) {
       this.produto = this.produtoForm.value

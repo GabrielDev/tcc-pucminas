@@ -31,6 +31,7 @@ public class Pet {
 	private String nome;
 	
 	@Lob
+	@Column(columnDefinition = "LONGBLOB")
 	private String foto;
 	
 	@JsonIgnore

@@ -8,6 +8,7 @@ import { ClienteComponent } from './cliente.component';
 import { ClienteFormComponent } from './cliente-form/cliente-form.component';
 import { ClienteService, EstadoService, PetService } from 'src/app/providers';
 import { PetComponent } from './pet/pet.component';
+import { ImageCropModule } from 'src/app/core/image-crop/image-crop.module';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { PetComponent } from './pet/pet.component';
     RouterModule,
     NgbModule,
     PaginatorModule,
+    ImageCropModule
   ],
   providers: [ClienteService, PetService, EstadoService],
   declarations: [ClienteComponent, ClienteFormComponent, PetComponent],

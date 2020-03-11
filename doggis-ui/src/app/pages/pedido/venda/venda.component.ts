@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Cliente, ItemVenda, Pagamento, TipoItem, Pedido, PedidoItem } from 'src/app/models';
-import { PedidoService, ClienteService } from 'src/app/providers';
+import { Cliente, ItemVenda, Pagamento, TipoItem, Pedido, PedidoItem, Produto } from 'src/app/models';
+import { PedidoService, ClienteService, ProdutoService } from 'src/app/providers';
 
 @Component({
   selector: 'app-venda',
@@ -12,8 +11,7 @@ import { PedidoService, ClienteService } from 'src/app/providers';
 })
 export class VendaComponent implements OnInit {
 
-  public pedido: Pedido
-  public pedidoForm: FormGroup
+  public pedido: Pedido = new Pedido()
   public clientes: Cliente[]
   public itensPedido: ItemVenda[]
   public itensVenda: ItemVenda[]
@@ -22,32 +20,17 @@ export class VendaComponent implements OnInit {
   constructor(
     private pedidoService: PedidoService,
     private clienteService: ClienteService,
-    private formBuilder: FormBuilder,
+    private produtoService: ProdutoService,
     private mensagem: ToastrService,
     private router: Router
   ) {  }
 
   ngOnInit() {
-    this.gerarForm()
-    this.obterPagamentos()
+    this.listarPagamentos()
   }
 
-  get f() {
-    return this.pedidoForm.controls
-  }
-
-  private gerarForm() {
-    this.pedidoForm = this.formBuilder.group({
-      id: [],
-      usuario: [],
-      dataPedido: [],
-      patazBonusTotal: [0],
-      patazDescontoTotal: [0],
-      total: [0],
-      cliente: [null, Validators.required],
-      itens: this.formBuilder.array([], Validators.required),
-      pagamento: [null, Validators.required],
-    })
+  get p() {
+    return this.pedido
   }
 
   buscarClientes(event) {
@@ -66,17 +49,19 @@ export class VendaComponent implements OnInit {
     )
   }
 
-  adicionar(item: ItemVenda) {
-    let itens = this.f.itens.value
-    const possuiItem = itens.some(pedido => pedido.item.id == item.id)
+  listarPagamentos() {
+    this.pedidoService.listarPagamentos().subscribe(
+      resultado => this.pagamentos = resultado,
+      console.warn
+    )
+  }
 
-    if(possuiItem) {
-      itens = itens.map(pedido => {
-        if(pedido.item.id == item.id) {
-          pedido.quantidade++
-        }
-        return pedido
-      })
+  adicionar(item: ItemVenda) {
+    let { itens } = this.pedido
+    const index = itens.findIndex(pedido => pedido.item.id == item.id)
+
+    if(index >= 0) {
+      itens[index].quantidade++
 
     } else {
       let pedidoItem: PedidoItem = {
@@ -88,18 +73,14 @@ export class VendaComponent implements OnInit {
         patazBonusTotal: (item.tipo ==  TipoItem.SERVICO)? item.patazBonus: 0,
       }
   
-      itens.push(pedidoItem)
+      this.pedido.itens = [pedidoItem, ...itens]
     }
 
-    this.f.itens.setValue(itens)
     this.calcularTotal()
   }
 
   remover(item: ItemVenda) {
-    let itens = this.f.itens.value
-    itens = itens.filter(pedidoItem => pedidoItem.item.id != item.id)
-    
-    this.f.itens.setValue(itens)
+    this.pedido.itens = this.pedido.itens.filter(pedidoItem => pedidoItem.item.id != item.id)
     this.calcularTotal()
   }
 
@@ -107,33 +88,38 @@ export class VendaComponent implements OnInit {
     if(pedidoItem.item.tipo == TipoItem.PRODUTO) {
       this.validarEstoque(pedidoItem)
     } else {
-      pedidoItem.precoTotal = pedidoItem.precoUnitario * pedidoItem.quantidade
+      this.calcularTotalItem(pedidoItem)
     }
-
-    this.calcularTotal()
   }
   
   private validarEstoque(pedidoItem: PedidoItem) {
-    if(pedidoItem.item.totalEstoque <= 0) {
-      this.mensagem.warning(`Produto não está disponível no estoque`)
-      this.remover(pedidoItem.item)
-      
-    } else if(pedidoItem.quantidade > pedidoItem.item.totalEstoque) {
-      this.mensagem.warning(`Estoque disponível para esse item: ${pedidoItem.item.totalEstoque}`)
-      pedidoItem.quantidade = pedidoItem.item.totalEstoque
-      pedidoItem.precoTotal = pedidoItem.precoUnitario * pedidoItem.quantidade
-    }
+    let produto = <Produto>pedidoItem.item
+    this.produtoService.obterEstoque(produto).subscribe(
+      resultado => {
+        produto.estoque = resultado
+        if(produto.estoque.quantidade > 0) {
+          if(pedidoItem.quantidade > produto.estoque.quantidade) {
+            this.mensagem.warning(`Estoque disponível para esse item: ${produto.estoque.quantidade}`)
+            pedidoItem.quantidade = produto.estoque.quantidade
+          }
+          this.calcularTotalItem(pedidoItem)
+
+        } else {
+          this.mensagem.warning(`Produto não está disponível no estoque`)
+          this.remover(pedidoItem.item)
+        }
+      },
+      console.warn
+    )
+  }
+
+  private calcularTotalItem(pedidoItem: PedidoItem) {
+    pedidoItem.precoTotal = pedidoItem.precoUnitario * pedidoItem.quantidade
+    this.calcularTotal()
   }
 
   private calcularTotal() {
     this.pedido.total = this.pedido.itens.reduce((total, item) => total += item.precoTotal, 0)
-  }
-
-  obterPagamentos() {
-    this.pedidoService.listarPagamentos().subscribe(
-      resultado => this.pagamentos = resultado,
-      console.warn
-    )
   }
 
   finalizar() {

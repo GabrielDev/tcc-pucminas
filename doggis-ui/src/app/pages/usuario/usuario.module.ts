@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PaginatorModule, MultiSelectModule } from 'primeng';
+import { ImageCropModule } from 'src/app/core/image-crop/image-crop.module';
 import { UsuarioComponent } from './usuario.component';
 import { UsuarioFormComponent } from './usuario-form/usuario-form.component';
 
@@ -14,6 +15,7 @@ import { UsuarioFormComponent } from './usuario-form/usuario-form.component';
     FormsModule,
     RouterModule,
     NgbModule,
+    ImageCropModule,
     PaginatorModule,
     MultiSelectModule,
   ],

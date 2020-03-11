@@ -31,7 +31,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'fabricante', component: FabricanteComponent },
     { path: 'minha-conta', component: MinhaContaComponent },
     { path: 'pedido', component: PedidoComponent },
-    { path: 'pedido/venda', component: VendaComponent },
+    { path: 'venda', component: VendaComponent },
     { path: 'pedido/detalhe/:id', component: VendaComponent },
     { path: 'perfil', component: PerfilComponent },
     { path: 'produto', component: ProdutoComponent },

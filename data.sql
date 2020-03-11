@@ -2,7 +2,7 @@
 #INICIAR
 # CREATE DATABASE IF NOT EXISTS doggis; USE doggis;
 # CREATE USER 'doggisApp'@'%' IDENTIFIED BY 'Doggis@2019';
-# GRANT ALL PRIVILEGES ON doggis.* TO 'doggisApp'@'localhost';
+# GRANT ALL PRIVILEGES ON doggis.* TO 'doggisApp'@'%';
 
 #PERFIS
 INSERT IGNORE INTO perfil (id_perfil, dt_inclusao, descricao) VALUES
@@ -33,8 +33,9 @@ INSERT IGNORE INTO papel (id_papel, dt_inclusao, menu, descricao) VALUES
 (18, NOW(), 'servico', 'Serviços'),
 (19, NOW(), 'usuario', 'Usuários'),
 (20, NOW(), 'meu-perfil', 'Perfil'),
-(21, NOW(), 'meus-pedidos', 'Meus pedidos')
-(22, NOW(), 'dashboard', 'Relatórios');
+(21, NOW(), 'meus-pedidos', 'Meus pedidos'),
+(22, NOW(), 'dashboard', 'Relatórios'),
+(23, NOW(), 'venda', 'Vendas');
 
 #PERFIL_PAPEL · ADMINISTRADOR
 INSERT IGNORE INTO perfil_papel (id_perfil, id_papel) SELECT 1, id_papel FROM papel;

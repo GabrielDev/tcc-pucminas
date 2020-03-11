@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { Cliente, Estado, Pet } from 'src/app/models';
 import { ClienteService, EstadoService, PetService } from 'src/app/providers';
 
@@ -65,6 +66,10 @@ export class ClienteFormComponent implements OnInit {
     )
   }
 
+  aplicarFoto(foto: string) {
+    this.f.foto.setValue(foto)
+  }
+
   novoPet() {
     this.abrirModal.next()
   }
@@ -74,12 +79,13 @@ export class ClienteFormComponent implements OnInit {
   }
 
   salvarPet(pet: Pet) {
-    let pets = this.f.pets.value
+    let pets = this.f.pets.value || []
+    let index = pets.findIndex(item => pet.id && (item.id == pet.id) || item.nome == pet.nome)
 
-    if(!pets.length) {
-      pets = [pet]
+    if (index >= 0) {
+      pets[index] = pet
     } else {
-      pets = pets.map(item => (item.id == pet.id || item.nome == pet.nome)? pet: item)
+      pets.push(pet)
     }
 
     this.f.pets.setValue(pets)

@@ -16,10 +16,11 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-3 order-lg-2">
                             <div class="card-profile-image mb-6 pb-3">
-                                <a href="javascript:void(0)">
+                                <a href="javascript:void(0)" (click)="image.abrir()">
                                     <img [hidden]="!f.foto.value" [src]="f.foto.value" class="rounded-circle">
                                     <img [hidden]="f.foto.value" src="assets/img/usuario.jpg" class="rounded-circle">
                                 </a>
+                                <app-image-crop #image [imagem]="f.foto.value" (onConcluir)="aplicarFoto($event)"></app-image-crop>
                             </div>
                         </div>
                     </div>
@@ -80,12 +81,15 @@
                                 </div>
                             </li>
                         </ul>
-                        <div [hidden]="f.pets.value.length" class="pt-4 text-center">
-                            Que pena!
-                            <div class="h5 font-weight-300 pb-3">
-                                Esse cliente ainda não possui nenhum pet
+                        <div class="pt-4 text-center">
+                            <div [hidden]="f.pets.value.length">
+                                Que pena!
+                                <div class="h5 font-weight-300 pb-3">
+                                    Esse cliente ainda não possui nenhum pet
+                                </div>
                             </div>
-                            <a href="javascript:void(0)" class="btn btn-sm btn-outline-primary btn-block" (click)="novoPet()">Adicionar pet</a>
+                            <app-pet [exibir]="abrirModal" (onSalvar)="salvarPet($event)"></app-pet>
+                            <a href="javascript:void(0)" class="btn btn-outline-primary btn-block" (click)="novoPet()">Adicionar pet</a>
                         </div>
                     </div>
                 </div>
@@ -94,12 +98,8 @@
                 <div class="card bg-secondary shadow">
                     <div class="card-header bg-white border-0">
                         <div class="row align-items-center">
-                            <div class="col-8">
+                            <div class="col-12">
                                 <h3 class="mb-0">Cliente</h3>
-                            </div>
-                            <div class="col-4 text-right">
-                                <app-pet [exibir]="abrirModal" (onSalvar)="salvarPet($event)"></app-pet>
-                                <a href="javascript:void(0)" class="btn btn-sm btn-primary" (click)="novoPet()">Adicionar pet</a>
                             </div>
                         </div>
                     </div>

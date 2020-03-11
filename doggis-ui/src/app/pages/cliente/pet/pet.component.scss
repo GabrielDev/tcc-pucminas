@@ -1,0 +1,65 @@
+.icone-cao {
+    background: url('/assets/img/especies/icone-cao.svg') no-repeat center center
+}
+.icone-gato {
+    background: url('/assets/img/especies/icone-gato.svg') no-repeat center center
+}
+.icone-ave {
+    background: url('/assets/img/especies/icone-ave.svg') no-repeat center center
+}
+.icone-peixe {
+    background: url('/assets/img/especies/icone-peixe.svg') no-repeat center center
+}
+.icone-reptil {
+    background: url('/assets/img/especies/icone-reptil.svg') no-repeat center center
+}
+.icone-roedor {
+    background: url('/assets/img/especies/icone-roedor.svg') no-repeat center center
+}
+.icone-anfibio {
+    background: url('/assets/img/especies/icone-anfibio.svg') no-repeat center center
+}
+
+.icone {
+    display: block;
+    height: 40px;
+    width: 40px;
+    margin: 15px auto;
+    opacity: .8;
+}
+
+.nav-item:not(:first-child) {
+    margin-left: 5px;
+}
+
+.nav-link {
+    line-height: 24px;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 600;
+    min-width: 100px;
+    text-align: center;
+    color: #555;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: hsla(0,0%,78.4%,.2);
+    }
+}
+
+input:checked + .nav-link {
+    background-color: #5e72e4;
+    box-shadow: 0 4px 20px 0 rgba(0,0,0,.14), 0 7px 10px -5px rgba(0, 8, 255, 0.4);
+    color: #fff;
+
+    & .icone {
+        opacity: 1;
+        filter: invert(100%);
+        -webkit-filter: invert(100%);
+        -moz-filter: invert(100%);
+    }
+}

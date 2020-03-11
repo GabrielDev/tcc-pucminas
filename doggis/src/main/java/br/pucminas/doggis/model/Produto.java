@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -31,7 +32,9 @@ public class Produto implements ItemVenda {
 	
 	@Column(nullable = false, length = 100)
 	private String descricao;
-
+	
+	@Lob
+	@Column(columnDefinition = "LONGBLOB")
 	private String foto;
 	
 	private Double valor;
