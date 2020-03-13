@@ -49,13 +49,9 @@
                         </div>
                     </li>
                 </ul>
-                <ul [hidden]="historicos.length">
-                    <li>
-                        <div class="text-center">
-                            <h5 class="text-muted">Esse produto ainda não possui histórico de preço</h5>
-                        </div>
-                    </li>
-                </ul>
+                <div [hidden]="historicos.length" class="text-center">
+                    <h5 class="text-muted">Esse produto ainda não possui histórico de preço</h5>
+                </div>
               </div>
             </div>
           </div>

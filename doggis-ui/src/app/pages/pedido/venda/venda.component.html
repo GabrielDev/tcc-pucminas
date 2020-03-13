@@ -237,33 +237,33 @@
               <hr class="my-4" />
               <!-- Description -->
               <h6 class="heading-small text-muted mb-4">Forma de pagamento</h6>
-              <div class="pl-lg-4">
-                <div class="tab-pane tab-example-result fade show active" role="tabpanel"
-                  aria-labelledby="card-stats-component-tab">
-                  <div class="card-columns">
-                    <label *ngFor="let pagamento of pagamentos" [for]="pagamento.id" class="card card-stats">
-                      <div class="card-body">
-                        <div class="row">
-                          <div class="col">
-                            <span class="h2 font-weight-bold mb-0">{{ pagamento.descricao }}</span>
-                          </div>
-                          <div class="col-auto">
-                            <div class="icon icon-shape bg-red text-white rounded-circle shadow">
-                              <i class="ni ni-active-40"></i>
-                            </div>
+              <div class="row">
+                <label *ngFor="let pagamento of pagamentos" [for]="pagamento.descricao"  class="col pagamento">
+                  <div class="card shadow--hover" [ngClass]="{'bg-gradient-primary': pagamentoSelecionado == pagamento.id}">
+                    <div class="card-body">
+                      <div class="row">
+                        <div>
+                          <div class="icon icon-shape bg-white text-dark rounded-circle shadow">
+                            <i class="icone" [ngClass]="pagamento.icone"></i>
                           </div>
                         </div>
+                        <div class="col align-self-center">
+                          <span class="h2 font-weight-bold mb-0"
+                              [ngClass]="{'text-white': pagamentoSelecionado == pagamento.id}">
+                            {{ pagamento.descricao }}
+                          </span>
+                        </div>
                       </div>
-                      <input 
-                        [id]="pagamento.id" 
-                        type="radio" 
-                        name="pagamento" 
-                        [(ngModel)]="pedido.pagamento"
-                        [ngValue]="pagamento"
-                        [ngModelOptions]="{standalone: true}">
-                    </label>
+                    </div>
                   </div>
-                </div>
+                  <input 
+                        [id]="pagamento.descricao"
+                        type="radio"
+                        [value]="pagamento.id"
+                        [checked]="pagamentoSelecionado == pagamento.id"
+                        (change)="selecionarPagamento(pagamento)" 
+                        class="d-none"/>
+                </label>
               </div>
             </div>
           </div>

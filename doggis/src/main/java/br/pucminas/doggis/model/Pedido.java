@@ -33,15 +33,15 @@ public class Pedido {
 	private Pagamento pagamento;
 
 	@Column(name = "pataz_bonus_total", nullable = false)
-	private Integer patazBonusTotal;
+	private Integer patazBonusTotal = 0;
 
 	@Column(name = "pataz_desconto_total", nullable = false)
-	private Integer patazDescontoTotal;
+	private Integer patazDescontoTotal = 0;
 
-	private Double total;
+	private Double total = 0.0;
 
 	@Column(name = "dt_pedido")
-	private Date dataPedido;
+	private Date dataPedido = new Date();
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pedido")
 	private Set<PedidoItem> itens;

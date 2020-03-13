@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class PedidoItem {
@@ -26,17 +27,18 @@ public class PedidoItem {
 	@ManyToOne
 	@JoinColumn(name = "id_pedido")
 	private Pedido pedido;
-
-	private Integer quantidade;
+	
+	@NotNull
+	private Integer quantidade = 0;
 
 	@Column(name = "preco_unitario", nullable = false)
-	private Double precoUnitario;
+	private Double precoUnitario = 0.0;
 
 	@Column(name = "preco_total", nullable = false)
-	private Double precoTotal;
+	private Double precoTotal = 0.0;
 
 	@Column(name = "pataz_bonus_total", nullable = false)
-	private Integer patazBonusTotal;
+	private Integer patazBonusTotal = 0;
 
 	public Long getId() {
 		return id;

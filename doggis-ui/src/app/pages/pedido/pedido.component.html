@@ -76,9 +76,9 @@
                 </td>
               </tr>
             </tbody>
-            <tfoot [hidden]="!pedidos?.content">
+            <tfoot [hidden]="pedidos?.content.length">
               <tr>
-                <td colspan="7" class="text-center">
+                <td colspan="8" class="text-center">
                   <h5 class="h3">Nenhum pedido encontrado</h5>
                     <button class="btn n btn-outline-primary" [routerLink]="['//venda']">
                       Adicionar novo
@@ -88,7 +88,7 @@
             </tfoot>
           </table>
         </div>
-        <div class="card-footer py-4">
+        <div [hidden]="!pedidos?.content.length" class="card-footer py-4">
           <p-paginator 
             [rows]="pedidos?.size" 
             [totalRecords]="pedidos?.totalElements"

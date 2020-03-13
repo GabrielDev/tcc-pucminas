@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Cliente, ItemVenda, Pagamento, TipoItem, Pedido, PedidoItem, Produto } from 'src/app/models';
+import { Cliente, ItemVenda, Pagamento, TipoItem, Pedido, PedidoItem, Produto, Servico } from 'src/app/models';
 import { PedidoService, ClienteService, ProdutoService } from 'src/app/providers';
 
 @Component({
@@ -16,6 +16,7 @@ export class VendaComponent implements OnInit {
   public itensPedido: ItemVenda[]
   public itensVenda: ItemVenda[]
   public pagamentos: Pagamento[]
+  public pagamentoSelecionado: number
 
   constructor(
     private pedidoService: PedidoService,
@@ -56,6 +57,11 @@ export class VendaComponent implements OnInit {
     )
   }
 
+  selecionarPagamento(pagamento: Pagamento) {
+    this.pagamentoSelecionado = pagamento.id
+    this.pedido.pagamento = pagamento
+  }
+
   adicionar(item: ItemVenda) {
     let { itens } = this.pedido
     const index = itens.findIndex(pedido => pedido.item.id == item.id)
@@ -70,7 +76,14 @@ export class VendaComponent implements OnInit {
         quantidade: 1,
         precoUnitario: item.valor,
         precoTotal: item.valor,
-        patazBonusTotal: (item.tipo ==  TipoItem.SERVICO)? item.patazBonus: 0,
+        patazBonusTotal: 0
+      }
+
+      if(item.tipo == TipoItem.SERVICO) {
+        pedidoItem.patazBonusTotal = item.patazBonus
+        pedidoItem.servico = <Servico>item
+      } else {
+        pedidoItem.produto = <Produto>item
       }
   
       this.pedido.itens = [pedidoItem, ...itens]

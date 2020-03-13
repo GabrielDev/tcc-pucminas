@@ -86,7 +86,7 @@
                 </td>
               </tr>
             </tbody>
-            <tfoot [hidden]="promocoes?.content">
+            <tfoot [hidden]="promocoes?.content.length">
               <tr>
                 <td colspan="7" class="text-center">
                   <h5 class="h3">Nenhuma promoção encontrada</h5>
@@ -98,7 +98,7 @@
             </tfoot>
           </table>
         </div>
-        <div class="card-footer py-4">
+        <div [hidden]="!promocoes?.content.length" class="card-footer py-4">
           <p-paginator 
             [rows]="promocoes?.size" 
             [totalRecords]="promocoes?.totalElements"

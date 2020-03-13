@@ -61,10 +61,10 @@ INSERT IGNORE INTO usuario (id_usuario, ativo, cpf, dt_inclusao, email, nome, re
 
 #PAGAMENTOS
 INSERT IGNORE INTO pagamento(id_pagamento, descricao, icone, dt_inclusao) VALUES
-(1, 'Dinheiro', 'icon-dinheiro', NOW()),
-(2, 'Débito', 'icon-debito', NOW()),
-(3, 'Crédito', 'icon-credito', NOW()),
-(4, 'Boleto', 'icon-boleto', NOW());
+(1, 'Dinheiro', 'icone-dinheiro', NOW()),
+(2, 'Débito', 'icone-debito', NOW()),
+(3, 'Crédito', 'icone-credito', NOW()),
+(4, 'Boleto', 'icone-boleto', NOW());
 
 #ESTADOS
 INSERT IGNORE INTO estado (id_estado, descricao) VALUES(1, 'Acre');

@@ -96,10 +96,10 @@
                 </td>
               </tr>
             </tbody>
-            <tfoot [hidden]="!estoque?.content">
+            <tfoot [hidden]="estoques?.content.length">
               <tr>
-                <td colspan="7">
-                  <h5 class="h3">Nenhum produto encontrado</h5>
+                <td colspan="7" class="text-center">
+                  <h5 class="h3">Nenhum estoque encontrado</h5>
                     <button class="btn n btn-outline-primary" (click)="novo()">
                       Adicionar novo
                     </button>
@@ -108,7 +108,7 @@
             </tfoot>
           </table>
         </div>
-        <div class="card-footer py-4">
+        <div [hidden]="!estoques?.content.length" class="card-footer py-4">
           <p-paginator 
             [rows]="estoques?.size" 
             [totalRecords]="estoques?.totalElements"

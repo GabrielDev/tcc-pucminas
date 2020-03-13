@@ -1,4 +1,6 @@
 import { ItemVenda } from ".";
+import { Servico } from './servico';
+import { Produto } from './produto';
 
 export class PedidoItem {
     constructor(
@@ -8,5 +10,7 @@ export class PedidoItem {
         public precoUnitario: number,
         public precoTotal: number,
         public patazBonusTotal: number,
+        public servico?: Servico,
+        public produto?: Produto
     ) {}
 }

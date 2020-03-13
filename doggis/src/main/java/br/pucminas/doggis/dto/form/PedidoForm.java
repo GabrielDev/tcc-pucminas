@@ -23,12 +23,12 @@ public class PedidoForm {
 	@NotNull
 	private Pagamento pagamento;
 
-	private Integer patazBonusTotal;
+	private Integer patazBonusTotal = 0;
 
-	private Integer patazDescontoTotal;
+	private Integer patazDescontoTotal = 0;
 	
 	@NotNull
-	private Double total;
+	private Double total = 0.0;
 
 	private Date dataPedido;
 

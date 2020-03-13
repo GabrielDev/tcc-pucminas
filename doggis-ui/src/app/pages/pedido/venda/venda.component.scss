@@ -1,0 +1,25 @@
+.icone-boleto {
+    background: url('/assets/img/pagamentos/icone-boleto.svg') no-repeat center center
+}
+.icone-credito {
+    background: url('/assets/img/pagamentos/icone-credito.svg') no-repeat center center
+}
+.icone-debito {
+    background: url('/assets/img/pagamentos/icone-debito.svg') no-repeat center center
+}
+.icone-dinheiro {
+    background: url('/assets/img/pagamentos/icone-dinheiro.svg') no-repeat center center
+}
+
+.icone {
+    background-size: 100%;
+    display: block;
+    height: 40px;
+    width: 40px;
+    margin: 0 auto;
+    opacity: .8;
+}
+
+label.pagamento {
+    cursor: pointer;
+}
