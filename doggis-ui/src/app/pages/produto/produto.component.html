@@ -57,7 +57,7 @@
                   {{ produto.fabricante.nome }}
                 </td>
                 <td class="text-right">
-                  <button type="button" class="btn btn-outline-secondary" title="Editar" [routerLink]="['/produto/editar', produto.id]" ngbTooltip="Editar">
+                  <button type="button" class="btn btn-outline-secondary" title="Editar" [routerLink]="['/produto', produto.id]" ngbTooltip="Editar">
                     <i class="fa fa-pencil-alt"></i>
                   </button>
                   <button type="button" class="btn btn-outline-secondary" title="Excluir" (click)="excluir(produto)" ngbTooltip="Excluir">

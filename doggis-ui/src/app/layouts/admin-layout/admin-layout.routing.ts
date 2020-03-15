@@ -18,6 +18,7 @@ import { ServicoComponent } from 'src/app/pages/servico/servico.component';
 import { UsuarioComponent } from 'src/app/pages/usuario/usuario.component';
 import { UsuarioFormComponent } from 'src/app/pages/usuario/usuario-form/usuario-form.component';
 import { VendaComponent } from 'src/app/pages/pedido/venda/venda.component';
+import { PedidoDetalheComponent } from 'src/app/pages/pedido/pedido-detalhe/pedido-detalhe.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
@@ -26,20 +27,20 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'categoria', component: CategoriaComponent },
     { path: 'cliente', component: ClienteComponent },
     { path: 'cliente/novo', component: ClienteFormComponent },
-    { path: 'cliente/editar/:id', component: ClienteFormComponent },
+    { path: 'cliente/:id', component: ClienteFormComponent },
     { path: 'estoque', component: EstoqueComponent },
     { path: 'fabricante', component: FabricanteComponent },
     { path: 'minha-conta', component: MinhaContaComponent },
     { path: 'pedido', component: PedidoComponent },
     { path: 'venda', component: VendaComponent },
-    { path: 'pedido/detalhe/:id', component: VendaComponent },
+    { path: 'pedido/:id', component: PedidoDetalheComponent },
     { path: 'perfil', component: PerfilComponent },
     { path: 'produto', component: ProdutoComponent },
     { path: 'produto/novo', component: ProdutoFormComponent },
-    { path: 'produto/editar/:id', component: ProdutoFormComponent },
+    { path: 'produto/:id', component: ProdutoFormComponent },
     { path: 'promocao', component: PromocaoComponent },
     { path: 'servico', component: ServicoComponent },
     { path: 'usuario', component: UsuarioComponent },
     { path: 'usuario/novo', component: UsuarioFormComponent },
-    { path: 'usuario/editar/:id', component: UsuarioFormComponent },
+    { path: 'usuario/:id', component: UsuarioFormComponent },
 ];

@@ -49,7 +49,7 @@ public class Pedido {
 	public Pedido() {}
 	
 	public Pedido(Long id, Cliente cliente, Usuario usuario, Pagamento pagamento, Integer patazBonusTotal,
-			Integer patazDescontoTotal, Double total, Set<PedidoItem> itens) {
+			Integer patazDescontoTotal, Double total) {
 		this.id = id;
 		this.cliente = cliente;
 		this.usuario = usuario;
@@ -57,7 +57,6 @@ public class Pedido {
 		this.patazBonusTotal = patazBonusTotal;
 		this.patazDescontoTotal = patazDescontoTotal;
 		this.total = total;
-		this.itens = itens;
 	}
 
 	public Long getId() {

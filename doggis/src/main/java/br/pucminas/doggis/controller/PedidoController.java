@@ -4,6 +4,7 @@ import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -24,12 +25,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.pucminas.doggis.config.security.AutenticacaoService;
+import br.pucminas.doggis.dto.PedidoDto;
 import br.pucminas.doggis.dto.form.PedidoForm;
 import br.pucminas.doggis.model.ItemVenda;
 import br.pucminas.doggis.model.Pagamento;
 import br.pucminas.doggis.model.Pedido;
+import br.pucminas.doggis.model.PedidoItem;
 import br.pucminas.doggis.model.Usuario;
 import br.pucminas.doggis.repository.PagamentoRepository;
+import br.pucminas.doggis.repository.PedidoItemRepository;
 import br.pucminas.doggis.repository.PedidoRepository;
 import br.pucminas.doggis.repository.ProdutoRepository;
 import br.pucminas.doggis.repository.ServicoRepository;
@@ -40,6 +44,9 @@ public class PedidoController {
 	
 	@Autowired
 	private PedidoRepository pedidoRepository;
+	
+	@Autowired
+	private PedidoItemRepository pedidoItemRepository;
 	
 	@Autowired
 	private AutenticacaoService autenticacaoService;
@@ -54,8 +61,8 @@ public class PedidoController {
 	private ServicoRepository servicoRepository;
 	
 	@GetMapping()
-	public Page<Pedido> listar(@PageableDefault(size=10, sort="dataPedido") Pageable paginacao) {
-		return pedidoRepository.findAll(paginacao);
+	public Page<PedidoDto> listar(@PageableDefault(size=10, sort="dataPedido") Pageable paginacao) {
+		return PedidoDto.converter(pedidoRepository.findAll(paginacao));
 	}
 	
 	@GetMapping("/buscar")
@@ -78,7 +85,8 @@ public class PedidoController {
 	public ResponseEntity<Pedido> novo(@RequestBody @Valid PedidoForm form, UriComponentsBuilder uriBuilder, Principal principal) {
 		Usuario usuario = autenticacaoService.obterUsuario(principal.getName());
 		Pedido pedido = form.converter(usuario);
-		pedidoRepository.save(pedido);
+		pedido = pedidoRepository.save(pedido);
+		salvarItens(pedido, form.getItens());
 		
 		URI uri = uriBuilder.path("/pedido/{id}").buildAndExpand(pedido.getId()).toUri();
 		return ResponseEntity.created(uri).body(pedido);
@@ -105,5 +113,14 @@ public class PedidoController {
 		
 		return ResponseEntity.notFound().build();
 	}
+	
+	private void salvarItens(Pedido pedido, Set<PedidoItem> itens) {
+		for (PedidoItem pedidoItem : itens) {
+			pedidoItem.setPedido(pedido);
+		}
+		
+		pedidoItemRepository.saveAll(itens);
+	}
+
 	
 }

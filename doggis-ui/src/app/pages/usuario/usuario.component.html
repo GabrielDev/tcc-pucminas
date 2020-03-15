@@ -34,7 +34,7 @@
                 <td>{{ usuario.dataInclusao | date: 'dd-MM-yyyy' }}</td>
                 <th scope="row">
                   <div class="media align-items-center">
-                    <a class="avatar rounded-circle mr-3" [routerLink]="['/usuario/editar', usuario.id]">
+                    <a class="avatar rounded-circle mr-3" [routerLink]="['/usuario', usuario.id]">
                       <img [hidden]="!usuario.foto" [alt]="usuario.nome" [src]="usuario.foto">
                       <img [hidden]="usuario.foto" [alt]="usuario.nome" src="../assets/img/usuario.jpg">
                     </a>
@@ -48,7 +48,7 @@
                   {{ usuario.perfil.descricao }}
                 </td>
                 <td class="text-right">
-                  <button type="button" class="btn btn-outline-secondary" title="Editar" [routerLink]="['/usuario/editar', usuario.id]" ngbTooltip="Editar">
+                  <button type="button" class="btn btn-outline-secondary" title="Editar" [routerLink]="['/usuario', usuario.id]" ngbTooltip="Editar">
                     <i class="fa fa-pencil-alt"></i>
                   </button>
                   <button type="button" class="btn btn-outline-secondary" title="Excluir" (click)="excluir(usuario)" ngbTooltip="Excluir">

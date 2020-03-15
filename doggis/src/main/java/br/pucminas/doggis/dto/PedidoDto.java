@@ -1,9 +1,11 @@
-package br.pucminas.doggis.dto.form;
+package br.pucminas.doggis.dto;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import javax.validation.constraints.NotNull;
+import org.springframework.data.domain.Page;
 
 import br.pucminas.doggis.model.Cliente;
 import br.pucminas.doggis.model.Pagamento;
@@ -11,42 +13,47 @@ import br.pucminas.doggis.model.Pedido;
 import br.pucminas.doggis.model.PedidoItem;
 import br.pucminas.doggis.model.Usuario;
 
-public class PedidoForm {
+public class PedidoDto {
 	
 	private Long id;
-	
-	@NotNull
+
 	private Cliente cliente;
 
 	private Usuario usuario;
 
-	@NotNull
 	private Pagamento pagamento;
 
 	private Integer patazBonusTotal = 0;
 
 	private Integer patazDescontoTotal = 0;
-	
-	@NotNull
+
 	private Double total = 0.0;
 
-	private Date dataPedido;
+	private Date dataPedido = new Date();
 
-	@NotNull
 	private Set<PedidoItem> itens;
+
 	
-	public Pedido converter(Usuario usuario) {
-		return new Pedido(
-				this.getId(),
-				this.getCliente(),
-				usuario,
-				this.getPagamento(),
-				this.getPatazBonusTotal(),
-				this.getPatazDescontoTotal(),
-				this.getTotal()
-			);
+	public PedidoDto(Pedido pedido) {
+		this.id = pedido.getId();
+		this.cliente = pedido.getCliente();
+		this.usuario = pedido.getUsuario();
+		this.pagamento = pedido.getPagamento();
+		this.patazBonusTotal = pedido.getPatazBonusTotal();
+		this.patazDescontoTotal = pedido.getPatazDescontoTotal();
+		this.total = pedido.getTotal();
+		this.dataPedido = pedido.getDataPedido();
+//		this.itens = pedido.getItens();
 	}
 	
+	public static Page<PedidoDto> converter(Page<Pedido> pedidos) {
+		return pedidos.map(PedidoDto::new);
+	}
+	
+	public static List<PedidoDto> converter(List<Pedido> pedidos) {
+		return pedidos.stream().map(PedidoDto::new).collect(Collectors.toList());
+	}
+
 	public Long getId() {
 		return id;
 	}

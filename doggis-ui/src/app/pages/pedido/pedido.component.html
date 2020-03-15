@@ -38,20 +38,14 @@
                 <td>{{ pedido.dataPedido | date: 'dd-MM-yyyy' }}</td>
                 <td>{{ pedido.id }}</td>
                 <th scope="row">
-                  <div class="media align-items-center">
+                  <div class="media">
                     <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
-                      <img [alt]="pedido.cliente.nome" [src]="pedido.cliente.foto">
+                      <img [hidden]="!pedido.cliente.foto" [alt]="pedido.cliente.nome" [src]="pedido.cliente.foto">
+                      <img [hidden]="pedido.cliente.foto" [alt]="pedido.cliente.nome" src="../assets/img/usuario.jpg">
                     </a>
                     <div class="media-body">
-                      <span class="mb-0 text-sm">{{ pedido.cliente.nome }}</span>
-                      <div class="avatar-group">
-                        <a *ngFor="let pet of pedido.cliente.pets"
-                            href="javascript:void(0)"
-                            class="avatar avatar-sm"
-                            [ngbTooltip]="pet.nome">
-                          <img [alt]="pet.nome" [src]="pet.foto" class="rounded-circle">
-                        </a>
-                      </div>
+                      <span class="mb-0 text-sm btn-block">{{ pedido.cliente.nome }}</span>
+                      <span class="mb-0 text-muted">{{ pedido.cliente.email }}</span>
                     </div>
                   </div>
                 </th>
@@ -70,6 +64,9 @@
                   {{ pedido.pagamento.descricao }}
                 </td>
                 <td class="text-right">
+                  <button type="button" class="btn btn-outline-secondary" title="Visualizar" [routerLink]="['/pedido', pedido.id]" ngbTooltip="Visualizar">
+                    <i class="fa fa-file"></i>
+                  </button>
                   <button type="button" class="btn btn-outline-secondary" title="Excluir" (click)="excluir(pedido)" ngbTooltip="Excluir">
                     <i class="fa fa-trash"></i>
                   </button>
@@ -80,7 +77,7 @@
               <tr>
                 <td colspan="8" class="text-center">
                   <h5 class="h3">Nenhum pedido encontrado</h5>
-                    <button class="btn n btn-outline-primary" [routerLink]="['//venda']">
+                    <button class="btn n btn-outline-primary" [routerLink]="['/venda']">
                       Adicionar novo
                     </button>
                 </td>
