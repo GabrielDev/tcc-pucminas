@@ -51,7 +51,7 @@
                   <button type="button" class="btn btn-outline-secondary" title="Editar" [routerLink]="['/usuario', usuario.id]" ngbTooltip="Editar">
                     <i class="fa fa-pencil-alt"></i>
                   </button>
-                  <button type="button" class="btn btn-outline-secondary" title="Excluir" (click)="excluir(usuario)" ngbTooltip="Excluir">
+                  <button type="button" class="btn btn-outline-secondary" title="Excluir" (click)="confirmarExcluir(usuario)" ngbTooltip="Excluir">
                     <i class="fa fa-trash"></i>
                   </button>
                 </td>
@@ -74,7 +74,8 @@
             [rows]="usuarios?.size" 
             [totalRecords]="usuarios?.totalElements"
             (onPageChange)="listar($event)"
-            alwaysShow="false">
+            alwaysShow="false"
+            styleClass="paginator">
           </p-paginator>
         </div>
       </div>

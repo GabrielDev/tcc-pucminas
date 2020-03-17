@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { PromocaoService } from 'src/app/providers';
+import Swal from 'sweetalert2';
 import { Paginacao, Promocao, Pagina, ItemVenda, TipoItem } from 'src/app/models';
 
 @Component({
@@ -50,10 +51,29 @@ export class PromocaoComponent implements OnInit {
     this.abrirModal.next(promocao)
   }
 
+  confirmarExcluir(promocao: Promocao) {
+    Swal.fire({
+      title: 'Atenção',
+      text: 'Deseja realmente continuar?',
+      icon: 'question',
+      cancelButtonText: 'Cancelar',
+      showCancelButton: true,
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: 'btn btn-default',
+        cancelButton: 'btn btn-outline-secondary'
+      }
+    }).then(({ value }) => {
+      if(value) {
+        this.excluir(promocao)
+      }
+    })
+  }
+
   excluir(promocao: Promocao) {
     this.service.excluir(promocao.id).subscribe(
       () => {
-        this.mensagem.success(`Promocao do produto ${promocao.item.descricao} excluído com sucesso`)
+        this.mensagem.success(`Promoção do produto ${promocao.item.descricao} excluída com sucesso`)
         this.listar()
       },
       error => {

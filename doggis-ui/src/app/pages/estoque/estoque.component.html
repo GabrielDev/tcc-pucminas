@@ -75,22 +75,12 @@
                   <span [ngClass]="{'text-danger': estoque.saldo < 0}">{{ estoque.saldo }}</span>
                 </td>
                 <td class="text-right">
-                  <swal
-                    #excluir
-                    title="Deseja excluir esse estoque?"
-                    text="Ao excluir esse estoque, todos os estoque posteriores serão recalculados"
-                    icon="question"
-                    [showCancelButton]="true"
-                    [focusCancel]="true"
-                    (confirm)="excluir(estoque)">
-                  </swal>
-
                   <button
                     type="button"
                     class="btn btn-outline-secondary"
                     title="Excluir"
                     ngbTooltip="Excluir"
-                    [swal]="excluir">
+                    (click)="confirmarExcluir(estoque)">
                     <i class="fa fa-trash"></i>
                   </button>
                 </td>
@@ -113,7 +103,8 @@
             [rows]="estoques?.size" 
             [totalRecords]="estoques?.totalElements"
             (onPageChange)="listar($event)"
-            alwaysShow="false">
+            alwaysShow="false"
+            styleClass="paginator">
           </p-paginator>
         </div>
       </div>

@@ -141,7 +141,7 @@ export class VendaComponent implements OnInit {
         resultado => {
           console.log(resultado)
           this.mensagem.success(`Pedido no. ${resultado.id} efetuado com sucesso!`)
-          this.router.navigate(['/pedido'])
+          this.router.navigate(['/pedido', resultado.id])
         },
         error => {
           console.warn(error)

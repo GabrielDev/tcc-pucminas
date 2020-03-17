@@ -32,7 +32,8 @@
         <a class="nav-link pr-0" role="button" ngbDropdownToggle>
           <div class="media align-items-center">
             <span class="avatar avatar-sm rounded-circle">
-              <img alt="Image placeholder" src="assets/img/usuario.jpg">
+              <img [hidden]="!usuario.foto" [alt]="usuario.nome" [src]="usuario.foto">
+              <img [hidden]="usuario.foto" [alt]="usuario.nome" src="./assets/img/usuario.jpg">
             </span>
             <div class="media-body ml-2 d-none d-lg-block">
               <span class="mb-0 text-sm  font-weight-bold">{{ usuario.nome }}</span>

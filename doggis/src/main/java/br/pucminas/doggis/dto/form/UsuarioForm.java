@@ -85,14 +85,18 @@ public class UsuarioForm {
 	}
 	
 	public Usuario associar(Usuario usuario) {
+		usuario.setEmail(this.getEmail());
+		usuario.setCpf(this.getCpf());
+		usuario.setRg(this.getRg());
+		
+		return usuario;
+	}
+	
+	public Usuario associarSenha(Usuario usuario) {
 		if(!StringUtils.isEmpty(this.senha)) {
 			this.setSenha(this.passwordEncoder().encode(this.getSenha()));
 			usuario.setSenha(this.getSenha());
 		}
-		
-		usuario.setEmail(this.getEmail());
-		usuario.setCpf(this.getCpf());
-		usuario.setRg(this.getRg());
 		
 		return usuario;
 	}

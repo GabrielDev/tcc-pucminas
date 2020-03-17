@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 import { ClienteService } from 'src/app/providers';
 import { Paginacao, Cliente, Pagina } from 'src/app/models';
 
@@ -33,7 +34,26 @@ export class ClienteComponent implements OnInit {
     )
   }
 
-  excluir(cliente: Cliente) {
+  confirmarExcluir(cliente: Cliente) {
+    Swal.fire({
+      title: 'Atenção',
+      text: 'Todos os agendamentos e pedidos desse cliente serão perdidos durante a exclusão, deseja continuar?',
+      icon: 'question',
+      cancelButtonText: 'Cancelar',
+      showCancelButton: true,
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: 'btn btn-default',
+        cancelButton: 'btn btn-outline-secondary'
+      }
+    }).then(({ value }) => {
+      if(value) {
+        this.excluir(cliente)
+      }
+    })
+  }
+
+  private excluir(cliente: Cliente) {
     this.service.excluir(cliente.id).subscribe(
       () => this.mensagem.success(`Cliente ${cliente.nome} excluído com sucesso`),
       error => {

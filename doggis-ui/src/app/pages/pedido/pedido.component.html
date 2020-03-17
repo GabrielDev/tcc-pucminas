@@ -90,7 +90,8 @@
             [rows]="pedidos?.size" 
             [totalRecords]="pedidos?.totalElements"
             (onPageChange)="listar($event)"
-            alwaysShow="false">
+            alwaysShow="false"
+            styleClass="paginator">
           </p-paginator>
         </div>
       </div>

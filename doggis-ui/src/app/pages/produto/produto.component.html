@@ -60,7 +60,7 @@
                   <button type="button" class="btn btn-outline-secondary" title="Editar" [routerLink]="['/produto', produto.id]" ngbTooltip="Editar">
                     <i class="fa fa-pencil-alt"></i>
                   </button>
-                  <button type="button" class="btn btn-outline-secondary" title="Excluir" (click)="excluir(produto)" ngbTooltip="Excluir">
+                  <button type="button" class="btn btn-outline-secondary" title="Excluir" (click)="confirmarExcluir(produto)" ngbTooltip="Excluir">
                     <i class="fa fa-trash"></i>
                   </button>
                 </td>
@@ -80,11 +80,11 @@
         </div>
         <div [hidden]="!produtos?.content.length" class="card-footer py-4">
           <p-paginator 
-            styleClass="pagination"
             [rows]="produtos?.size" 
             [totalRecords]="produtos?.totalElements"
             (onPageChange)="listar($event)"
-            alwaysShow="false">
+            alwaysShow="false"
+            styleClass="paginator">
           </p-paginator>
         </div>
       </div>

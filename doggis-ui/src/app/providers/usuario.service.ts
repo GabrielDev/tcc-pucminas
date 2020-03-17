@@ -17,6 +17,11 @@ export class UsuarioService extends GenericService<Usuario> {
     return this.http.post<Usuario>(`${this.endpoint}/minha-conta`, usuario, headers)
   }
 
+  public alterarSenha(usuario: Usuario) {
+    const headers = this.prepareHeader()
+    return this.http.post<Usuario>(`${this.endpoint}/minha-conta/senha`, usuario, headers)
+  }
+
   public listarPaginado(pagina: Pagina) {
     const headers = this.prepareHeader()
     return this.http.get<Paginacao<Usuario>>(`${this.endpoint}/paginado?page=${pagina.page}`, headers)

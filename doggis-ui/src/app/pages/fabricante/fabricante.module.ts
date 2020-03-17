@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { PaginatorModule } from 'primeng';
 import { FabricanteFormComponent } from './fabricante-form/fabricante-form.component';
 import { FabricanteComponent } from './fabricante.component';
@@ -14,6 +15,7 @@ import { FabricanteComponent } from './fabricante.component';
     FormsModule,
     RouterModule,
     NgbModule,
+    SweetAlert2Module,
     PaginatorModule,
   ],
   declarations: [FabricanteComponent, FabricanteFormComponent],

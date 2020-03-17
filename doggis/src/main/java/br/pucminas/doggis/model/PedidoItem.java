@@ -9,21 +9,24 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class PedidoItem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_pedido_item", unique = true, nullable = false)
 	private Long id;
-
+	
 	@ManyToOne
 	@JoinColumn(name = "id_produto")
 	private Produto produto;
-
+	
 	@ManyToOne
 	@JoinColumn(name = "id_servico")
 	private Servico servico;
-
+	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_pedido")
 	private Pedido pedido;

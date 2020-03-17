@@ -1,8 +1,4 @@
-//
 // Pagination
-//
-
-
 .page-item {
     &.active .page-link {
         box-shadow: $pagination-active-box-shadow;
@@ -22,9 +18,7 @@
     }
 }
 
-
 // Size variations
-
 .pagination-lg {
     .page-item {
         .page-link,
@@ -43,6 +37,51 @@
             width: 30px;
             height: 30px;
             line-height: 30px;
+        }
+    }
+}
+
+// Primeface - Paginator
+
+.paginator.ui-paginator {
+    background: none;
+    border: none;
+
+    .ui-paginator-pages {
+        .ui-paginator-page {
+            margin: 0 3px;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            font-size: .875rem;
+            color: #8898aa;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+
+            &.ui-state-active {
+                color: #fff;
+                background-color: #5e72e4;
+                border-color: #5e72e4;
+                box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08);
+            }
+        }
+    }
+
+    .ui-paginator-element {
+        margin: 0 3px;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        font-size: .875rem;
+        color: #8898aa;
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+
+        &.ui-state-active {
+            color: #fff;
+            background-color: #5e72e4;
+            border-color: #5e72e4;
+            box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08);
         }
     }
 }

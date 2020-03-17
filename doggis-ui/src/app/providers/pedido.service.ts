@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Pedido, Paginacao, ItemVenda, Pagamento, Pagina } from '../models';
+import { Pedido, Paginacao, ItemVenda, Pagamento, Pagina, PedidoItem } from '../models';
 import { HeaderInterceptorService } from './headerInterceptor.service';
+import { Subject } from 'rxjs';
 
 const API = environment.api
 

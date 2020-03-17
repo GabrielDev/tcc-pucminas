@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
+import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
 import { FabricanteService } from 'src/app/providers';
 import { Fabricante, Paginacao, Pagina } from 'src/app/models';
@@ -32,7 +33,26 @@ export class FabricanteComponent implements OnInit {
     )
   }
 
-  excluir(fabricante: Fabricante) {
+  confirmarExcluir(fabricante: Fabricante) {
+    Swal.fire({
+      title: 'Atenção',
+      text: 'Todos os produtos desse fabricante serão perdidos durante a exclusão, deseja continuar?',
+      icon: 'question',
+      cancelButtonText: 'Cancelar',
+      showCancelButton: true,
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: 'btn btn-default',
+        cancelButton: 'btn btn-outline-secondary'
+      }
+    }).then(({ value }) => {
+      if(value) {
+        this.excluir(fabricante)
+      }
+    })
+  }
+
+  private excluir(fabricante: Fabricante) {
     this.service.excluir(fabricante.id).subscribe(
       () => {
         this.mensagem.success(`Fabricante ${fabricante.nome} foi excluído`)

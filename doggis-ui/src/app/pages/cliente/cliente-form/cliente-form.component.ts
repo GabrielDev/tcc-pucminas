@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
+import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { Cliente, Estado, Pet } from 'src/app/models';
 import { ClienteService, EstadoService, PetService } from 'src/app/providers';
 
@@ -49,7 +49,7 @@ export class ClienteFormComponent implements OnInit {
         this.cliente = resultado
         this.clienteForm.setValue(this.cliente)
       },
-      error => {
+      () => {
         this.router.navigate(['/cliente'])
         this.mensagem.warning('Cliente não encontrado')
       }
@@ -91,7 +91,30 @@ export class ClienteFormComponent implements OnInit {
     this.f.pets.setValue(pets)
   }
 
-  excluirPet(pet: Pet) {
+  confirmarExcluir(pet: Pet) {
+    if(pet.id) {
+      Swal.fire({
+        title: 'Atenção',
+        text: 'Todos os agendamentos desse pet serão perdidos durante a exclusão, deseja continuar?',
+        icon: 'question',
+        cancelButtonText: 'Cancelar',
+        showCancelButton: true,
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'btn btn-default',
+          cancelButton: 'btn btn-outline-secondary'
+        }
+      }).then(({ value }) => {
+        if(value) {
+          this.excluirPet(pet)
+        }
+      })
+    } else {
+      this.excluirPet(pet)
+    }
+  }
+
+  private excluirPet(pet: Pet) {
     if(pet.id) {
       this.petService.excluir(pet.id).subscribe(
         () => {

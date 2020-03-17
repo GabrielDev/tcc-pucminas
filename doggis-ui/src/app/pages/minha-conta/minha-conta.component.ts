@@ -13,6 +13,7 @@ import { Usuario } from 'src/app/models';
 export class MinhaContaComponent implements OnInit {
 
   public usuarioForm: FormGroup
+  public usuarioSenhaForm: FormGroup
   public usuario: Usuario
 
   constructor(
@@ -20,16 +21,14 @@ export class MinhaContaComponent implements OnInit {
     private formBuilder: FormBuilder,
     private usuarioService: UsuarioService,
     private authService: AuthService,
-  ) {
-    this.gerarForm()
-  }
+  ) { }
 
   ngOnInit(): void {
+    this.gerarForm()
+
     this.authService.obterUsuario().subscribe(resultado => {
-      console.log(resultado)
       this.usuario = resultado
-      this.usuario.senha = ''
-      this.usuarioForm.setValue(resultado)
+      this.usuarioForm.setValue(this.usuario)
       this.f.nome.setValue(this.usuario.nome)
     })
   }
@@ -38,13 +37,8 @@ export class MinhaContaComponent implements OnInit {
     return this.usuarioForm.controls
   }
 
-  validarSenha() {
-    let { senha, confirmar } = this.f
-
-    if(senha.value) {
-      senha.setValidators([Validators.required, Validators.minLength(3)])
-      confirmar.setValidators([Validators.required, Validators.minLength(3)])
-    }
+  get fs() {
+    return this.usuarioSenhaForm.controls
   }
 
   salvar() {
@@ -64,6 +58,20 @@ export class MinhaContaComponent implements OnInit {
       )
     }
   }
+
+  alterarSenha() {
+    if(this.usuarioSenhaForm.valid) {
+      this.usuario.senha = this.fs.senha.value
+
+      this.usuarioService.alterarSenha(this.usuario).subscribe(
+        () => this.mensagem.success(`Senha alterada com sucesso!`),
+        error => {
+          console.warn(error)
+          this.mensagem.warning('Ocorreu um erro ao tentar alterar sua senha')
+        }
+      )
+    }
+  }
   
   aplicarFoto(foto: string) {
     this.f.foto.setValue(foto)
@@ -71,19 +79,22 @@ export class MinhaContaComponent implements OnInit {
 
   private gerarForm() {
     this.usuarioForm = this.formBuilder.group({
-      id: [],
+      id: [null],
       nome: [null, [Validators.required, Validators.min(3)]],
       email: [null, [Validators.required, Validators.email]],
-      foto: [],
-      cpf: [],
-      rg: [],
+      foto: [null],
+      cpf: [null],
+      rg: [null],
       perfil: [null, Validators.required],
-      senha: [null],
+      registro: [null],
+      especialidades: [[]],
+      avaliacoes: [[]],
+      dataInclusao: [null],
+    })
+
+    this.usuarioSenhaForm = this.formBuilder.group({
+      senha: [null, [Validators.required, Validators.min(3)]],
       confirmar: [null],
-      registro: [],
-      especialidades: [],
-      avaliacoes: [],
-      dataInclusao: [],
     })
   }
 

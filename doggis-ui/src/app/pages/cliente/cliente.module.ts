@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { PaginatorModule } from 'primeng';
 import { ClienteComponent } from './cliente.component';
 import { ClienteFormComponent } from './cliente-form/cliente-form.component';
@@ -17,6 +18,7 @@ import { ImageCropModule } from 'src/app/core/image-crop/image-crop.module';
     FormsModule,
     RouterModule,
     NgbModule,
+    SweetAlert2Module,
     PaginatorModule,
     ImageCropModule
   ],

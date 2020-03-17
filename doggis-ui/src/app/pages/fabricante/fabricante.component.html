@@ -37,7 +37,7 @@
                   <button type="button" class="btn btn-outline-secondary" title="Editar" (click)="alterar(fabricante)" ngbTooltip="Editar">
                     <i class="fa fa-pencil-alt"></i>
                   </button>
-                  <button type="button" class="btn btn-outline-secondary" title="Excluir" (click)="excluir(fabricante)" ngbTooltip="Excluir">
+                  <button type="button" class="btn btn-outline-secondary" title="Excluir" (click)="confirmarExcluir(fabricante)" ngbTooltip="Excluir">
                     <i class="fa fa-trash"></i>
                   </button>
                 </td>
@@ -55,12 +55,13 @@
             </tfoot>
           </table>
         </div>
-        <div class="card-footer py-4">
+        <div [hidden]="!fabricantes?.content.length" class="card-footer py-4">
           <p-paginator 
             [rows]="fabricantes?.size" 
             [totalRecords]="fabricantes?.totalElements"
             (onPageChange)="listar($event)"
-            alwaysShow="false">
+            alwaysShow="false"
+            styleClass="paginator">
           </p-paginator>
         </div>
       </div>

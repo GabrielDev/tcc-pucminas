@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { PaginatorModule, AutoCompleteModule, CalendarModule } from 'primeng';
 import { PromocaoComponent } from './promocao.component';
 import { PromocaoFormComponent } from './promocao-form/promocao-form.component';
@@ -15,6 +16,7 @@ import { PromocaoFormComponent } from './promocao-form/promocao-form.component';
     RouterModule,
     NgbModule,
     AutoCompleteModule,
+    SweetAlert2Module,
     CalendarModule,
     PaginatorModule,
   ],

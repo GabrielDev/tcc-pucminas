@@ -89,6 +89,20 @@ public class UsuarioController {
 		}
 	}
 	
+	@PostMapping("/minha-conta/senha")
+	@Transactional
+	public ResponseEntity<UsuarioDto> alterarSenha(@RequestBody @Valid UsuarioForm form, UriComponentsBuilder uriBuilder, Principal principal) {
+		try {
+			Usuario usuario = autenticacaoService.obterUsuario(principal.getName());
+			usuario = form.associarSenha(usuario);
+			usuarioRepository.save(usuario);
+			
+			return ResponseEntity.ok(new UsuarioDto(usuario));
+		} catch(Exception e) {
+			return ResponseEntity.notFound().build();
+		}
+	}
+	
 	@DeleteMapping("/{id}")
 	@Transactional
 	public ResponseEntity<?> bloquear(@PathVariable Long id) {

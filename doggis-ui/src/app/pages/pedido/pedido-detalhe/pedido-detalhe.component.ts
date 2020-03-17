@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PedidoService } from 'src/app/providers';
+import { Pedido } from 'src/app/models';
 
 @Component({
   selector: 'app-pedido-detalhe',
@@ -7,9 +11,44 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PedidoDetalheComponent implements OnInit {
 
-  constructor() { }
+  public pedido: Pedido
+
+  constructor(
+    private mensagem: ToastrService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private service: PedidoService,
+  ) { }
 
   ngOnInit(): void {
+    let { id } = this.route.snapshot.params
+    this.obterPedido(id)
   }
 
+  obterPedido(id: number) {
+    this.service.obterPorId(id).subscribe(
+      resultado => this.obterItens(resultado),
+      error => {
+        console.warn(error)
+        this.mensagem.error('Ocorreu um erro ao tentar recuperar esse pedido')
+        this.router.navigate(['/pedido'])
+      }
+    )
+  }
+
+  private obterItens(pedido: Pedido) {
+    let { itens } = pedido
+    
+    pedido.itens = itens.map(pedidoItem => {
+      if(pedidoItem.produto) {
+        pedidoItem.item = pedidoItem.produto
+      } else {
+        pedidoItem.item = pedidoItem.servico
+      }
+
+      return pedidoItem
+    })
+
+    this.pedido = pedido
+  }
 }

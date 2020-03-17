@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { EstoqueService, ProdutoService } from 'src/app/providers';
+import Swal from 'sweetalert2'
+import { EstoqueService } from 'src/app/providers';
 import { Paginacao, Estoque, Produto, Pagina, TipoEstoque } from 'src/app/models';
 
 @Component({
@@ -40,7 +41,26 @@ export class EstoqueComponent implements OnInit {
     )
   }
 
-  excluir(estoque: Estoque) {
+  confirmarExcluir(estoque: Estoque) {
+    Swal.fire({
+      title: 'Atenção',
+      text: 'Todos os estoque posteriores serão recalculados durante a exclusão, deseja continuar?',
+      icon: 'question',
+      cancelButtonText: 'Cancelar',
+      showCancelButton: true,
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: 'btn btn-default',
+        cancelButton: 'btn btn-outline-secondary'
+      }
+    }).then(({ value }) => {
+      if(value) {
+        this.excluir(estoque)
+      }
+    })
+  }
+
+  private excluir(estoque: Estoque) {
     this.estoqueService.excluir(estoque.id).subscribe(
       () => {
         this.mensagem.success(`Estoque do produto ${estoque.produto.descricao} excluído com sucesso`)

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { Subject } from 'rxjs';
+import Swal from 'sweetalert2';
 import { ProdutoService } from 'src/app/providers';
 import { Produto, Paginacao, Pagina } from 'src/app/models';
 
@@ -34,7 +34,26 @@ export class ProdutoComponent implements OnInit {
     )
   }
 
-  excluir(produto: Produto) {
+  confirmarExcluir(produto: Produto) {
+    Swal.fire({
+      title: 'Atenção',
+      text: 'Todos os pedidos, promoçōes e estoque desse produto serão perdidos durante a exclusão, deseja continuar?',
+      icon: 'question',
+      cancelButtonText: 'Cancelar',
+      showCancelButton: true,
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: 'btn btn-default',
+        cancelButton: 'btn btn-outline-secondary'
+      }
+    }).then(({ value }) => {
+      if(value) {
+        this.excluir(produto)
+      }
+    })
+  }
+
+  private excluir(produto: Produto) {
     this.service.excluir(produto.id).subscribe(
       () => {
         this.mensagem.success(`Produto ${produto.descricao} excluído com sucesso`)

@@ -49,7 +49,7 @@ export class FabricanteFormComponent implements OnInit {
   private gerarForm() {
     this.fabricanteForm = this.formBuilder.group({
       id: [],
-      descricao: ['', Validators.required],
+      nome: ['', Validators.required],
       dataInclusao: []
     })
   }
