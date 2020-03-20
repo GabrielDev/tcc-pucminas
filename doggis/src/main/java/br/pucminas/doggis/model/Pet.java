@@ -14,6 +14,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
@@ -26,7 +27,9 @@ public class Pet {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_pet", unique = true, nullable = false)
 	private Long id;
-
+	
+	@Size(min = 3)
+	@Size(max = 100)
 	@Column(nullable = false, length = 100)
 	private String nome;
 	

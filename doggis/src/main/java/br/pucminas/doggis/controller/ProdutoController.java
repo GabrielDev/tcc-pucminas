@@ -116,10 +116,16 @@ public class ProdutoController {
 	}
 	
 	@GetMapping("/{id}/promocao")
-	public List<Promocao> obterPromocao(@PathVariable Long id) {
+	public ResponseEntity<Promocao> obterPromocao(@PathVariable Long id) {
 		Produto produto = new Produto();
 		produto.setId(id);
-		return promocaoRepository.findByProduto(produto);
+		List<Promocao> promocoes = promocaoRepository.findFirstByProduto(produto);
+		
+		if(!promocoes.isEmpty()) {
+			return ResponseEntity.ok(promocoes.get(0));
+		}
+		
+		return ResponseEntity.notFound().build();
 	}
 	
 	@GetMapping("/{id}/historico")

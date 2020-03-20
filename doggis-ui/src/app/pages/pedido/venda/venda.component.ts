@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Cliente, ItemVenda, Pagamento, TipoItem, Pedido, PedidoItem, Produto, Servico } from 'src/app/models';
-import { PedidoService, ClienteService, ProdutoService } from 'src/app/providers';
+import { Cliente, ItemVenda, Pagamento, TipoItem, Pedido, PedidoItem, Produto, Servico, Estoque, Promocao } from 'src/app/models';
+import { PedidoService, ClienteService, ProdutoService, ServicoService } from 'src/app/providers';
 
 @Component({
   selector: 'app-venda',
@@ -22,6 +22,7 @@ export class VendaComponent implements OnInit {
     private pedidoService: PedidoService,
     private clienteService: ClienteService,
     private produtoService: ProdutoService,
+    private servicoService: ServicoService,
     private mensagem: ToastrService,
     private router: Router
   ) {  }
@@ -65,31 +66,17 @@ export class VendaComponent implements OnInit {
   adicionar(item: ItemVenda) {
     let { itens } = this.pedido
     const index = itens.findIndex(pedido => pedido.item.id == item.id)
+    let pedidoItem
 
     if(index >= 0) {
       itens[index].quantidade++
-
+      pedidoItem = itens[index]
     } else {
-      let pedidoItem: PedidoItem = {
-        id: 0,
-        item,
-        quantidade: 1,
-        precoUnitario: item.valor,
-        precoTotal: item.valor,
-        patazBonusTotal: 0
-      }
-
-      if(item.tipo == TipoItem.SERVICO) {
-        pedidoItem.patazBonusTotal = item.patazBonus
-        pedidoItem.servico = <Servico>item
-      } else {
-        pedidoItem.produto = <Produto>item
-      }
-  
+      pedidoItem = this.criarNovoPedidoItem(item)
       this.pedido.itens = [pedidoItem, ...itens]
     }
 
-    this.calcularTotal()
+    this.calcularTotalItem(pedidoItem)
   }
 
   remover(item: ItemVenda) {
@@ -104,26 +91,62 @@ export class VendaComponent implements OnInit {
       this.calcularTotalItem(pedidoItem)
     }
   }
+
+  private criarNovoPedidoItem(item: ItemVenda) {
+    let pedidoItem: PedidoItem = {
+      id: 0,
+      item,
+      quantidade: 1,
+      precoUnitario: item.valor,
+      precoTotal: item.valor,
+      patazBonusTotal: 0
+    }
+
+    if(item.tipo == TipoItem.SERVICO) {
+      let servico = <Servico>item
+      pedidoItem.patazBonusTotal = item.patazBonus
+      pedidoItem.servico = servico
+      this.servicoService.obterPromocao(servico).subscribe(resultado => {
+        pedidoItem = this.aplicarPromocao(servico, pedidoItem, resultado)
+      })
+    } else {
+      let produto = <Produto>item
+      pedidoItem.produto = produto
+      this.produtoService.obterEstoque(produto).subscribe(resultado => produto.estoque = resultado)
+      this.produtoService.obterPromocao(produto).subscribe(resultado => {
+        pedidoItem = this.aplicarPromocao(produto, pedidoItem, resultado)
+      })
+    }
+
+    return pedidoItem
+  }
+
+  private aplicarPromocao(item: ItemVenda, pedidoItem: PedidoItem, promocao?: Promocao) {
+    if(promocao) {
+      let valorComDesconto = (1 - (promocao.desconto/100)) * item.valor
+      item.promocao = promocao
+      pedidoItem.precoUnitario = valorComDesconto
+      pedidoItem.precoTotal = valorComDesconto
+      this.calcularTotalItem(pedidoItem)
+    }
+
+    return pedidoItem
+  }
   
   private validarEstoque(pedidoItem: PedidoItem) {
     let produto = <Produto>pedidoItem.item
-    this.produtoService.obterEstoque(produto).subscribe(
-      resultado => {
-        produto.estoque = resultado
-        if(produto.estoque.quantidade > 0) {
-          if(pedidoItem.quantidade > produto.estoque.quantidade) {
-            this.mensagem.warning(`Estoque disponível para esse item: ${produto.estoque.quantidade}`)
-            pedidoItem.quantidade = produto.estoque.quantidade
-          }
-          this.calcularTotalItem(pedidoItem)
+    
+    if(produto.estoque.quantidade > 0) {
+      if(pedidoItem.quantidade > produto.estoque.quantidade) {
+        this.mensagem.warning(`Estoque disponível para esse produto: ${produto.estoque.quantidade}`)
+        pedidoItem.quantidade = produto.estoque.quantidade
+      }
+      this.calcularTotalItem(pedidoItem)
 
-        } else {
-          this.mensagem.warning(`Produto não está disponível no estoque`)
-          this.remover(pedidoItem.item)
-        }
-      },
-      console.warn
-    )
+    } else {
+      this.mensagem.warning(`Produto não está disponível no estoque`)
+      this.remover(pedidoItem.item)
+    }
   }
 
   private calcularTotalItem(pedidoItem: PedidoItem) {

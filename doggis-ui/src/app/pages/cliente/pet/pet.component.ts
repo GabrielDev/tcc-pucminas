@@ -119,7 +119,7 @@ export class PetComponent implements OnInit {
   private gerarForm() {
     this.petForm = this.formBuilder.group({
       id: [],
-      nome: [null, Validators.required],
+      nome: [null, [Validators.required, Validators.minLength(3)]],
       especie: [null, Validators.required],
       raca: [null, Validators.required],
       porte: [],

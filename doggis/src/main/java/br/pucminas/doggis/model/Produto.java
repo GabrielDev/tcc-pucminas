@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -30,6 +31,8 @@ public class Produto implements ItemVenda {
 	@Column(name = "id_produto", unique = true, nullable = false)
 	private Long id;
 	
+	@Size(min = 3)
+	@Size(max = 100)
 	@Column(nullable = false, length = 100)
 	private String descricao;
 	

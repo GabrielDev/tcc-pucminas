@@ -56,15 +56,16 @@
                         <div class="pl-lg-4">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <div class="form-group" [ngClass]="{'has-danger': f.nome.touched && f.nome?.errors?.required}">
+                                    <div class="form-group" [ngClass]="{'has-danger': f.nome.touched && f.nome?.errors}">
                                         <label class="form-control-label" for="nome">Nome*</label>
                                         <input
                                             type="text"
                                             id="nome"
                                             class="form-control form-control-alternative"
                                             formControlName="nome"
-                                            [ngClass]="{'is-invalid': f.nome.touched && f.nome?.errors?.required}">
+                                            [ngClass]="{'is-invalid': f.nome.touched && f.nome?.errors}">
                                             <div class="invalid-feedback" *ngIf="f.nome.touched && f.nome?.errors?.required">Campo obrigatório</div>
+                                            <div class="invalid-feedback" *ngIf="f.nome.touched && f.nome?.errors?.minlength">Informe um nome com tamanho mínimo de 3 caracteres</div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -86,13 +87,16 @@
                                 <div class="col-lg-6">
                                     <div class="form-group" [ngClass]="{'has-danger': f.cpf.touched && f.cpf?.errors}">
                                         <label class="form-control-label" for="cpf">CPF*</label>
-                                        <input
-                                            type="text"
+                                        <p-inputMask
                                             id="cpf"
-                                            class="form-control form-control-alternative"
+                                            styleClass="form-control form-control-alternative border-0"
                                             formControlName="cpf"
+                                            mask="999.999.999-99"
+                                            ariaRequired="true"
+                                            ariaLabel="CPF"
                                             [ngClass]="{'is-invalid': f.cpf.touched && f.cpf?.errors?.required}">
-                                            <div class="invalid-feedback" *ngIf="f.cpf.touched && f.cpf?.errors?.required">Campo obrigatório</div>
+                                        </p-inputMask>
+                                        <div class="invalid-feedback" *ngIf="f.cpf.touched && f.cpf?.errors?.required">Campo obrigatório</div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">

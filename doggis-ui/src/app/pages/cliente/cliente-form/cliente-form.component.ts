@@ -95,7 +95,7 @@ export class ClienteFormComponent implements OnInit {
     if(pet.id) {
       Swal.fire({
         title: 'Atenção',
-        text: 'Todos os agendamentos desse pet serão perdidos durante a exclusão, deseja continuar?',
+        text: `Todos os agendamentos do pet ${pet.nome} serão perdidos durante a exclusão, deseja continuar?`,
         icon: 'question',
         cancelButtonText: 'Cancelar',
         showCancelButton: true,
@@ -178,7 +178,7 @@ export class ClienteFormComponent implements OnInit {
   private gerarForm() {
     this.clienteForm = this.formBuilder.group({
       id: [],
-      nome: [null, [Validators.required, Validators.min(3)]],
+      nome: [null, [Validators.required, Validators.minLength(3)]],
       email: [null, [Validators.required, Validators.email]],
       foto: [],
       cpf: [null, [Validators.required]],

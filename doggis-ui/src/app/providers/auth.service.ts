@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import * as jwt_decode from 'jwt-decode';
 import { BehaviorSubject } from 'rxjs';
 import { TokenService } from '.';
-import { Login, Usuario, AuthResponse, Papel } from '../models';
+import { Login, Usuario, AuthResponse, Papel, NotAllowedResponse } from '../models';
 
 const API = environment.api
 

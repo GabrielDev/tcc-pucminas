@@ -29,7 +29,7 @@ export class ProdutoService extends GenericService<Produto> {
 
   public obterPromocao(produto: Produto) {
     const headers = this.prepareHeader()
-    return this.http.get<Promocao[]>(`${this.endpoint}/${produto.id}/promocao`, headers)
+    return this.http.get<Promocao>(`${this.endpoint}/${produto.id}/promocao`, headers)
   }
 
   public listarHistorico(produto: Produto) {

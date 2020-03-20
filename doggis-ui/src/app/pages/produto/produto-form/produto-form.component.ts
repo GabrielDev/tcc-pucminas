@@ -129,7 +129,7 @@ export class ProdutoFormComponent implements OnInit {
   private gerarForm() {
     this.produtoForm = this.formBuilder.group({
       id: [],
-      descricao: [null, Validators.required],
+      descricao: [null, [Validators.required, Validators.minLength(3)]],
       foto: [''],
       valor: [null, [Validators.required, Validators.min(1)]],
       categoria: [null, Validators.required],

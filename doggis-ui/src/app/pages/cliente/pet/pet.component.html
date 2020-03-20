@@ -72,15 +72,17 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <div class="form-group" [ngClass]="{'has-danger': f.nome.touched && f.nome?.errors?.required}">
+                            <div class="form-group" [ngClass]="{'has-danger': f.nome.touched && f.nome?.errors}">
                                 <label class="form-control-label" for="nome">Nome*</label>
                                 <input
                                     type="text"
                                     id="nome"
                                     class="form-control form-control-alternative"
                                     formControlName="nome"
-                                    [ngClass]="{'is-invalid': f.nome.touched && f.nome?.errors?.required}">
+                                    maxlength="100"
+                                    [ngClass]="{'is-invalid': f.nome.touched && f.nome?.errors}">
                                 <div class="invalid-feedback" *ngIf="f.nome.touched && f.nome?.errors?.required">Campo obrigatório</div>
+                                <div class="invalid-feedback" *ngIf="f.nome.touched && f.nome?.errors?.minlength">Informe um nome com tamanho mínimo de 3 caracteres</div>
                             </div>
                         </div>
                         <div class="col-12">
@@ -89,6 +91,7 @@
                                 <textarea
                                     id="alergia"
                                     class="form-control form-control-alternative"
+                                    maxlength="50"
                                     formControlName="alergia"></textarea>
                             </div>
                         </div>

@@ -134,7 +134,7 @@ export class UsuarioFormComponent implements OnInit {
   private gerarForm() {
     this.usuarioForm = this.formBuilder.group({
       id: [],
-      nome: [null, [Validators.required, Validators.min(3)]],
+      nome: [null, [Validators.required, Validators.minLength(3)]],
       email: [null, [Validators.required, Validators.email]],
       foto: [],
       cpf: [null, [Validators.required]],

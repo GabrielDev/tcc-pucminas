@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 import { PedidoService } from 'src/app/providers';
 import { Pedido, Paginacao, Pagina } from 'src/app/models';
 
@@ -29,8 +30,27 @@ export class PedidoComponent implements OnInit {
       console.warn
     )
   }
+
+  confirmarExcluir(pedido: Pedido) {
+    Swal.fire({
+      title: 'Atenção',
+      text: `Todos os produtos do pedido no. ${pedido.id} retornarão ao estoque durante a exclusão, deseja continuar?`,
+      icon: 'question',
+      cancelButtonText: 'Cancelar',
+      showCancelButton: true,
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: 'btn btn-default',
+        cancelButton: 'btn btn-outline-secondary'
+      }
+    }).then(({ value }) => {
+      if(value) {
+        this.excluir(pedido)
+      }
+    })
+  }
   
-  excluir(pedido: Pedido) {
+  private excluir(pedido: Pedido) {
     this.service.excluir(pedido.id).subscribe(
       () => {
         this.mensagem.success(`O pedido no. ${pedido.id} foi excluído com sucesso!`)

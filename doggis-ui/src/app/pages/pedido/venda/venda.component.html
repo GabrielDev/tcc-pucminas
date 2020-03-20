@@ -207,7 +207,12 @@
                       </div>
                     </td>
                     <td class="text-center">
-                      <h5>{{ pedidoItem.precoUnitario | currency: 'BRL' }}</h5>
+                      <h5 [hidden]="pedidoItem.item?.promocao">{{ pedidoItem.precoUnitario | currency: 'BRL' }}</h5>
+
+                      <div [hidden]="!pedidoItem.item?.promocao">
+                        <small class="text-muted">De {{ pedidoItem.item.valor | currency: 'BRL' }}</small>
+                        <span class="mb-0 text-sm btn-block">Por {{ pedidoItem.precoUnitario | currency: 'BRL' }}</span>
+                      </div>
                     </td>
                     <td class="text-center">
                       <h5>{{ pedidoItem.precoTotal | currency: 'BRL' }}</h5>

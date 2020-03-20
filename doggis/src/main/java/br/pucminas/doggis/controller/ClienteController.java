@@ -136,7 +136,6 @@ public class ClienteController {
 			petRepository.saveAndFlush(pet);
 		}
 		
-//		petRepository.saveAll(pets);
 	}
 
 }

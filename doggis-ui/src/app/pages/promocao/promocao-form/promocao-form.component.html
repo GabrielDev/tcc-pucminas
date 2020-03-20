@@ -67,7 +67,7 @@
                     </div>
                 </div>
                 <div class="col-6">
-                    <div class="form-group" [ngClass]="{'has-danger': f.periodo?.errors?.required}">
+                    <div class="form-group" [ngClass]="{'has-danger': f.periodo.touched && f.periodo?.errors?.required}">
                         <label class="form-control-label" for="periodo">Validade*</label>
                         <p-calendar
                             id="periodo"

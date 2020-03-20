@@ -37,7 +37,7 @@ export class ProdutoComponent implements OnInit {
   confirmarExcluir(produto: Produto) {
     Swal.fire({
       title: 'Atenção',
-      text: 'Todos os pedidos, promoçōes e estoque desse produto serão perdidos durante a exclusão, deseja continuar?',
+      text: `Todos os pedidos, históricos de preço, promoções e estoque do produto ${produto.descricao} serão perdidos durante a exclusão, deseja continuar?`,
       icon: 'question',
       cancelButtonText: 'Cancelar',
       showCancelButton: true,

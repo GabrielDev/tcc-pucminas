@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.util.StringUtils;
 
@@ -18,6 +19,8 @@ public class PetForm {
 	private Long id;
 
 	@NotNull
+	@Size(min = 3)
+	@Size(max = 100)
 	private String nome;
 	
 	private String foto;
@@ -33,6 +36,7 @@ public class PetForm {
 
 	private Porte porte;
 	
+	@Size(max = 50)
 	private String alergia;
 
 	private String descricao;

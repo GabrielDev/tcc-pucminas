@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImageCropModule } from 'src/app/core/image-crop/image-crop.module';
 import { MinhaContaComponent } from './minha-conta.component';
+import { InputMaskModule } from 'primeng';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import { MinhaContaComponent } from './minha-conta.component';
     FormsModule,
     RouterModule,
     ImageCropModule,
+    InputMaskModule,
     NgbModule,
   ],
   declarations: [MinhaContaComponent],
