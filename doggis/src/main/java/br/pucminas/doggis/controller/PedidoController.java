@@ -26,12 +26,16 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.pucminas.doggis.config.security.AutenticacaoService;
 import br.pucminas.doggis.dto.PedidoDto;
+import br.pucminas.doggis.dto.form.EstoqueForm;
 import br.pucminas.doggis.dto.form.PedidoForm;
+import br.pucminas.doggis.model.Estoque;
 import br.pucminas.doggis.model.ItemVenda;
 import br.pucminas.doggis.model.Pagamento;
 import br.pucminas.doggis.model.Pedido;
 import br.pucminas.doggis.model.PedidoItem;
+import br.pucminas.doggis.model.TipoEstoque;
 import br.pucminas.doggis.model.Usuario;
+import br.pucminas.doggis.repository.EstoqueRepository;
 import br.pucminas.doggis.repository.PagamentoRepository;
 import br.pucminas.doggis.repository.PedidoItemRepository;
 import br.pucminas.doggis.repository.PedidoRepository;
@@ -59,6 +63,9 @@ public class PedidoController {
 	
 	@Autowired
 	private ServicoRepository servicoRepository;
+	
+	@Autowired
+	private EstoqueRepository estoqueRepository;
 	
 	@GetMapping()
 	public Page<PedidoDto> listar(@PageableDefault(size=10, sort="dataPedido") Pageable paginacao) {
@@ -117,10 +124,23 @@ public class PedidoController {
 	private void salvarItens(Pedido pedido, Set<PedidoItem> itens) {
 		for (PedidoItem pedidoItem : itens) {
 			pedidoItem.setPedido(pedido);
+			baixarEstoque(pedido, pedidoItem);
 		}
 		
 		pedidoItemRepository.saveAll(itens);
 	}
-
+	
+	private void baixarEstoque(Pedido pedido, PedidoItem item) {
+		if(item.getProduto() != null) {
+			EstoqueForm form = new EstoqueForm();
+			form.setPedido(pedido);
+			form.setProduto(item.getProduto());
+			form.setQuantidade(item.getQuantidade());
+			form.setTipo(TipoEstoque.SAIDA.label);
+			
+			Estoque estoque = form.converter(pedido.getUsuario(), estoqueRepository);
+			estoqueRepository.saveAndFlush(estoque);
+		}
+	}
 	
 }

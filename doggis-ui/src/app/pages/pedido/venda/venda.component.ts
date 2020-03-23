@@ -63,6 +63,10 @@ export class VendaComponent implements OnInit {
     this.pedido.pagamento = pagamento
   }
 
+  emPromocao(pedidoItem: PedidoItem) {
+    return pedidoItem.precoUnitario < pedidoItem.item.valor
+  }
+
   adicionar(item: ItemVenda) {
     let { itens } = this.pedido
     const index = itens.findIndex(pedido => pedido.item.id == item.id)
@@ -124,7 +128,6 @@ export class VendaComponent implements OnInit {
   private aplicarPromocao(item: ItemVenda, pedidoItem: PedidoItem, promocao?: Promocao) {
     if(promocao) {
       let valorComDesconto = (1 - (promocao.desconto/100)) * item.valor
-      item.promocao = promocao
       pedidoItem.precoUnitario = valorComDesconto
       pedidoItem.precoTotal = valorComDesconto
       this.calcularTotalItem(pedidoItem)
@@ -136,10 +139,10 @@ export class VendaComponent implements OnInit {
   private validarEstoque(pedidoItem: PedidoItem) {
     let produto = <Produto>pedidoItem.item
     
-    if(produto.estoque.quantidade > 0) {
-      if(pedidoItem.quantidade > produto.estoque.quantidade) {
-        this.mensagem.warning(`Estoque disponível para esse produto: ${produto.estoque.quantidade}`)
-        pedidoItem.quantidade = produto.estoque.quantidade
+    if(produto.estoque.saldo > 0) {
+      if(pedidoItem.quantidade > produto.estoque.saldo) {
+        this.mensagem.warning(`Estoque disponível para esse produto: ${produto.estoque.saldo}`)
+        pedidoItem.quantidade = produto.estoque.saldo
       }
       this.calcularTotalItem(pedidoItem)
 

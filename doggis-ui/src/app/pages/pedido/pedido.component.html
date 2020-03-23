@@ -35,7 +35,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let pedido of pedidos?.content" >
-                <td>{{ pedido.dataPedido | date: 'dd-MM-yyyy' }}</td>
+                <td>{{ pedido.dataPedido | date: 'dd-MM-yyyy hh:mm' }}</td>
                 <td>{{ pedido.id }}</td>
                 <th scope="row">
                   <div class="media">

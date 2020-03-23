@@ -32,6 +32,7 @@
                 <th class="text-center" scope="col">Data</th>
                 <th scope="col">Usuário</th>
                 <th scope="col">Produto</th>
+                <th class="text-center" scope="col">Pedido</th>
                 <th class="text-center" scope="col">Tipo</th>
                 <th class="text-center" scope="col">Qtde</th>
                 <th class="text-center" scope="col">Saldo</th>
@@ -40,7 +41,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let estoque of estoques?.content">
-                <td>
+                <td class="text-center">
                   {{ estoque.dataInclusao | date: 'dd-MM-yy  hh:mm' }}
                 </td>
                 <th scope="row">
@@ -65,6 +66,10 @@
                     </div>
                   </div>
                 </th>
+                <td class="text-center">
+                  <a *ngIf="estoque?.pedido" [routerLink]="['/pedido', estoque.pedido.id]">{{ estoque.pedido.id }}</a>
+                  <span *ngIf="!estoque?.pedido" class="text-muted"> - </span>
+                </td>
                 <td class="text-center">
                   <span class="badge" [ngClass]="{'badge-info': isEntrada(estoque.tipo), 'badge-warning': !isEntrada(estoque.tipo)}">{{ estoque.tipo }}</span>
                 </td>

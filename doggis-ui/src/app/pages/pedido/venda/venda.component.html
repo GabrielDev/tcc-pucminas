@@ -109,7 +109,7 @@
           </div>
         </div>
 
-        <div [hidden]="!p.cliente?.pets.length" class="card shadow mb-3">
+        <div *ngIf="p.cliente?.pets?.length" class="card shadow mb-3">
           <div class="card-body">
             <ul class="list-group list-group-flush list my--3">
               <li *ngFor="let pet of p.cliente?.pets" class="list-group-item px-0">
@@ -186,9 +186,9 @@
                   <tr *ngFor="let pedidoItem of p.itens">
                     <th scope="row">
                       <div class="media align-items-center">
-                        <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
-                          <img [hidden]="!pedidoItem.item.foto" [alt]="pedidoItem.item.descricao" [src]="pedidoItem.item.foto">
-                          <img [hidden]="pedidoItem.item.foto" [alt]="pedidoItem.item.descricao" src="../assets/img/produto.jpg">
+                        <a href="javascript:void(0)" class="mr-3">
+                          <img class="icon rounded-xl" [hidden]="!pedidoItem.item.foto" [alt]="pedidoItem.item.descricao" [src]="pedidoItem.item.foto">
+                          <img class="icon rounded-xl" [hidden]="pedidoItem.item.foto" [alt]="pedidoItem.item.descricao" src="../assets/img/produto.jpg">
                         </a>
                         <div class="media-body">
                           <span class="mb-0 text-sm">{{ pedidoItem.item.descricao }}</span>
@@ -207,9 +207,9 @@
                       </div>
                     </td>
                     <td class="text-center">
-                      <h5 [hidden]="pedidoItem.item?.promocao">{{ pedidoItem.precoUnitario | currency: 'BRL' }}</h5>
+                      <h5 [hidden]="emPromocao(pedidoItem)">{{ pedidoItem.precoUnitario | currency: 'BRL' }}</h5>
 
-                      <div [hidden]="!pedidoItem.item?.promocao">
+                      <div [hidden]="!emPromocao(pedidoItem)">
                         <small class="text-muted">De {{ pedidoItem.item.valor | currency: 'BRL' }}</small>
                         <span class="mb-0 text-sm btn-block">Por {{ pedidoItem.precoUnitario | currency: 'BRL' }}</span>
                       </div>

@@ -28,6 +28,7 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -48,7 +49,8 @@ public class Usuario implements UserDetails {
 	@Size(max = 100)
 	@Email
 	private String email;
-
+	
+	@JsonIgnore
 	@Column(nullable = false, length = 100)
 	private String senha;
 	
@@ -247,37 +249,44 @@ public class Usuario implements UserDetails {
 			return false;
 		return true;
 	}
-
+	
+	@JsonIgnore
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return this.perfil.getPapeis();
 	}
-
+	
+	@JsonIgnore
 	@Override
 	public String getPassword() {
 		return this.senha;
 	}
-
+	
+	@JsonIgnore
 	@Override
 	public String getUsername() {
 		return this.email;
 	}
-
+	
+	@JsonIgnore
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
-
+	
+	@JsonIgnore
 	@Override
 	public boolean isAccountNonLocked() {
 		return this.ativo;
 	}
-
+	
+	@JsonIgnore
 	@Override
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
-
+	
+	@JsonIgnore
 	@Override
 	public boolean isEnabled() {
 		return this.ativo;
