@@ -41,6 +41,7 @@ public class Cliente {
 	private String email;
 
 	@Length(max = 15)
+	@Column(unique = true, nullable = false)
 	private String cpf;
 
 	@Length(max = 15)

@@ -59,6 +59,7 @@ public class Usuario implements UserDetails {
 	private String foto;
 
 	@Length(max = 15)
+	@Column(unique = true, nullable = false)
 	private String cpf;
 
 	@Length(max = 15)

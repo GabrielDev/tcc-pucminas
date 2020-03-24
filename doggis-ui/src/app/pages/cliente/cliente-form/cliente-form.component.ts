@@ -4,13 +4,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Cliente, Estado, Pet } from 'src/app/models';
+import { ClienteValidadorService } from '../cliente.validador.service';
 import { ClienteService, EstadoService, PetService } from 'src/app/providers';
+import { Cliente, Estado, Pet } from 'src/app/models';
 
 @Component({
   selector: 'app-cliente-form',
   templateUrl: './cliente-form.component.html',
-  styleUrls: ['./cliente-form.component.scss']
+  styleUrls: ['./cliente-form.component.scss'],
+  providers: [ClienteValidadorService],
 })
 export class ClienteFormComponent implements OnInit {
 
@@ -24,6 +26,7 @@ export class ClienteFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    private validadorService: ClienteValidadorService,
     private clienteService: ClienteService,
     private petService: PetService,
     private estadoService: EstadoService
@@ -48,6 +51,7 @@ export class ClienteFormComponent implements OnInit {
       resultado => {
         this.cliente = resultado
         this.clienteForm.setValue(this.cliente)
+        this.deveValidarCpf()
       },
       () => {
         this.router.navigate(['/cliente'])
@@ -64,6 +68,18 @@ export class ClienteFormComponent implements OnInit {
         this.mensagem.warning('Ocorreu um erro ao tentar obter os estados')
       }
     )
+  }
+
+  deveValidarCpf() {
+    let { cpf } = this.f
+    if(this.cliente?.id) {
+      if(cpf.value == this.cliente.cpf) {
+        cpf.clearAsyncValidators()
+      } else {
+        cpf.setAsyncValidators(this.validadorService.verificarCpf())
+      }
+      cpf.updateValueAndValidity()
+    }
   }
 
   aplicarFoto(foto: string) {
@@ -178,11 +194,26 @@ export class ClienteFormComponent implements OnInit {
   private gerarForm() {
     this.clienteForm = this.formBuilder.group({
       id: [],
-      nome: [null, [Validators.required, Validators.minLength(3)]],
-      email: [null, [Validators.required, Validators.email]],
+      nome: [null, [
+        Validators.required, 
+        Validators.minLength(3)
+      ]],
+      email: [null, [
+        Validators.required, 
+        Validators.email
+      ]],
       foto: [],
-      cpf: [null, [Validators.required]],
-      rg: [null, Validators.required],
+      cpf: [null, 
+        [
+          Validators.required,
+          Validators.minLength(14)
+        ],
+        this.validadorService.verificarCpf()
+      ],
+      rg: [null, [
+        Validators.required, 
+        Validators.maxLength(15)
+      ]],
       endereco: [null, Validators.required],
       bairro: [null, Validators.required],
       cidade: [null, Validators.required],

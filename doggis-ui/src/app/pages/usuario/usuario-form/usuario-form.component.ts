@@ -2,13 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UsuarioValidadorService } from '../usuario.validador.service';
 import { UsuarioService, PerfilService, PetService } from 'src/app/providers';
 import { Especie, Perfil, Usuario, PerfilPadrao } from 'src/app/models';
 
 @Component({
   selector: 'app-usuario-form',
   templateUrl: './usuario-form.component.html',
-  styleUrls: ['./usuario-form.component.scss']
+  styleUrls: ['./usuario-form.component.scss'],
+  providers: [UsuarioValidadorService]
 })
 export class UsuarioFormComponent implements OnInit {
 
@@ -22,6 +24,7 @@ export class UsuarioFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    private validadorService: UsuarioValidadorService,
     private usuarioService: UsuarioService,
     private petService: PetService,
     private perfilService: PerfilService,
@@ -75,6 +78,18 @@ export class UsuarioFormComponent implements OnInit {
         this.mensagem.warning('Ocorreu um erro ao tentar obter os perfis')
       }
     )
+  }
+
+  deveValidarCpf() {
+    let { cpf } = this.f
+    if(this.usuario?.id) {
+      if(cpf.value == this.usuario.cpf) {
+        cpf.clearAsyncValidators()
+      } else {
+        cpf.setAsyncValidators(this.validadorService.verificarCpf())
+      }
+      cpf.updateValueAndValidity()
+    }
   }
 
   possuiPerfilVeterinario() {
@@ -137,8 +152,14 @@ export class UsuarioFormComponent implements OnInit {
       nome: [null, [Validators.required, Validators.minLength(3)]],
       email: [null, [Validators.required, Validators.email]],
       foto: [],
-      cpf: [null, [Validators.required]],
-      rg: [null, Validators.required],
+      cpf: [null, 
+        [
+          Validators.required, 
+          Validators.minLength(14)
+        ],
+        this.validadorService.verificarCpf()
+      ],
+      rg: [null, [Validators.required, Validators.maxLength(15)]],
       perfil: [null, Validators.required],
       registro: [],
       especialidades: [],

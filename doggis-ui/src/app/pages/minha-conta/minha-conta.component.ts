@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { UsuarioService } from 'src/app/providers';
+import { UsuarioValidadorService } from '../usuario/usuario.validador.service';
 import { AuthService } from 'src/app/providers/auth.service';
+import { UsuarioService } from 'src/app/providers';
 import { Usuario } from 'src/app/models';
 
 @Component({
   selector: 'app-minha-conta',
   templateUrl: './minha-conta.component.html',
-  styleUrls: ['./minha-conta.component.scss']
+  styleUrls: ['./minha-conta.component.scss'],
+  providers: [UsuarioValidadorService]
 })
 export class MinhaContaComponent implements OnInit {
 
@@ -19,6 +21,7 @@ export class MinhaContaComponent implements OnInit {
   constructor(
     private mensagem: ToastrService,
     private formBuilder: FormBuilder,
+    private validadorService: UsuarioValidadorService,
     private usuarioService: UsuarioService,
     private authService: AuthService,
   ) { }
@@ -39,6 +42,18 @@ export class MinhaContaComponent implements OnInit {
 
   get fs() {
     return this.usuarioSenhaForm.controls
+  }
+
+  deveValidarCpf() {
+    let { cpf } = this.f
+    if(this.usuario?.id) {
+      if(cpf.value == this.usuario.cpf) {
+        cpf.clearAsyncValidators()
+      } else {
+        cpf.setAsyncValidators(this.validadorService.verificarCpf())
+      }
+      cpf.updateValueAndValidity()
+    }
   }
 
   salvar() {
@@ -83,8 +98,14 @@ export class MinhaContaComponent implements OnInit {
       nome: [null, [Validators.required, Validators.minLength(3)]],
       email: [null, [Validators.required, Validators.email]],
       foto: [null],
-      cpf: [null],
-      rg: [null],
+      cpf: [null, 
+        [
+          Validators.required, 
+          Validators.minLength(14)
+        ],
+        this.validadorService.verificarCpf()
+      ],
+      rg: [null, Validators.maxLength(15)],
       perfil: [null, Validators.required],
       registro: [null],
       especialidades: [[]],

@@ -94,9 +94,11 @@
                                             mask="999.999.999-99"
                                             ariaRequired="true"
                                             ariaLabel="CPF"
-                                            [ngClass]="{'is-invalid': f.cpf.touched && f.cpf?.errors?.required}">
+                                            (change)="deveValidarCpf()"
+                                            [ngClass]="{'is-invalid': f.cpf.touched && f.cpf?.errors}">
                                         </p-inputMask>
                                         <div class="invalid-feedback" *ngIf="f.cpf.touched && f.cpf?.errors?.required">Campo obrigatório</div>
+                                        <div class="invalid-feedback" *ngIf="f.cpf.touched && f.cpf?.errors?.cpfCadastrado">CPF já foi utilizado por outro usuário</div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -107,8 +109,10 @@
                                             id="rg"
                                             class="form-control form-control-alternative"
                                             formControlName="rg"
-                                            [ngClass]="{'is-invalid': f.rg.touched && f.rg?.errors?.required}">
+                                            maxlength="15"
+                                            [ngClass]="{'is-invalid': f.rg.touched && f.rg?.errors}">
                                             <div class="invalid-feedback" *ngIf="f.rg.touched && f.rg?.errors?.required">Campo obrigatório</div>
+                                            <div class="invalid-feedback" *ngIf="f.rg.touched && f.rg?.errors?.maxlength">Tamanho màximo 15 caracteres</div>
                                     </div>
                                 </div>
                             </div>
@@ -144,6 +148,7 @@
                                             id="registro"
                                             class="form-control form-control-alternative"
                                             formControlName="registro"
+                                            maxlength="20"
                                             [ngClass]="{'is-invalid': f.registro.touched && f.registro?.errors?.required}">
                                             <div class="invalid-feedback" *ngIf="f.registro.touched && f.registro?.errors?.required">Campo obrigatório</div>
                                     </div>

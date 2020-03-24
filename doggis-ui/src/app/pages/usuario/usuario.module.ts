@@ -23,6 +23,6 @@ import { UsuarioFormComponent } from './usuario-form/usuario-form.component';
     MultiSelectModule,
   ],
   declarations: [UsuarioComponent, UsuarioFormComponent],
-  exports: [UsuarioComponent, UsuarioFormComponent],
+  exports: [UsuarioComponent, UsuarioFormComponent]
 })
 export class UsuarioModule { }

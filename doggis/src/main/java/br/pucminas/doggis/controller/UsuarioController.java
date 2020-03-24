@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -39,9 +40,9 @@ public class UsuarioController {
 	@Autowired
 	private AutenticacaoService autenticacaoService;
 	
-	@GetMapping
-	public List<UsuarioDto> listar() {
-		List<Usuario> usuarios = usuarioRepository.findAll();
+	@GetMapping()
+	public List<UsuarioDto> listar(@RequestParam String termo) {
+		List<Usuario> usuarios = usuarioRepository.findAllByTermo(termo.toLowerCase());
 		return UsuarioDto.converter(usuarios);
 	}
 	
