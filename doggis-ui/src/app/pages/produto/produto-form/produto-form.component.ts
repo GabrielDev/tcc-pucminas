@@ -89,6 +89,7 @@ export class ProdutoFormComponent implements OnInit {
   }
 
   salvar() {
+    this.produtoForm.markAllAsTouched()
     if(this.produtoForm.valid) {
       this.produto = this.produtoForm.value
 

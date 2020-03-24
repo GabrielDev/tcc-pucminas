@@ -108,6 +108,7 @@ export class PetComponent implements OnInit {
   }
 
   salvar() {
+    this.petForm.markAllAsTouched()
     if (this.petForm.valid) {
       this.pet = this.petForm.value
       this.onSalvar.emit(this.pet)

@@ -10,11 +10,13 @@
             styleClass="btn-block"
             inputStyleClass="form-control form-control-alternative border-0 form-control-lg rounded-pill"
             field="descricao" 
+            [(ngModel)]="itemSugerido"
             [suggestions]="itensVenda" 
             [forceSelection]="true"
             (completeMethod)="buscarItensVenda($event)" 
             (onSelect)="adicionar($event)"
-            placeholder="Buscar produto ou serviço por nome">
+            placeholder="Buscar produto ou serviço por nome"
+            [ngModelOptions]="{standalone: true}">
             <ng-template let-item pTemplate="item">
               <div class="list-group-item list-group-item-action">
                 <div class="row align-items-center">

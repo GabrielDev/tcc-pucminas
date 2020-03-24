@@ -77,6 +77,7 @@ export class PromocaoFormComponent implements OnInit {
   }
 
   salvar() {
+    this.promocaoForm.markAllAsTouched()
     if(this.promocaoForm.valid) {
       this.promocao = this.promocaoForm.value
 

@@ -57,6 +57,7 @@ export class EstoqueFormComponent implements OnInit {
   }
 
   salvar() {
+    this.estoqueForm.markAllAsTouched()
     if(this.estoqueForm.valid) {
       this.estoque = this.estoqueForm.value
 

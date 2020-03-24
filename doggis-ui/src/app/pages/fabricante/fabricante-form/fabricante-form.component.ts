@@ -55,6 +55,7 @@ export class FabricanteFormComponent implements OnInit {
   }
 
   salvar() {
+    this.fabricanteForm.markAllAsTouched()
     if(this.fabricanteForm.valid) {
       this.fabricante = this.fabricanteForm.value
       

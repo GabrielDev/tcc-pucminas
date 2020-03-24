@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { of } from 'rxjs';
+import { map, tap, debounceTime } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { UsuarioValidadorService } from '../usuario/usuario.validador.service';
 import { AuthService } from 'src/app/providers/auth.service';
@@ -32,7 +34,7 @@ export class MinhaContaComponent implements OnInit {
     this.authService.obterUsuario().subscribe(resultado => {
       this.usuario = resultado
       this.usuarioForm.setValue(this.usuario)
-      this.f.nome.setValue(this.usuario.nome)
+      this.deveValidarCpf()
     })
   }
 
@@ -114,9 +116,29 @@ export class MinhaContaComponent implements OnInit {
     })
 
     this.usuarioSenhaForm = this.formBuilder.group({
-      senha: [null, [Validators.required, Validators.min(3)]],
-      confirmar: [null],
+      senha: [null, 
+        [
+          Validators.required, 
+          Validators.minLength(3)
+        ]
+      ],
+      confirmar: [null, 
+        [
+          Validators.required, 
+          Validators.minLength(3)
+        ],
+        this.validarSenhas()
+      ],
     })
+  }
+
+  private validarSenhas() {
+    return (control: AbstractControl) => {
+      const senha = control.parent.controls['senha']
+      return control.valueChanges
+              .pipe(debounceTime(300))
+              .pipe(map(confirmar => confirmar != senha.value? { senhaDivergente: true }: null))
+    }
   }
 
 }

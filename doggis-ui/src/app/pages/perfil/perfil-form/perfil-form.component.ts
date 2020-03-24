@@ -73,6 +73,7 @@ export class PerfilFormComponent implements OnInit {
   }
 
   salvar() {
+    this.perfilForm.markAllAsTouched()
     if(this.perfilForm.valid) {
       this.perfil = this.perfilForm.value
       

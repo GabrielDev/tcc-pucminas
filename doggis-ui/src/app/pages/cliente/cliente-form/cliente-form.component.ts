@@ -154,6 +154,7 @@ export class ClienteFormComponent implements OnInit {
   }
 
   salvar() {
+    this.clienteForm.markAllAsTouched()
     if(this.clienteForm.valid) {
       this.cliente = this.clienteForm.value
 

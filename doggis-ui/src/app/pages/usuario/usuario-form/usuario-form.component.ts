@@ -50,6 +50,7 @@ export class UsuarioFormComponent implements OnInit {
       resultado => {
         this.usuario = resultado
         this.usuarioForm.setValue(this.usuario)
+        this.deveValidarCpf()
       },
       error => {
         this.router.navigate(['/usuario'])
@@ -78,6 +79,10 @@ export class UsuarioFormComponent implements OnInit {
         this.mensagem.warning('Ocorreu um erro ao tentar obter os perfis')
       }
     )
+  }
+
+  aplicarFoto(foto: string) {
+    this.f.foto.setValue(foto)
   }
 
   deveValidarCpf() {
@@ -109,6 +114,7 @@ export class UsuarioFormComponent implements OnInit {
   }
 
   salvar() {
+    this.usuarioForm.markAllAsTouched()
     if(this.usuarioForm.valid) {
       this.usuario = this.usuarioForm.value
 

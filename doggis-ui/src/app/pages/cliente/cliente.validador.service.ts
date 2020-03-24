@@ -12,7 +12,7 @@ export class ClienteValidadorService {
         return (control: AbstractControl) => {
             return control
                 .valueChanges
-                .pipe(debounceTime(300))
+                .pipe(debounceTime(600))
                 .pipe(switchMap(cpf => this.service.buscar(cpf)))
                 .pipe(map(isCadastrado => isCadastrado ? { cpfCadastrado: true } : null))
                 .pipe(first());

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Cliente, ItemVenda, Pagamento, TipoItem, Pedido, PedidoItem, Produto, Servico, Estoque, Promocao } from 'src/app/models';
+import { Subject } from 'rxjs';
+import { debounceTime, switchMap } from 'rxjs/operators';
+import { Cliente, ItemVenda, Pagamento, TipoItem, Pedido, PedidoItem, Produto, Servico, Promocao } from 'src/app/models';
 import { PedidoService, ClienteService, ProdutoService, ServicoService } from 'src/app/providers';
 
 @Component({
@@ -9,7 +11,7 @@ import { PedidoService, ClienteService, ProdutoService, ServicoService } from 's
   templateUrl: './venda.component.html',
   styleUrls: ['./venda.component.scss']
 })
-export class VendaComponent implements OnInit {
+export class VendaComponent implements OnInit, OnDestroy {
 
   public pedido: Pedido = new Pedido()
   public clientes: Cliente[]
@@ -17,6 +19,10 @@ export class VendaComponent implements OnInit {
   public itensVenda: ItemVenda[]
   public pagamentos: Pagamento[]
   public pagamentoSelecionado: number
+  public itemSugerido: ItemVenda
+
+  private buscaItem$ = new Subject<string>()
+  private buscaCliente$ = new Subject<string>()
 
   constructor(
     private pedidoService: PedidoService,
@@ -29,6 +35,12 @@ export class VendaComponent implements OnInit {
 
   ngOnInit() {
     this.listarPagamentos()
+    this.definirBuscas()
+  }
+
+  ngOnDestroy() {
+    this.buscaItem$.unsubscribe()
+    this.buscaCliente$.unsubscribe()
   }
 
   get p() {
@@ -37,18 +49,30 @@ export class VendaComponent implements OnInit {
 
   buscarClientes(event) {
     const termo = event.query
-    this.clienteService.buscar(termo).subscribe(
-      resultado => this.clientes = resultado,
-      console.warn
-    )
+    this.buscaCliente$.next(termo)
   }
 
   buscarItensVenda(event) {
     const termo = event.query
-    this.pedidoService.buscar(termo).subscribe(
-      resultado => this.itensVenda = resultado,
-      console.warn
-    )
+    this.buscaItem$.next(termo)
+  }
+
+  private definirBuscas() {
+    this.buscaItem$
+        .pipe(debounceTime(400))
+        .pipe(switchMap(termo => this.pedidoService.buscar(termo)))
+        .subscribe(
+          resultado => this.itensVenda = resultado,
+          console.warn
+        )
+
+    this.buscaCliente$
+        .pipe(debounceTime(400))
+        .pipe(switchMap(termo =>  this.clienteService.buscar(termo)))
+        .subscribe(
+          resultado => this.clientes = resultado,
+          console.warn
+        )
   }
 
   listarPagamentos() {
@@ -70,7 +94,7 @@ export class VendaComponent implements OnInit {
   adicionar(item: ItemVenda) {
     let { itens } = this.pedido
     const index = itens.findIndex(pedido => pedido.item.id == item.id)
-    let pedidoItem
+    let pedidoItem: PedidoItem
 
     if(index >= 0) {
       itens[index].quantidade++
@@ -79,7 +103,8 @@ export class VendaComponent implements OnInit {
       pedidoItem = this.criarNovoPedidoItem(item)
       this.pedido.itens = [pedidoItem, ...itens]
     }
-
+    
+    this.itemSugerido = null
     this.calcularTotalItem(pedidoItem)
   }
 

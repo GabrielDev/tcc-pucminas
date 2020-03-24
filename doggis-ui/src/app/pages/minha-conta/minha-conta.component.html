@@ -162,8 +162,10 @@
                     class="form-control form-control-alternative" 
                     formControlName="senha"
                     autocomplete="false"
-                    [ngClass]="{'is-invalid': fs.senha.touched && fs.senha?.errors?.required}">
+                    maxlength="100"
+                    [ngClass]="{'is-invalid': fs.senha.touched && fs.senha?.errors}">
                   <div class="invalid-feedback" *ngIf="fs.senha.touched && fs.senha?.errors?.required">Campo obrigatório</div>
+                  <div class="invalid-feedback" *ngIf="fs.senha.touched && fs.senha?.errors?.minlength">Tamanho mínimo de 3 caracteres</div>
                 </div>
               </div>
 
@@ -176,8 +178,11 @@
                     class="form-control form-control-alternative" 
                     autocomplete="false"
                     formControlName="confirmar"
-                    [ngClass]="{'is-invalid': fs.confirmar.touched && fs.confirmar?.errors?.required}">
+                    maxlength="100"
+                    [ngClass]="{'is-invalid': fs.confirmar.touched && fs.confirmar?.errors}">
                   <div class="invalid-feedback" *ngIf="fs.confirmar.touched && fs.confirmar?.errors?.required">Campo obrigatório</div>
+                  <div class="invalid-feedback" *ngIf="fs.confirmar.touched && fs.confirmar?.errors?.minlength">Tamanho mínimo de 3 caracteres</div>
+                  <div class="invalid-feedback" *ngIf="fs.confirmar.touched && fs.confirmar?.errors?.senhaDivergente">Senhas informadas são divergentes, tente novamente</div>
                 </div>
               </div>
             </div>
