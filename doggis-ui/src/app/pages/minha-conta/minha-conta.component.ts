@@ -138,6 +138,7 @@ export class MinhaContaComponent implements OnInit {
       return control.valueChanges
               .pipe(debounceTime(300))
               .pipe(map(confirmar => confirmar != senha.value? { senhaDivergente: true }: null))
+              .pipe(tap(console.log))
     }
   }
 
