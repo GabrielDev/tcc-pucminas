@@ -58,8 +58,9 @@
                       <img [hidden]="promocao.servico.foto" [alt]="promocao.item.descricao" src="../assets/img/servico.jpg">
                     </a>
 
-                    <div class="media-body">
+                    <div class="media-body text-truncate nome-produto">
                       <span class="mb-0 text-sm">{{ promocao.item.descricao }}</span>
+                      <span *ngIf="promocao.produto" class="mb-0 text-muted btn-block">{{ promocao.produto.fabricante.nome }}</span>
                     </div>
                   </div>
                 </th>

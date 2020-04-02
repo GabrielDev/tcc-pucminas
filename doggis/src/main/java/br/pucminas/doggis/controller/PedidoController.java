@@ -4,7 +4,6 @@ import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -12,6 +11,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -68,7 +68,7 @@ public class PedidoController {
 	private EstoqueRepository estoqueRepository;
 	
 	@GetMapping()
-	public Page<PedidoDto> listar(@PageableDefault(size=10, sort="dataPedido") Pageable paginacao) {
+	public Page<PedidoDto> listar(@PageableDefault(size=10, sort="dataPedido", direction=Direction.DESC) Pageable paginacao) {
 		return PedidoDto.converter(pedidoRepository.findAll(paginacao));
 	}
 	
@@ -121,7 +121,7 @@ public class PedidoController {
 		return ResponseEntity.notFound().build();
 	}
 	
-	private void salvarItens(Pedido pedido, Set<PedidoItem> itens) {
+	private void salvarItens(Pedido pedido, List<PedidoItem> itens) {
 		for (PedidoItem pedidoItem : itens) {
 			pedidoItem.setPedido(pedido);
 			baixarEstoque(pedido, pedidoItem);

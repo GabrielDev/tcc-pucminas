@@ -30,7 +30,7 @@ INSERT IGNORE INTO papel (id_papel, dt_inclusao, menu, descricao) VALUES(16, NOW
 INSERT IGNORE INTO papel (id_papel, dt_inclusao, menu, descricao) VALUES(17, NOW(), 'raca', 'Raças');
 INSERT IGNORE INTO papel (id_papel, dt_inclusao, menu, descricao) VALUES(18, NOW(), 'servico', 'Serviços');
 INSERT IGNORE INTO papel (id_papel, dt_inclusao, menu, descricao) VALUES(19, NOW(), 'usuario', 'Usuários');
-INSERT IGNORE INTO papel (id_papel, dt_inclusao, menu, descricao) VALUES(20, NOW(), 'meu-perfil', 'Perfil');
+INSERT IGNORE INTO papel (id_papel, dt_inclusao, menu, descricao) VALUES(20, NOW(), 'minha-conta', 'Meu perfil');
 INSERT IGNORE INTO papel (id_papel, dt_inclusao, menu, descricao) VALUES(21, NOW(), 'meus-pedidos', 'Meus pedidos');
 INSERT IGNORE INTO papel (id_papel, dt_inclusao, menu, descricao) VALUES(22, NOW(), 'dashboard', 'Relatórios');
 INSERT IGNORE INTO papel (id_papel, dt_inclusao, menu, descricao) VALUES(23, NOW(), 'venda', 'Vendas');

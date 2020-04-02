@@ -101,7 +101,7 @@ export class VendaComponent implements OnInit, OnDestroy {
       pedidoItem = itens[index]
     } else {
       pedidoItem = this.criarNovoPedidoItem(item)
-      this.pedido.itens = [pedidoItem, ...itens]
+      this.pedido.itens.push(pedidoItem)
     }
     
     this.itemSugerido = null

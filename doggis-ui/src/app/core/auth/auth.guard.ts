@@ -26,8 +26,13 @@ export class AuthGuard implements CanActivate {
         this.service.obterUsuario().subscribe(
             usuario => {
                 if(usuario && !this.service.temPermissao(state.url.substr(1))) {
-                    this.router.navigate([''])
-                    this.mensagem.warning('Você não tem permissão para acessar essa página')
+                    const rota = this.service.obterRotaPadrao()
+
+                    if(rota) {
+                        this.router.navigate([rota])
+                    } else {
+                        this.mensagem.warning('Você não tem permissão para acessar essa página')
+                    }
                 }
             }
         )

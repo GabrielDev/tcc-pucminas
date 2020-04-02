@@ -74,6 +74,7 @@ public class ProdutoForm {
 		produto.setValor(this.getValor());
 		produto.setCategoria(this.getCategoria());
 		produto.setFabricante(this.getFabricante());
+		produto.setEstoque(this.getEstoque());
 		
 		return produto;
 	}

@@ -57,6 +57,16 @@ export class AuthService {
     return this.papeis.some(papel => recurso.includes(papel.menu))
   }
 
+  public obterRotaPadrao() {
+    let rota = 'dashboard'
+
+    if(!this.temPermissao(rota)) {
+      rota = this.papeis[0].menu
+    }
+
+    return rota
+  }
+
   public isLogado() {
     return this.tokenService.hasToken()
   }

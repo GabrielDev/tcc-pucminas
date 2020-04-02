@@ -1,7 +1,7 @@
 package br.pucminas.doggis.dto.form;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
@@ -33,7 +33,7 @@ public class PedidoForm {
 	private Date dataPedido;
 
 	@NotNull
-	private Set<PedidoItem> itens;
+	private List<PedidoItem> itens;
 	
 	public Pedido converter(Usuario usuario) {
 		return new Pedido(
@@ -111,11 +111,11 @@ public class PedidoForm {
 		this.dataPedido = dataPedido;
 	}
 
-	public Set<PedidoItem> getItens() {
+	public List<PedidoItem> getItens() {
 		return itens;
 	}
 
-	public void setItens(Set<PedidoItem> itens) {
+	public void setItens(List<PedidoItem> itens) {
 		this.itens = itens;
 	}
 	

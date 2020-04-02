@@ -82,6 +82,9 @@
                                                       </a>
                                                       <div class="media-body">
                                                         <span class="mb-0 text-sm">{{ pedidoItem.item.descricao }}</span>
+                                                        <span *ngIf="pedidoItem.produto" class="mb-0 text-sm text-muted btn-block">
+                                                            {{ pedidoItem.produto.categoria.descricao }} &middot; {{ pedidoItem.produto.fabricante.nome }}
+                                                        </span>
                                                       </div>
                                                     </div>
                                                 </th>

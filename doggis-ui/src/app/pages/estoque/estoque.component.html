@@ -55,14 +55,15 @@
                     </div>
                   </div>
                 </th>
-                <th scope="row">
+                <th scope="row" width="200">
                   <div class="media align-items-center">
                     <a href="javascript:void(0)" class="avatar mr-3">
                       <img class="rounded" [hidden]="!estoque.produto.foto" [alt]="estoque.produto.descricao" [src]="estoque.produto.foto">
                       <img class="rounded" [hidden]="estoque.produto.foto" [alt]="estoque.produto.descricao" src="assets/img/produto.jpg">
                     </a>
-                    <div class="media-body">
+                    <div class="media-body text-truncate nome-produto" [title]="estoque.produto.descricao">
                       <span class="mb-0 text-sm">{{ estoque.produto.descricao }}</span>
+                      <span class="mb-0 text-muted btn-block">{{ estoque.produto.fabricante.nome }}</span>
                     </div>
                   </div>
                 </th>

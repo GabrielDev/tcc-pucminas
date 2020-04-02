@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
+import { debounceTime, switchMap } from 'rxjs/operators';
 import { EstoqueService, ProdutoService } from 'src/app/providers';
 import { Estoque, Produto, TipoEstoque } from 'src/app/models';
 
@@ -24,6 +26,8 @@ export class EstoqueFormComponent implements OnInit {
   public produtos: Produto[] =[]
   public tipos = [{titulo: 'Entrada', tipo: TipoEstoque.ENTRADA }, {titulo: 'Saída', tipo: TipoEstoque.SAIDA }]
 
+  private buscaProduto$ = new Subject<string>()
+
   constructor(
     private mensagem: ToastrService,
     private formBuilder: FormBuilder,
@@ -33,6 +37,7 @@ export class EstoqueFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.gerarForm()
+    this.definirBuscas()
   }
 
   get f() {
@@ -41,10 +46,17 @@ export class EstoqueFormComponent implements OnInit {
 
   buscar(event: any) {
     const termo = event.query
-    this.produtoService.buscar(termo).subscribe(
-      resultado => this.produtos = resultado,
-      console.warn
-    )
+    this.buscaProduto$.next(termo)
+  }
+
+  private definirBuscas() {
+    this.buscaProduto$
+        .pipe(debounceTime(400))
+        .pipe(switchMap(termo => this.produtoService.buscar(termo)))
+        .subscribe(
+          resultado => this.produtos = resultado,
+          console.warn
+        )
   }
 
   selecionar() {
@@ -78,7 +90,8 @@ export class EstoqueFormComponent implements OnInit {
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar salvar esse estoque')
-      }
+      },
+      () => this.estoqueForm.reset()
     )
   }
 
@@ -91,7 +104,8 @@ export class EstoqueFormComponent implements OnInit {
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar salvar esse estoque')
-      }
+      },
+      () => this.estoqueForm.reset()
     )
   }
 
