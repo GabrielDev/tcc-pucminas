@@ -2,7 +2,7 @@
   <form [formGroup]="perfilForm" (submit)="salvar()" class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title" id="modal-title-default">Perfil</h4>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="fechar()">
         <span aria-hidden="true">×</span>
       </button>
     </div>
@@ -17,9 +17,8 @@
               type="text"
               id="descricao"
               class="form-control form-control-alternative"
-              placeholder="Descrição"
               formControlName="descricao"
-              [ngClass]="{'is-invalid': f.descricao?.errors?.required}">
+              [ngClass]="{'is-invalid': f.descricao.touched && f.descricao?.errors?.required}">
               <div class="invalid-feedback" *ngIf="f.descricao.touched && f.descricao?.errors?.required">Campo obrigatório</div>
           </div>
         </div>
@@ -34,7 +33,7 @@
             (onMoveToTarget)="selecionar()">
             <ng-template let-papel pTemplate="item">
                 <div class="ui-helper-clearfix">
-                    <div style="font-size:14px;margin:15px 5px 0 0">{{ papel.descricao }}</div>
+                    <div class="m-2">{{ papel.descricao }}</div>
                 </div>
             </ng-template>
           </p-pickList>
@@ -43,7 +42,7 @@
     </div>
     <div class="modal-footer">
       <button type="submit" class="btn btn-primary">Salvar</button>
-      <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" (click)="c('Close click')">Cancelar</button>
+      <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" (click)="fechar()">Cancelar</button>
     </div>
   </form>
 </ng-template>

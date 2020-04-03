@@ -50,6 +50,12 @@ export class PerfilFormComponent implements OnInit {
     this.modal = this.modalService.open(this.modalTemplate, { windowClass: 'modal-mini', size: 'lg', centered: true })
   }
 
+  fechar() {
+    this.perfilForm.reset()
+    this.papeisSelecionados = []
+    this.modal.close()
+  }
+
   selecionar() {
     this.f.papeis.setValue(this.papeisSelecionados)
   }
