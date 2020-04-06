@@ -81,12 +81,13 @@ public class ClienteForm {
 		cliente.setCpf(this.getCpf());
 		cliente.setRg(this.getRg());
 		cliente.setEndereco(this.getEndereco());
-		if(!StringUtils.isEmpty(this.getFoto())) {
-			cliente.setFoto(this.getFoto());
-		}
 		cliente.setBairro(this.getBairro());
 		cliente.setEstado(this.getEstado());
 		cliente.setIsAutorizaFoto(this.getIsAutorizaFoto());
+		
+		if(!StringUtils.isEmpty(this.getFoto())) {
+			cliente.setFoto(this.getFoto());
+		}
 		
 		return cliente;
 	}

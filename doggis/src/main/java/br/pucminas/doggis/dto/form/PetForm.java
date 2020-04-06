@@ -77,8 +77,6 @@ public class PetForm {
 		
 		if(petExistente.isPresent()) {
 			pet = petExistente.get();
-		} else {
-			pet.setDono(this.getDono());
 		}
 		
 		if(!StringUtils.isEmpty(this.getFoto())) {
@@ -91,6 +89,7 @@ public class PetForm {
 		pet.setPorte(this.getPorte());
 		pet.setAlergia(this.getAlergia());
 		pet.setDescricao(this.getDescricao());
+		pet.setDono(this.getDono());
 		
 		return pet;
 	}

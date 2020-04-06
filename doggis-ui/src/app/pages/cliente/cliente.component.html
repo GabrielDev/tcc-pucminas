@@ -34,14 +34,14 @@
               <tr *ngFor="let cliente of clientes?.content">
                 <th scope="row">
                   <div class="media align-items-center">
-                    <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
+                    <a [routerLink]="['/cliente', cliente.id]" class="avatar rounded-circle mr-3">
                       <img [hidden]="!cliente.foto" [alt]="cliente.nome" [src]="cliente.foto">
                       <img [hidden]="cliente.foto" [alt]="cliente.nome" src="../assets/img/usuario.jpg">
                     </a>
-                    <div class="media-body">
-                      <span class="mb-0 text-sm btn-block">{{ cliente.nome }}</span>
+                    <a [routerLink]="['/cliente', cliente.id]" class="media-body">
+                      <span class="mb-0 text-sm btn-block text-body">{{ cliente.nome }}</span>
                       <span class="mb-0 text-muted">{{ cliente.email }}</span>
-                    </div>
+                    </a>
                   </div>
                 </th>
                 <td>

@@ -39,14 +39,14 @@
                 <td>{{ pedido.id }}</td>
                 <th scope="row">
                   <div class="media">
-                    <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
+                    <a href="javascript:void(0)" [routerLink]="['/cliente', pedido.cliente.id]" class="avatar rounded-circle mr-3">
                       <img [hidden]="!pedido.cliente.foto" [alt]="pedido.cliente.nome" [src]="pedido.cliente.foto">
                       <img [hidden]="pedido.cliente.foto" [alt]="pedido.cliente.nome" src="../assets/img/usuario.jpg">
                     </a>
-                    <div class="media-body">
-                      <span class="mb-0 text-sm btn-block">{{ pedido.cliente.nome }}</span>
+                    <a [routerLink]="['/cliente', pedido.cliente.id]" class="media-body">
+                      <span class="mb-0 text-sm btn-block text-body">{{ pedido.cliente.nome }}</span>
                       <span class="mb-0 text-muted">{{ pedido.cliente.email }}</span>
-                    </div>
+                    </a>
                   </div>
                 </th>
                 <td>
