@@ -1,7 +1,7 @@
 <div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
   <div class="container-fluid">
     <div class="header-body">
-      <div [hidden]="!estqoue?.produto" class="row d-flex align-items-center">
+      <div [hidden]="!estoque?.produto" class="row d-flex align-items-center">
         <div class="col-12">
           <h1 class="display-2 text-white">{{ estoque?.produto.descricao }}</h1>
         </div>
@@ -96,9 +96,6 @@
               <tr>
                 <td colspan="7" class="text-center">
                   <h5 class="h3">Nenhum estoque encontrado</h5>
-                    <button class="btn n btn-outline-primary" (click)="novo()">
-                      Adicionar novo
-                    </button>
                 </td>
               </tr>
             </tfoot>

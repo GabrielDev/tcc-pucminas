@@ -20,7 +20,7 @@
                               <img class="rounded-lg" [hidden]="!f.foto.value" [src]="f.foto.value">
                               <img class="rounded-lg" [hidden]="f.foto.value" src="../assets/img/produto.jpg">
                           </a>
-                          <app-image-crop #image [(imagem)]="f.foto.value" (onConcluir)="aplicarFoto($event)" [corteCircular]="false"></app-image-crop>
+                          <app-image-crop #image [imagem]="f.foto?.value" (onConcluir)="aplicarFoto($event)" [corteCircular]="false"></app-image-crop>
                       </div>
                   </div>
               </div>

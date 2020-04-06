@@ -34,7 +34,7 @@
                             <div class="h5 font-weight-300 mt-4">
                                 <a href="mailto:{{ f.email.value }}" target="_blank"><i class="ni business_briefcase-24 mr-2"></i>{{ f.email.value }}</a>
                             </div>
-                            <div class="h5 font-weight-300">
+                            <div *ngIf="f.perfil" class="h5 font-weight-300">
                                 <i class="ni location_pin mr-2"></i>{{ f.perfil?.descricao }}
                             </div>
                         </div>

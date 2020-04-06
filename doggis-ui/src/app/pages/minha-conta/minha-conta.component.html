@@ -57,7 +57,7 @@
                 <i class="ni business_briefcase-24 mr-2"></i>{{ f.email.value }}
               </a>
             </div>
-            <div class="h5 mt-4">
+            <div *ngIf="f.perfil" class="h5 mt-4">
               <i class="ni business_briefcase-24 mr-2"></i>{{ f.perfil?.descricao }}
             </div>
           </div>

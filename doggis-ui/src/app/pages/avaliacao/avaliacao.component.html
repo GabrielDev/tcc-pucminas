@@ -4,7 +4,7 @@
       <div class="row align-items-center">
         <div class=" col-lg-6 col-7"></div>
         <div class=" col-lg-6 col-5 text-right">
-          <button class="btn btn-info" [routerLink]="['/avaliacao/novo']">Novo</button>
+          <a class="btn btn-info" [routerLink]="['/avaliacao/novo']">Novo</a>
         </div>
       </div>
     </div>
@@ -31,13 +31,13 @@
                 <th scope="col"></th>
               </tr>
             </thead>
-            <tfoot [hidden]="avaliacoes?.content.length">
+            <tfoot>
               <tr>
                 <td colspan="6" class="text-center">
                   <h5 class="h3">Nenhuma avaliação encontrada</h5>
-                    <button class="btn n btn-outline-primary" [routerLink]="['/avaliacao/novo']">
+                    <a class="btn n btn-outline-primary" [routerLink]="['/avaliacao/novo']">
                       Adicionar nova
-                    </button>
+                    </a>
                 </td>
               </tr>
             </tfoot>
