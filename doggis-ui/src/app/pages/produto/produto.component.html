@@ -38,13 +38,13 @@
                 </td>
                 <th scope="row">
                   <div class="media align-items-center">
-                    <a href="javascript:void(0)" class="avatar mr-3">
+                    <a [routerLink]="['/produto', produto.id]" class="avatar mr-3">
                       <img class="rounded" [hidden]="!produto.foto" [alt]="produto.descricao" [src]="produto.foto">
                       <img class="rounded" [hidden]="produto.foto" [alt]="produto.descricao" src="../assets/img/produto.jpg">
                     </a>
-                    <div class="media-body">
-                      <span class="mb-0 text-sm">{{ produto.descricao }}</span>
-                    </div>
+                    <a [routerLink]="['/produto', produto.id]" class="media-body">
+                      <span class="mb-0 text-sm text-body">{{ produto.descricao }}</span>
+                    </a>
                   </div>
                 </th>
                 <td>

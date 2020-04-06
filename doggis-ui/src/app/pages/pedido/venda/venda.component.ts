@@ -20,6 +20,7 @@ export class VendaComponent implements OnInit, OnDestroy {
   public pagamentos: Pagamento[]
   public pagamentoSelecionado: number
   public itemSugerido: ItemVenda
+  public abrirModal: Subject<Cliente> = new Subject()
 
   private buscaItem$ = new Subject<string>()
   private buscaCliente$ = new Subject<string>()
@@ -45,6 +46,14 @@ export class VendaComponent implements OnInit, OnDestroy {
 
   get p() {
     return this.pedido
+  }
+
+  novoCliente() {
+    this.abrirModal.next()
+  }
+
+  adicionarCliente(cliente: Cliente) {
+    this.pedido.cliente = cliente
   }
 
   buscarClientes(event) {

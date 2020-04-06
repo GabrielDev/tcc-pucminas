@@ -1,0 +1,155 @@
+<ng-template #clienteModal let-c="close" let-d="dismiss">
+    <form [formGroup]="clienteForm" (submit)="salvar()" class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-title-default">Cliente</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-3">
+                    <a href="javascript:void(0)" (click)="imageCliente.abrir()" class="pr-4">
+                        <img [hidden]="!f.foto.value" [src]="f.foto.value" class="img-fluid rounded-circle">
+                        <img [hidden]="f.foto.value" src="assets/img/usuario.jpg" class="img-fluid rounded-circle">
+                    </a>
+                    <app-image-crop #imageCliente [imagem]="f.foto.value" (onConcluir)="aplicarFoto($event)"></app-image-crop>
+                </div>
+                <div class="col-9">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group" [ngClass]="{'has-danger': f.nome.touched && f.nome?.errors}">
+                                <label class="form-control-label" for="nome">Nome*</label>
+                                <input
+                                    type="text"
+                                    id="nome"
+                                    class="form-control form-control-alternative"
+                                    formControlName="nome"
+                                    maxlength="100"
+                                    [ngClass]="{'is-invalid': f.nome.touched && f.nome?.errors}">
+                                    <div class="invalid-feedback" *ngIf="f.nome.touched && f.nome?.errors?.required">Campo obrigatório</div>
+                                    <div class="invalid-feedback" *ngIf="f.nome.touched && f.nome?.errors?.minlength">Informe um nome com tamanho mínimo de 3 caracteres</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group" [ngClass]="{'has-danger': f.email.touched && f.email?.errors}">
+                                <label class="form-control-label" for="email">E-mail*</label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    class="form-control form-control-alternative"
+                                    formControlName="email"
+                                    maxlength="100"
+                                    [ngClass]="{'is-invalid': f.email.touched && f.email?.errors}">
+                                    <div class="invalid-feedback" *ngIf="f.email.touched && f.email?.errors?.required">Campo obrigatório</div>
+                                    <div class="invalid-feedback" *ngIf="f.email.touched && f.email?.errors?.email">Preencha com um e-mail valido</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group" [ngClass]="{'has-danger': f.cpf.touched && f.cpf?.errors}">
+                                <label class="form-control-label" for="cpf">CPF*</label>
+                                <p-inputMask
+                                    id="cpf"
+                                    styleClass="form-control form-control-alternative border-0"
+                                    formControlName="cpf"
+                                    mask="999.999.999-99"
+                                    ariaRequired="true"
+                                    ariaLabel="CPF"
+                                    [ngClass]="{'is-invalid': f.cpf.touched && f.cpf?.errors}"
+                                    (change)="deveValidarCpf()">
+                                </p-inputMask>
+                                <div class="invalid-feedback" *ngIf="f.cpf.touched && f.cpf?.errors?.required">Campo obrigatório</div>
+                                <div class="invalid-feedback" *ngIf="f.cpf.touched && f.cpf?.errors?.cpfCadastrado">CPF já foi utilizado por outro cliente</div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group" [ngClass]="{'has-danger': f.rg.touched && f.rg?.errors}">
+                                <label class="form-control-label" for="rg">RG*</label>
+                                <input
+                                    type="text"
+                                    id="rg"
+                                    class="form-control form-control-alternative"
+                                    formControlName="rg"
+                                    maxlength="15"
+                                    [ngClass]="{'is-invalid': f.rg.touched && f.rg?.errors?.required}">
+                                    <div class="invalid-feedback" *ngIf="f.rg.touched && f.rg?.errors?.required">Campo obrigatório</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group" [ngClass]="{'has-danger': f.endereco.touched && f.endereco?.errors}">
+                                <label class="form-control-label" for="endereco">Endereço*</label>
+                                <input
+                                    type="text"
+                                    id="endereco"
+                                    class="form-control form-control-alternative"
+                                    formControlName="endereco"
+                                    [ngClass]="{'is-invalid': f.endereco.touched && f.endereco?.errors?.required}">
+                                    <div class="invalid-feedback" *ngIf="f.endereco.touched && f.endereco?.errors?.required">Campo obrigatório</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group" [ngClass]="{'has-danger': f.bairro.touched && f.bairro?.errors}">
+                                <label class="form-control-label" for="bairro">Bairro*</label>
+                                <input
+                                    type="text"
+                                    id="bairro"
+                                    class="form-control form-control-alternative"
+                                    formControlName="bairro"
+                                    [ngClass]="{'is-invalid': f.bairro.touched && f.bairro?.errors?.required}">
+                                    <div class="invalid-feedback" *ngIf="f.bairro.touched && f.bairro?.errors?.required">Campo obrigatório</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group" [ngClass]="{'has-danger': f.cidade.touched && f.cidade?.errors}">
+                                <label class="form-control-label" for="cidade">Cidade*</label>
+                                <input
+                                    type="text"
+                                    id="cidade"
+                                    class="form-control form-control-alternative"
+                                    formControlName="cidade"
+                                    [ngClass]="{'is-invalid': f.cidade.touched && f.cidade?.errors?.required}">
+                                    <div class="invalid-feedback" *ngIf="f.cidade.touched && f.cidade?.errors?.required">Campo obrigatório</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group" [ngClass]="{'has-danger': f.estado.touched && f.estado?.errors}">
+                                <label class="form-control-label" for="estado">Estado*</label>
+                                <select
+                                    id="estado"
+                                    class="form-control form-control-alternative"
+                                    formControlName="estado"
+                                    [compareWith]="comparador"
+                                    [ngClass]="{'is-invalid': f.estado.touched && f.estado?.errors?.required}">
+                                    <option value="">Selecione</option>
+                                    <option *ngFor="let estado of estados" [ngValue]="estado">{{ estado.descricao }}</option>
+                                </select>
+                                <div class="invalid-feedback" *ngIf="f.estado.touched && f.estado?.errors?.required">Campo obrigatório</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            <input type="checkbox" formControlName="isAutorizaFoto" id="isAutorizaFoto">
+                            <label class="ml-2" for="isAutorizaFoto">Autoriza a publicação de fotos dos seus pets em nossas redes sociais?</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" (click)="c('Close click')">Cancelar</button>
+        </div>
+    </form>
+</ng-template>

@@ -14,7 +14,7 @@ export class ClienteValidadorService {
                 .valueChanges
                 .pipe(debounceTime(600))
                 .pipe(switchMap(cpf => this.service.buscar(cpf)))
-                .pipe(map(isCadastrado => isCadastrado ? { cpfCadastrado: true } : null))
+                .pipe(map(isCadastrado => isCadastrado.length ? { cpfCadastrado: true } : null))
                 .pipe(first());
         }
     }

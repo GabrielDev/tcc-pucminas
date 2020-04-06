@@ -3,7 +3,7 @@
     <span class="mask bg-gradient-danger opacity-8"></span>
     <div class="container-fluid align-items-center">
       <div class="row">
-        <div class="col-12 col-lg-8">
+        <div class="col-12 col-xl-8">
           <label class="form-control-label text-white" for="item">Adicionar item</label>
           <p-autoComplete 
             id="item" 
@@ -43,126 +43,6 @@
 
   <div class="container-fluid mt--7">
     <div class="row">
-      <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
-        <div class="card card-profile mb-3 shadow">
-          <div class="row justify-content-center">
-            <div class="col-lg-3 order-lg-2">
-              <div class="card-profile-image mb-6 pb-3">
-                <a href="javascript:void(0)">
-                  <img [hidden]="!p.cliente?.foto" [src]="p.cliente?.foto" class="rounded-circle">
-                  <img [hidden]="p.cliente?.foto" src="assets/img/usuario.jpg" class="rounded-circle">
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="card-body pt-8 pt-md-4">
-            <div class="col-12">
-              <div class="form-group">
-                <label for="cliente" class="form-control-label">Cliente</label>
-                <p-autoComplete 
-                  id="cliente" 
-                  styleClass="btn-block"
-                  inputStyleClass="form-control form-control-alternative border-0 rounded-pill" 
-                  field="nome"
-                  [(ngModel)]="pedido.cliente" 
-                  [suggestions]="clientes" 
-                  [forceSelection]="true"
-                  (completeMethod)="buscarClientes($event)" 
-                  placeholder="Buscar cliente por nome ou cpf"
-                  [ngModelOptions]="{standalone: true}">
-                  <ng-template let-cliente pTemplate="cliente">
-                    <div class="list-group-item list-group-item-action">
-                      <div class="row align-items-center">
-                        <div class="col-auto">
-                          <img [alt]="cliente.nome" [src]="cliente.foto" class="avatar rounded-pill">
-                        </div>
-                        <div class="col ml--2">
-                          <h4 class="mb-0 text-sm">{{ cliente.nome }}</h4>
-                        </div>
-                      </div>
-                    </div>
-                  </ng-template>
-                </p-autoComplete>
-              </div>
-            </div>
-
-            <div [hidden]="!p.cliente" class="text-center">
-              <h3>
-                {{ p.cliente?.nome }}
-              </h3>
-              <div class="h5 font-weight-300 mt-4">
-                <a href="mailto:{{ p.cliente?.email }}" target="_blank">
-                  <i class="ni business_briefcase-24 mr-2"></i>{{ p.cliente?.email }}
-                </a>
-              </div>
-              <div>
-                <i class="ni education_hat mr-2"></i>{{ p.cliente?.endereco }}
-              </div>
-              <div class="h5 font-weight-300">
-                <i class="ni location_pin mr-2"></i>{{ p.cliente?.cidade }} - {{ p.cliente?.estado?.descricao }}
-              </div>
-              <div [hidden]="!p.cliente?.totalPataz">
-                <hr class="my-4" />
-                <p>Pataz</p>
-                <h4>{{ p.cliente?.totalPataz }}</h4>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div *ngIf="p.cliente?.pets?.length" class="card shadow mb-3">
-          <div class="card-body">
-            <ul class="list-group list-group-flush list my--3">
-              <li *ngFor="let pet of p.cliente?.pets" class="list-group-item px-0">
-                <div class="row align-items-center">
-                  <div class="col-auto">
-                    <a href="#" class="avatar rounded-circle">
-                      <img [hidden]="!pet.foto" [alt]="pet.nome" [src]="pet.foto">
-                      <img [hidden]="pet.foto" [alt]="pet.nome" src="../assets/img/pet.jpg">
-                    </a>
-                  </div>
-                  <div class="col-auto ml--2">
-                    <h4 class="mb-0">
-                      <a (click)="editarPet(pet)">{{ pet.nome }}</a>
-                    </h4>
-                    <span class="text-success">●</span>
-                    <small>{{ pet.especie.descricao }} - {{ pet.raca.descricao }}</small>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="card card-stats shadow">
-          <div class="card-body">
-            <div class="row">
-              <div class="col">
-                <h5 class="card-title text-uppercase text-muted mb-0">Total</h5>
-                <span [hidden]="!p.total" class="h2 font-weight-bold mb-0 text-right">{{ p.total | currency: 'BRL' }}</span>
-              </div>
-              <div class="col-auto">
-                <div class="icon icon-shape bg-red text-white rounded-circle shadow">
-                  <i class="ni ni-active-40"></i>
-                </div>
-              </div>
-            </div>
-            <p class="mt-3 mb-0 text-sm" [hidden]="!p.patazBonusTotal">
-              <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> {{ p.patazBonusTotal }}</span>
-              <span class="text-nowrap">Pataz acumulados</span>
-            </p>
-          </div>
-
-          <div class="card-footer">
-            <button 
-              type="submit" 
-              class="btn btn-xs btn-primary btn-block" 
-              [disabled]="!p.itens.length">Finalizar</button>
-          </div>
-        </div>
-      </div>
-
       <div class="col-xl-8 order-xl-1">
         <div class="card bg-secondary shadow">
           <div class="card-header bg-white border-0">
@@ -273,6 +153,137 @@
                 </label>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0 mt-8 mt-xl-0">
+        <div class="card card-profile mb-3 shadow">
+          <div class="row justify-content-center">
+            <div class="col-lg-3 order-lg-2">
+              <div class="card-profile-image mb-7 pb-3">
+                <a href="javascript:void(0)">
+                  <img [hidden]="!p.cliente?.foto" [src]="p.cliente?.foto" class="rounded-circle">
+                  <img [hidden]="p.cliente?.foto" src="assets/img/usuario.jpg" class="rounded-circle">
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body pt-8 pt-md-4">
+            <div class="col-12 form-group">
+              <label for="cliente" class="form-control-label">Cliente</label>
+              <div class="input-group">
+                <p-autoComplete 
+                  id="cliente" 
+                  styleClass="btn-block"
+                  inputStyleClass="form-control form-control-alternative border-light" 
+                  field="nome"
+                  [(ngModel)]="pedido.cliente" 
+                  [suggestions]="clientes" 
+                  [forceSelection]="true"
+                  (completeMethod)="buscarClientes($event)" 
+                  placeholder="Buscar cliente por nome ou cpf"
+                  [ngModelOptions]="{standalone: true}">
+                  <ng-template let-cliente pTemplate="cliente">
+                    <div class="list-group-item list-group-item-action">
+                      <div class="row align-items-center">
+                        <div class="col-auto">
+                          <img [alt]="cliente.nome" [src]="cliente.foto" class="avatar rounded-pill">
+                        </div>
+                        <div class="col ml--2">
+                          <h4 class="mb-0 text-sm">{{ cliente.nome }}</h4>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+                </p-autoComplete>
+
+                <div class="input-group-append">
+                  <app-cliente-modal [exibir]="abrirModal" (onSalvar)="adicionarCliente($event)"></app-cliente-modal>
+                  <button 
+                    type="button"
+                    class="btn btn-outline-primary btn-sm" 
+                    (click)="novoCliente()"
+                    ngbTooltip="Novo cliente">
+                    <i class="fa fa-user-plus"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div [hidden]="!p.cliente" class="text-center">
+              <h3>
+                {{ p.cliente?.nome }}
+              </h3>
+              <div class="h5 font-weight-300 mt-4">
+                <a href="mailto:{{ p.cliente?.email }}" target="_blank">
+                  <i class="ni business_briefcase-24 mr-2"></i>{{ p.cliente?.email }}
+                </a>
+              </div>
+              <div>
+                <i class="ni education_hat mr-2"></i>{{ p.cliente?.endereco }}
+              </div>
+              <div class="h5 font-weight-300">
+                <i class="ni location_pin mr-2"></i>{{ p.cliente?.cidade }} - {{ p.cliente?.estado?.descricao }}
+              </div>
+              <div [hidden]="!p.cliente?.totalPataz">
+                <hr class="my-4" />
+                <p>Pataz</p>
+                <h4>{{ p.cliente?.totalPataz }}</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="p.cliente?.pets?.length" class="card shadow mb-3">
+          <div class="card-body">
+            <ul class="list-group list-group-flush list my--3">
+              <li *ngFor="let pet of p.cliente?.pets" class="list-group-item px-0">
+                <div class="row align-items-center">
+                  <div class="col-auto">
+                    <a href="#" class="avatar rounded-circle">
+                      <img [hidden]="!pet.foto" [alt]="pet.nome" [src]="pet.foto">
+                      <img [hidden]="pet.foto" [alt]="pet.nome" src="../assets/img/pet.jpg">
+                    </a>
+                  </div>
+                  <div class="col-auto ml--2">
+                    <h4 class="mb-0">
+                      <a (click)="editarPet(pet)">{{ pet.nome }}</a>
+                    </h4>
+                    <span class="text-success">●</span>
+                    <small>{{ pet.especie.descricao }} - {{ pet.raca.descricao }}</small>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card card-stats shadow">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <h5 class="card-title text-uppercase text-muted mb-0">Total</h5>
+                <span [hidden]="!p.total" class="h2 font-weight-bold mb-0 text-right">{{ p.total | currency: 'BRL' }}</span>
+              </div>
+              <div class="col-auto">
+                <div class="icon icon-shape bg-red text-white rounded-circle shadow">
+                  <i class="ni ni-active-40"></i>
+                </div>
+              </div>
+            </div>
+            <p class="mt-3 mb-0 text-sm" [hidden]="!p.patazBonusTotal">
+              <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> {{ p.patazBonusTotal }}</span>
+              <span class="text-nowrap">Pataz acumulados</span>
+            </p>
+          </div>
+
+          <div class="card-footer">
+            <button 
+              type="submit" 
+              class="btn btn-xs btn-primary btn-block" 
+              [disabled]="!p.itens.length">Finalizar</button>
           </div>
         </div>
       </div>

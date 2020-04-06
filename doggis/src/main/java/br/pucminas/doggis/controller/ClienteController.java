@@ -1,7 +1,6 @@
 package br.pucminas.doggis.controller;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -122,20 +121,18 @@ public class ClienteController {
 	
 
 	private void salvarPets(ClienteForm form, Cliente cliente) {
-		List<Pet> pets = new ArrayList<Pet>();
-		
-		for (Pet pet : form.getPets()) {
-			pet.setDono(cliente);
-			
-			if(pet.getId() != null) {
-				PetForm petForm = new PetForm(pet);
-				pet = petForm.atualizar(pet.getId(), petRepository);
+		if(form.getPets() != null) {
+			for (Pet pet : form.getPets()) {
+				pet.setDono(cliente);
+				
+				if(pet.getId() != null) {
+					PetForm petForm = new PetForm(pet);
+					pet = petForm.atualizar(pet.getId(), petRepository);
+				}
+				
+				petRepository.saveAndFlush(pet);
 			}
-			
-			pets.add(pet);
-			petRepository.saveAndFlush(pet);
 		}
-		
 	}
 
 }

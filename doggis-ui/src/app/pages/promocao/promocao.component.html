@@ -48,7 +48,7 @@
                 </th>
                 <th scope="row">
                   <div class="media align-items-center">
-                    <a *ngIf="promocao.produto" href="javascript:void(0)" class="avatar rounded-circle mr-3">
+                    <a *ngIf="promocao.produto" [routerLink]="['/produto', promocao.produto.id]" class="avatar rounded-circle mr-3">
                       <img [hidden]="!promocao.produto.foto" [alt]="promocao.item.descricao" [src]="promocao.produto.foto">
                       <img [hidden]="promocao.produto.foto" [alt]="promocao.item.descricao" src="../assets/img/produto.jpg">
                     </a>
