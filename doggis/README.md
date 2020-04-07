@@ -142,5 +142,4 @@ Todos os endpoints estão disponíveis para importação <a href="https://bitbuc
 
 ## Autor
 
-| [<img src="https://avatars0.githubusercontent.com/u/5470572?s=115&v=4"><br><sub>@GabrielDev/sub>](https://github.com/GabrielDev) |
-| :---: |
+[![GabrielDev](https://avatars0.githubusercontent.com/u/5470572?s=115&v=4")](https://github.com/GabrielDev)
