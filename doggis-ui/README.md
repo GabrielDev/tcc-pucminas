@@ -1,11 +1,9 @@
-<p align="center">
-  <img src="https://bitbucket.org/GabrielDev/tcc-pucminas/raw/89c616fc4fa9eddf868951ac9aba12afb89fe95b/docs/doggis.png">
-</p>
-<h1 align="center">Doggis</h1>
+![Doggis](https://bitbucket.org/GabrielDev/tcc-pucminas/raw/89c616fc4fa9eddf868951ac9aba12afb89fe95b/docs/doggis.png)
 
-<p align="center">
-  Interface gráfica do Petshop.
-</p>
+# Doggis
+
+Interface gráfica do Petshop.
+
 
 ### Recursos
 
@@ -40,9 +38,10 @@
 ### Pré-requisitos
 
 Para executar em localhost, instale as seguintes dependências:
- * <a href="https://nodejs.org/en/">NodeJS</a>
- * <a href="https://classic.yarnpkg.com/pt-BR/docs/install/#mac-stable">Yarn (opcional)</a>
- * <a href="https://cli.angular.io/">Angular CLI</a>
+ * [NodeJS](https://nodejs.org/en/)
+ * [Angular CLI](https://cli.angular.io/)
+ * [Yarn (opcional)](https://classic.yarnpkg.com/pt-BR/docs/install/#mac-stable)
+
 
 #### npm
 ```

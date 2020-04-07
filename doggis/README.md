@@ -1,11 +1,9 @@
-<p align="center">
-  <img src="https://bitbucket.org/GabrielDev/tcc-pucminas/raw/89c616fc4fa9eddf868951ac9aba12afb89fe95b/docs/doggis.png">
-</p>
-<h1 align="center">Doggis</h1>
+![Doggis](https://bitbucket.org/GabrielDev/tcc-pucminas/raw/89c616fc4fa9eddf868951ac9aba12afb89fe95b/docs/doggis.png)
 
-<p align="center">
-  API de serviços do Petshop.
-</p>
+# Doggis
+
+API de serviços do Petshop.
+
 
 ### Recursos
 
@@ -40,10 +38,9 @@
 ### Pré-requisitos
 
 Para executar em localhost, instale as seguintes dependências:
- * <a href="https://www.java.com/pt_BR/">Java</a>
- * <a href="https://maven.apache.org/install.html">Maven</a>
- * <a href="https://dev.mysql.com/doc/mysql-installation-excerpt/5.7/en/">MySQL</a>
-
+ * [https://www.java.com/pt_BR/](Java)
+ * [https://maven.apache.org/install.html](Maven)
+ * [https://dev.mysql.com/doc/mysql-installation-excerpt/5.7/en/](MySQL)
 
 #### Banco de dados
 
@@ -53,6 +50,8 @@ CREATE DATABASE IF NOT EXISTS doggis; USE doggis;
 CREATE USER 'doggisApp'@'%' IDENTIFIED BY 'Doggis@2019';
 GRANT ALL PRIVILEGES ON doggis.* TO 'doggisApp'@'%';
 ```
+
+Uma carga inicial será realizada na primeira vez que o projeto for executado.
 
 #### Maven
 Após instalar e configurar o Maven, execute o seguinte comando
