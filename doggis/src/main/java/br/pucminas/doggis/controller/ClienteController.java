@@ -55,14 +55,14 @@ public class ClienteController {
 		return clienteRepository.findAll(paginacao);
 	}
 
-	@GetMapping("/avaliacoes/{id}")
+	@GetMapping("/{id}/avaliacoes")
 	public List<Avaliacao> listarAvaliacoes(@PathVariable("id") Long id) {
 		Cliente cliente = new Cliente();
 		cliente.setId(id);
 		return avaliacaoRepository.findByCliente(cliente);
 	}
 
-	@GetMapping("/avaliacoes-pendentes/{id}")
+	@GetMapping("/{id}/avaliacoes-pendentes")
 	public List<Avaliacao> listarAvaliacoesPendentes(@PathVariable("id") Long id) {
 		Cliente cliente = new Cliente();
 		cliente.setId(id);
