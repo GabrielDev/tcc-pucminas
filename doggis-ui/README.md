@@ -1,4 +1,4 @@
-![Doggis](https://bitbucket.org/GabrielDev/tcc-pucminas/raw/89c616fc4fa9eddf868951ac9aba12afb89fe95b/docs/doggis.png)
+![Doggis](https://bitbucket.org/GabrielDev/tcc-pucminas/raw/89c616fc4fa9eddf868951ac9aba12afb89fe95b/docs/doggis.png =200)
 
 # Doggis
 
@@ -38,6 +38,7 @@ Interface gráfica do Petshop.
 ### Pré-requisitos
 
 Para executar em localhost, instale as seguintes dependências:
+
  * [NodeJS](https://nodejs.org/en/)
  * [Angular CLI](https://cli.angular.io/)
  * [Yarn (opcional)](https://classic.yarnpkg.com/pt-BR/docs/install/#mac-stable)
@@ -72,5 +73,4 @@ $ ng serve --open
 
 ## Autor
 
-| [<img src="https://avatars0.githubusercontent.com/u/5470572?s=115&v=4"><br><sub>@GabrielDev/sub>](https://github.com/GabrielDev) |
-| :---: |
+[![GabrielDev](https://avatars0.githubusercontent.com/u/5470572?s=115&v=4")](https://github.com/GabrielDev)
