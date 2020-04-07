@@ -38,6 +38,7 @@ API de serviços do Petshop.
 ### Pré-requisitos
 
 Para executar em localhost, instale as seguintes dependências:
+
  * [https://www.java.com/pt_BR/](Java)
  * [https://maven.apache.org/install.html](Maven)
  * [https://dev.mysql.com/doc/mysql-installation-excerpt/5.7/en/](MySQL)
