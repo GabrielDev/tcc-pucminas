@@ -138,7 +138,7 @@ $ mvn spring-boot:run
 | Usuário      | Bloquear            | DELETE | /usuario/:id                      |
 
 ### Insomnia
-Todos os endpoints estão disponíveis para importação <a href="https://bitbucket.org/GabrielDev/tcc-pucminas/src/master/docs/Insomnia.json">aqui.</a>
+Todos os endpoints estão disponíveis para importação [aqui.](https://bitbucket.org/GabrielDev/tcc-pucminas/src/master/docs/Insomnia.json)
 
 ## Autor
 
