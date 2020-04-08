@@ -55,7 +55,10 @@ export class ClienteComponent implements OnInit {
 
   private excluir(cliente: Cliente) {
     this.service.excluir(cliente.id).subscribe(
-      () => this.mensagem.success(`Cliente ${cliente.nome} excluído com sucesso`),
+      () => {
+        this.mensagem.success(`Cliente ${cliente.nome} excluído com sucesso`)
+        this.listar()
+      },
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar excluir esse cliente')
