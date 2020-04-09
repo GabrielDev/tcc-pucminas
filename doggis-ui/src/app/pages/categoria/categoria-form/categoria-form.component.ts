@@ -38,6 +38,7 @@ export class CategoriaFormComponent implements OnInit {
   }
 
   abrir(categoria: Categoria) {
+    this.categoriaForm.reset()
     if(categoria) {
       this.categoria = categoria
       this.categoriaForm.setValue(categoria)

@@ -19,7 +19,7 @@
                 class="form-control form-control-alternative"
                 placeholder="Descrição"
                 formControlName="descricao"
-                [ngClass]="{'is-invalid': f.descricao?.errors?.required}">
+                [ngClass]="{'is-invalid': f.descricao.touched && f.descricao?.errors?.required}">
                 <div class="invalid-feedback" *ngIf="f.descricao.touched && f.descricao?.errors?.required">Campo obrigatório</div>
             </div>
           </div>

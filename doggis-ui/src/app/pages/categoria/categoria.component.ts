@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
+import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
-import { Categoria } from 'src/app/models';
+import { Categoria, Pagina, Paginacao } from 'src/app/models';
 import { CategoriaService } from 'src/app/providers';
 
 @Component({
@@ -10,8 +11,10 @@ import { CategoriaService } from 'src/app/providers';
   styleUrls: ['./categoria.component.scss']
 })
 export class CategoriaComponent implements OnInit {
-  public categorias: Categoria[] = []
+
+  public categorias: Paginacao<Categoria>
   public abrirModal: Subject<Categoria> = new Subject()
+  private paginaAtual: Pagina = { page: 0 }
 
   constructor(
     private service: CategoriaService,
@@ -22,18 +25,38 @@ export class CategoriaComponent implements OnInit {
     this.listar()
   }
 
-  listar() {
-    this.service.listar().subscribe(
+  listar(pagina: Pagina = this.paginaAtual) {
+    this.paginaAtual = pagina
+    this.service.listarPaginado(this.paginaAtual).subscribe(
       resultado => this.categorias = resultado,
       console.warn
     )
   }
 
-  excluir(categoria: Categoria) {
+  confirmarExcluir(categoria: Categoria) {
+    Swal.fire({
+      title: 'Atenção',
+      text: 'Todos os produtos dessa categoria serão perdidos durante a exclusão, deseja continuar?',
+      icon: 'question',
+      cancelButtonText: 'Cancelar',
+      showCancelButton: true,
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: 'btn btn-default',
+        cancelButton: 'btn btn-outline-secondary'
+      }
+    }).then(({ value }) => {
+      if(value) {
+        this.excluir(categoria)
+      }
+    })
+  }
+
+  private excluir(categoria: Categoria) {
     this.service.excluir(categoria.id).subscribe(
       () => {
         this.mensagem.success(`Categoria ${categoria.descricao} foi excluída`)
-        this.categorias = this.categorias.filter(item => item.id != categoria.id)
+        this.listar()
       },
       console.warn
     )

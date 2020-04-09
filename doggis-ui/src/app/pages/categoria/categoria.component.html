@@ -1,4 +1,5 @@
 <div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <app-categoria-form [exibir]="abrirModal" (onSalvar)="listar()"></app-categoria-form>
   <div class="container-fluid">
     <div class="header-body">
       <div class="row align-items-center">
@@ -29,20 +30,20 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let categoria of categorias">
+              <tr *ngFor="let categoria of categorias.content">
                 <th scope="row">{{ categoria.dataInclusao | date: "dd-MM-yyyy" }}</th>
                 <td>{{ categoria.descricao }}</td>
                 <td class="text-right">
                   <button type="button" class="btn btn-outline-secondary" title="Editar" (click)="alterar(categoria)" ngbTooltip="Editar">
                     <i class="fa fa-pencil-alt"></i>
                   </button>
-                  <button type="button" class="btn btn-outline-secondary" title="Excluir" (click)="excluir(categoria)" ngbTooltip="Excluir">
+                  <button type="button" class="btn btn-outline-secondary" title="Excluir" (click)="confirmarExcluir(categoria)" ngbTooltip="Excluir">
                     <i class="fa fa-trash"></i>
                   </button>
                 </td>
               </tr>
             </tbody>
-            <tfoot [hidden]="categorias.length">
+            <tfoot [hidden]="categorias?.content.length">
               <tr>
                 <td colspan="7" class="text-center">
                   <h5 class="h3">Nenhuma categoria encontrada</h5>
@@ -53,6 +54,15 @@
               </tr>
             </tfoot>
           </table>
+        </div>
+        <div [hidden]="!categorias?.content.length" class="card-footer py-4">
+          <p-paginator 
+            [rows]="categorias?.size" 
+            [totalRecords]="categorias?.totalElements"
+            (onPageChange)="listar($event)"
+            alwaysShow="false"
+            styleClass="paginator">
+          </p-paginator>
         </div>
       </div>
     </div>
