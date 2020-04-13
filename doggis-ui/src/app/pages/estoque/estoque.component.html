@@ -46,13 +46,13 @@
                 </td>
                 <th scope="row">
                   <div class="media align-items-center">
-                    <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
+                    <a [routerLink]="['/usuario', estoque.usuario.id]" class="avatar rounded-circle mr-3">
                       <img [hidden]="!estoque.usuario.foto" [alt]="estoque.usuario.nome" [src]="estoque.usuario.foto">
                       <img [hidden]="estoque.usuario.foto" [alt]="estoque.usuario.nome" src="assets/img/usuario.jpg">
                     </a>
-                    <div class="media-body">
-                      <span class="mb-0 text-sm">{{ estoque.usuario.nome }}</span>
-                    </div>
+                    <a class="media-body" [routerLink]="['/usuario', estoque.usuario.id]">
+                      <span class="mb-0 text-sm text-body">{{ estoque.usuario.nome }}</span>
+                    </a>
                   </div>
                 </th>
                 <th scope="row" width="200">
