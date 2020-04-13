@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
+import { ServicoService } from 'src/app/providers';
+import { Paginacao, Servico, Pagina } from 'src/app/models';
 
 @Component({
   selector: 'app-servico',
@@ -7,9 +11,59 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ServicoComponent implements OnInit {
 
-  constructor() { }
+  public servicos: Paginacao<Servico>
+  private paginaAtual: Pagina = { page: 0 }
+
+  constructor(
+    private service: ServicoService,
+    private mensagem: ToastrService 
+  ) { }
 
   ngOnInit() {
+    this.listar()
+  }
+
+  listar(pagina?: Pagina) {
+    this.paginaAtual = pagina || this.paginaAtual
+    this.service.listarPaginado(this.paginaAtual).subscribe(
+      resultado => this.servicos = resultado,
+      error => {
+        console.warn(error)
+        this.mensagem.warning('Ocorreu um erro ao tentar listar os serviços')
+      }
+    )
+  }
+
+  confirmarExcluir(servico: Servico) {
+    Swal.fire({
+      title: 'Atenção',
+      text: `Todos os pedidos, históricos de preço e promoçõe do serviço ${servico.descricao} serão perdidos durante a exclusão, deseja continuar?`,
+      icon: 'question',
+      cancelButtonText: 'Cancelar',
+      showCancelButton: true,
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: 'btn btn-default',
+        cancelButton: 'btn btn-outline-secondary'
+      }
+    }).then(({ value }) => {
+      if(value) {
+        this.excluir(servico)
+      }
+    })
+  }
+
+  private excluir(servico: Servico) {
+    this.service.excluir(servico.id).subscribe(
+      () => {
+        this.mensagem.success(`Serviço ${servico.descricao} excluído com sucesso`)
+        this.listar()
+      },
+      error => {
+        console.warn(error)
+        this.mensagem.warning('Ocorreu um erro ao tentar excluir esse serviço')
+      }
+    )
   }
 
 }

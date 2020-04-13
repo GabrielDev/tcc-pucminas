@@ -13,7 +13,7 @@ export class ServicoService extends GenericService<Servico>{
 
   public listarPaginado(pagina: Pagina) {
     const headers = this.prepareHeader()
-    return this.http.get<Paginacao<Produto>>(`${this.endpoint}/paginado?page=${pagina.page}`, headers)
+    return this.http.get<Paginacao<Servico>>(`${this.endpoint}/paginado?page=${pagina.page}`, headers)
   }
 
   public obterPromocao(servico: Servico) {
@@ -28,7 +28,7 @@ export class ServicoService extends GenericService<Servico>{
 
   public adicionarProduto(servico: Servico, produto: Produto) {
     const headers = this.prepareHeader()
-    return this.http.post<Servico>(`${this.endpoint}/${servico.id}/produto`, { produto })
+    return this.http.post<Servico>(`${this.endpoint}/${servico.id}/produto`, produto, headers)
   }
 
   public removerProduto(servico: Servico, produto: Produto) {

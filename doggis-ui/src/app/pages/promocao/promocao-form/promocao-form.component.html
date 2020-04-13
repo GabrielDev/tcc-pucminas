@@ -78,6 +78,7 @@
                             [minDate]="dataInicio"
                             dateFormat="dd-mm-yy"
                             rangeSeparator=" à "
+                            [locale]="pt"
                             (onSelect)="definirData($event)"
                             [ngClass]="{'is-invalid': f.periodo.touched && f.periodo?.errors?.required}"
                         ></p-calendar>

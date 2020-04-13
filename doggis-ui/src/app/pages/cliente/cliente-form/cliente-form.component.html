@@ -224,7 +224,7 @@
                                             formControlName="estado"
                                             [compareWith]="comparador"
                                             [ngClass]="{'is-invalid': f.estado.touched && f.estado?.errors?.required}">
-                                            <option value="">Selecione</option>
+                                            <option [ngValue]="null">Selecione</option>
                                             <option *ngFor="let estado of estados" [ngValue]="estado">{{ estado.descricao }}</option>
                                         </select>
                                         <div class="invalid-feedback" *ngIf="f.estado.touched && f.estado?.errors?.required">Campo obrigatório</div>

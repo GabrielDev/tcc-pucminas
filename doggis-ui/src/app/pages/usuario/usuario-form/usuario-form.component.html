@@ -131,7 +131,7 @@
                                             formControlName="perfil"
                                             [compareWith]="comparador"
                                             [ngClass]="{'is-invalid': f.perfil.touched && f.perfil?.errors?.required}">
-                                            <option value="">Selecione</option>
+                                            <option [ngValue]="null">Selecione</option>
                                             <option *ngFor="let perfil of perfis" [ngValue]="perfil">{{ perfil.descricao }}</option>
                                         </select>
                                         <div class="invalid-feedback" *ngIf="f.perfil.touched && f.perfil?.errors?.required">Campo obrigatório</div>

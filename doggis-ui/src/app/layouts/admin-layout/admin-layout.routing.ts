@@ -15,6 +15,7 @@ import { ProdutoComponent } from 'src/app/pages/produto/produto.component';
 import { ProdutoFormComponent } from 'src/app/pages/produto/produto-form/produto-form.component';
 import { PromocaoComponent } from 'src/app/pages/promocao/promocao.component';
 import { ServicoComponent } from 'src/app/pages/servico/servico.component';
+import { ServicoFormComponent } from 'src/app/pages/servico/servico-form/servico-form.component';
 import { UsuarioComponent } from 'src/app/pages/usuario/usuario.component';
 import { UsuarioFormComponent } from 'src/app/pages/usuario/usuario-form/usuario-form.component';
 import { VendaComponent } from 'src/app/pages/pedido/venda/venda.component';
@@ -40,6 +41,8 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'produto/:id', component: ProdutoFormComponent },
     { path: 'promocao', component: PromocaoComponent },
     { path: 'servico', component: ServicoComponent },
+    { path: 'servico/novo', component: ServicoFormComponent },
+    { path: 'servico/:id', component: ServicoFormComponent },
     { path: 'usuario', component: UsuarioComponent },
     { path: 'usuario/novo', component: UsuarioFormComponent },
     { path: 'usuario/:id', component: UsuarioFormComponent },

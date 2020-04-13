@@ -113,8 +113,8 @@ export class VendaComponent implements OnInit, OnDestroy {
       this.pedido.itens = [...this.pedido.itens, pedidoItem]
     }
     
-    this.itemSugerido = null
     this.calcularTotalItem(pedidoItem)
+    this.itemSugerido = null
   }
 
   remover(item: ItemVenda) {
@@ -153,7 +153,7 @@ export class VendaComponent implements OnInit, OnDestroy {
       this.produtoService.obterEstoque(produto).subscribe(resultado => produto.estoque = resultado)
       this.produtoService.obterPromocao(produto).subscribe(resultado => {
         pedidoItem = this.aplicarPromocao(produto, pedidoItem, resultado)
-      })
+      }, console.warn)
     }
 
     return pedidoItem

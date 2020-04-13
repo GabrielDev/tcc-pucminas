@@ -57,7 +57,7 @@ public class Servico implements ItemVenda {
 	@JoinColumn(name = "id_perfil")
 	private Perfil responsavel;
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany()
 	@JoinTable(name = "servico_produto", joinColumns = {
 			@JoinColumn(name = "id_servico", referencedColumnName = "id_servico") }, inverseJoinColumns = {
 					@JoinColumn(name = "id_produto", referencedColumnName = "id_produto") })
@@ -70,7 +70,26 @@ public class Servico implements ItemVenda {
 	@CreationTimestamp
 	@Column(name = "dt_inclusao")
 	private Date dataInclusao = new Date();
+	
+	public Servico() {}
 
+	public Servico(Long id, String descricao, String foto, LocalTime duracao, Promocao promocao, Double valor,
+			Integer patazBonus, Integer patazDesconto, Perfil responsavel, Set<Produto> produtos,
+			List<HistoricoPreco> historico, Date dataInclusao) {
+		super();
+		this.id = id;
+		this.descricao = descricao;
+		this.foto = foto;
+		this.duracao = duracao;
+		this.promocao = promocao;
+		this.valor = valor;
+		this.patazBonus = patazBonus;
+		this.patazDesconto = patazDesconto;
+		this.responsavel = responsavel;
+		this.produtos = produtos;
+		this.historico = historico;
+		this.dataInclusao = dataInclusao;
+	}
 
 	public Long getId() {
 		return id;

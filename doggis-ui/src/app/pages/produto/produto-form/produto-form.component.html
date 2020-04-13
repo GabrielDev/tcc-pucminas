@@ -79,7 +79,7 @@
                                       formControlName="categoria"
                                       [compareWith]="comparador"
                                       [ngClass]="{'is-invalid': f.categoria.touched && f.categoria?.errors?.required}">
-                                      <option [ngValue]="">Selecione</option>
+                                      <option [ngValue]="null">Selecione</option>
                                       <option *ngFor="let categoria of categorias" [ngValue]="categoria">{{ categoria.descricao }}</option>
                                   </select>
                                   <div class="invalid-feedback" *ngIf="f.categoria.touched && f.categoria?.errors?.required">Campo obrigatório</div>
@@ -97,7 +97,7 @@
                                       formControlName="fabricante"
                                       [compareWith]="comparador"
                                       [ngClass]="{'is-invalid': f.fabricante.touched && f.fabricante?.errors?.required}">
-                                      <option [ngValue]="">Selecione</option>
+                                      <option [ngValue]="null">Selecione</option>
                                       <option *ngFor="let fabricante of fabricantes" [ngValue]="fabricante">{{ fabricante.nome }}</option>
                                   </select>
                                   <div class="invalid-feedback" *ngIf="f.fabricante.touched && f.fabricante?.errors?.required">Campo obrigatório</div>

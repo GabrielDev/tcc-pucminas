@@ -11,4 +11,6 @@ public interface ServicoRepository extends JpaRepository<Servico, Long> {
 
 	List<ItemVenda> findByDescricaoContainingIgnoreCase(String termo);
 
+	List<Servico> findByDescricaoContainingIgnoreCaseOrderByDescricaoAsc(String termo);
+
 }

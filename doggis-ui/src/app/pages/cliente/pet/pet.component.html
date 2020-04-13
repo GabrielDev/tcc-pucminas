@@ -48,7 +48,7 @@
                                     formControlName="raca"
                                     [compareWith]="comparador"
                                     [ngClass]="{'is-invalid': f.raca.touched && f.raca?.errors?.required}">
-                                    <option [ngValue]="">Selecione</option>
+                                    <option [ngValue]="null">Selecione</option>
                                     <option *ngFor="let raca of racas" [ngValue]="raca">{{ raca.descricao }}</option>
                                 </select>
                                 <div class="invalid-feedback" *ngIf="f.raca.touched && f.raca?.errors?.required">Campo obrigatório</div>
@@ -63,7 +63,7 @@
                                     class="form-control form-control-alternative"
                                     formControlName="porte"
                                     [ngClass]="{'is-invalid': f.porte.touched && f.porte?.errors?.required}">
-                                    <option value="">Selecione</option>
+                                    <option [ngValue]="null">Selecione</option>
                                     <option *ngFor="let porte of portes" [ngValue]="porte.value">{{ porte.nome }}</option>
                                 </select>
                                 <div class="invalid-feedback" *ngIf="f.porte.touched && f.porte?.errors?.required">Campo obrigatório</div>

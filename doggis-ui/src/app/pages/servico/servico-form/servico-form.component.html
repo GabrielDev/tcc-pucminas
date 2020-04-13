@@ -1,0 +1,256 @@
+<form [formGroup]="servicoForm" (submit)="salvar()">
+    <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center">
+        <span class="mask bg-gradient-danger opacity-8"></span>
+        <div class="container-fluid d-flex align-items-center">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="display-2 text-white">{{ f.descricao.value }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mt--7">
+        <div class="row">
+            <div class="col-xl-4 order-xl-2 mb-xl-0">
+              <div class="card card-profile shadow mb-3">
+                <div class="row justify-content-center mb-8">
+                    <div class="col-lg-3 order-lg-2">
+                        <div class="card-profile-image pb-4">
+                            <a href="javascript:void(0)" (click)="image.abrir()">
+                                <img class="rounded-lg" [hidden]="!f.foto.value" [src]="f.foto.value">
+                                <img class="rounded-lg" [hidden]="f.foto.value" src="../assets/img/servico.jpg">
+                            </a>
+                            <app-image-crop #image [imagem]="f.foto?.value" (onConcluir)="aplicarFoto($event)" [corteCircular]="false"></app-image-crop>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group mb-4">
+                        <label for="produto" class="form-control-label">Adicionar produto</label>
+                        <p-autoComplete 
+                            id="produto" 
+                            name="produto"
+                            styleClass="btn-block"
+                            inputStyleClass="form-control form-control-alternative border-0" 
+                            field="descricao"
+                            [(ngModel)]="produto" 
+                            [suggestions]="produtos" 
+                            [forceSelection]="true"
+                            (completeMethod)="buscarProdutos($event)"
+                            (onSelect)="adicionarProduto($event)"
+                            placeholder="Buscar produto por nome"
+                            [ngModelOptions]="{standalone: true}">
+                            <ng-template let-item pTemplate="item">
+                                <div class="list-group-item list-group-item-action">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <img [hidden]="!item.foto" [alt]="item.descricao" [src]="item.foto" class="avatar rounded-pill">
+                                            <img [hidden]="item.foto" [alt]="item.descricao" src="../assets/img/produto.jpg" class="avatar rounded-pill">
+                                        </div>
+                                        <div class="col ml--2">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <h4 class="mb-0 text-sm">{{ item.descricao }}</h4>
+                                                <div class="text-right text-muted">
+                                                    <h4>{{ item.valor | currency: 'BRL' }}</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </p-autoComplete>
+                    </div>
+
+                    <div class="text-center mb-4">
+                        Produtos utilizados
+                    </div>
+                    <ul *ngIf="f.produtos.value.length" class="list-group list-group-flush list my--3">
+                        <li *ngFor="let produto of f.produtos.value" class="list-group-item px-0">
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <img [hidden]="!produto.foto" [alt]="produto.descricao" [src]="produto.foto" class="avatar rounded-pill">
+                                    <img [hidden]="produto.foto" [alt]="produto.descricao" src="../assets/img/produto.jpg" class="avatar rounded-pill">
+                                </div>
+                                <div class="col">
+                                    <div>
+                                        <h4 class="mb-0 text-sm">{{ produto.descricao }}</h4>
+                                    </div>
+                                    <div class="text-muted">
+                                        <small>{{ produto.fabricante.nome }}</small>
+                                    </div>
+                                </div>
+                                <div class="col text-right">
+                                    <h4 class="mb-0">{{ produto.valor | currency: 'BRL' }}</h4>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div [hidden]="f.produtos.value.length" class="text-center">
+                        <h5 class="text-muted">Esse serviço ainda não possui produtos associados</h5>
+                    </div>
+                </div>
+              </div>
+
+              <div class="card card-profile shadow">
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                      Histórico de preços
+                    </div>
+                    <ul [hidden]="!f.historico.value.length" class="list-group list-group-flush list my--3">
+                        <li *ngFor="let historico of f.historico.value" class="list-group-item px-0">
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <img class="avatar rounded-circle" [hidden]="!historico?.usuario.foto" [src]="historico?.usuario.foto" [alt]="historico?.usuario.nome">
+                                    <img class="avatar rounded-circle" [hidden]="historico?.usuario.foto"  src="../assets/img/usuario.jpg" [alt]="historico?.usuario.nome">
+                                </div>
+                                <div class="col">
+                                    <div>
+                                        <h4 class="mb-0 text-sm">{{ historico?.usuario.nome }}</h4>
+                                    </div>
+                                    <div class="text-muted">
+                                        <small>{{ historico?.dataInclusao | date: 'dd-MM-yy hh:mm' }}</small>
+                                    </div>
+                                </div>
+                                <div class="col text-right">
+                                    <h4 class="mb-0">{{ historico?.valor | currency: 'BRL' }}</h4>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div [hidden]="historicos.length" class="text-center">
+                        <h5 class="text-muted">Esse serviço ainda não possui histórico de preço</h5>
+                    </div>
+                  </div>
+              </div>
+            </div>
+  
+            <div class="col-xl-8 order-xl-1">
+                <div class="card bg-secondary shadow">
+                    <div class="card-header bg-white border-0">
+                        <div class="row align-items-center">
+                            <div class="col-12">
+                                <h3 class="mb-0">Serviço</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="pl-lg-4">
+                          <div class="row">
+                            <div class="col-12">
+                              <div class="form-group"
+                                [ngClass]="{'has-danger': f.descricao.touched && f.descricao?.errors?.required}">
+                                <label class="form-control-label" for="descricao">Descrição*</label>
+                                <input
+                                  type="text"
+                                  id="descricao"
+                                  class="form-control"
+                                  formControlName="descricao"
+                                  [ngClass]="{'is-invalid': f.descricao.touched && f.descricao?.errors?.required}">
+                                  <div class="invalid-feedback" *ngIf="f.descricao.touched && f.descricao?.errors?.required">Campo obrigatório</div>
+                              </div>
+                            </div>
+                          </div>
+                  
+                          <div class="row">
+                            <div class="col-6">
+                                <div class="form-group"
+                                    [ngClass]="{'has-danger': f.responsavel.touched && f.responsavel?.errors?.required}">
+                                    <label class="form-control-label" for="responsavel">Responsavel*</label>
+                                    <select
+                                        type="responsavel"
+                                        id="responsavel"
+                                        class="form-control"
+                                        formControlName="responsavel"
+                                        [compareWith]="comparador"
+                                        [ngClass]="{'is-invalid': f.responsavel.touched && f.responsavel?.errors?.required}">
+                                        <option [ngValue]="null">Selecione</option>
+                                        <option *ngFor="let responsavel of perfis" [ngValue]="responsavel">{{ responsavel.descricao }}</option>
+                                    </select>
+                                    <div class="invalid-feedback" *ngIf="f.responsavel.touched && f.responsavel?.errors?.required">Campo obrigatório</div>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group"
+                                    [ngClass]="{'has-danger': f.duracao.touched && f.duracao?.errors?.required}">
+                                    <label class="form-control-label" for="duracao">Duração*</label>
+                                    <div class="input-group input-group-merge">
+                                        <input
+                                            type="number"
+                                            id="duracao"
+                                            class="form-control"
+                                            formControlName="duracao"
+                                            [ngClass]="{'is-invalid': f.duracao.touched && f.duracao?.errors?.required}">
+                                          <div class="input-group-append">
+                                              <span class="input-group-text">min</span>
+                                          </div>
+                                    </div>
+                                    <div class="invalid-feedback" *ngIf="f.duracao.touched && f.duracao?.errors?.required">Campo obrigatório</div>
+                                </div>
+                              </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-4">
+                              <div class="form-group"
+                                  [ngClass]="{'has-danger': f.valor.touched && f.valor?.errors?.required}">
+                                  <label class="form-control-label" for="valor">Valor*</label>
+                                  <div class="input-group input-group-merge">
+                                      <div class="input-group-prepend">
+                                          <span class="input-group-text">R$</span>
+                                      </div>
+                                      <input
+                                          type="number"
+                                          id="valor"
+                                          class="form-control"
+                                          formControlName="valor"
+                                          [ngClass]="{'is-invalid': f.valor.touched && f.valor?.errors?.required}">
+                                  </div>
+                                  <div class="invalid-feedback" *ngIf="f.valor.touched && f.valor?.errors?.required">Campo obrigatório</div>
+                              </div>
+                            </div>
+
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="patazBonus">Bonus</label>
+                                    <div class="input-group input-group-merge">
+                                        <input
+                                            type="number"
+                                            id="patazBonus"
+                                            class="form-control"
+                                            formControlName="patazBonus">
+                                          <div class="input-group-append">
+                                              <span class="input-group-text">pz</span>
+                                          </div>
+                                    </div>
+                                </div>
+                              </div>
+  
+                              <div class="col-4">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="patazDesconto">Desconto</label>
+                                    <div class="input-group input-group-merge">
+                                        <input
+                                        type="number"
+                                        id="patazDesconto"
+                                        class="form-control"
+                                        formControlName="patazDesconto">
+                                      <div class="input-group-append">
+                                          <span class="input-group-text">pz</span>
+                                      </div>
+                                    </div>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+  
+                        <div class="pl-lg-4">
+                          <button type="submit" class="btn btn-primary">Salvar</button>
+                          <button type="button" class="btn btn-outline-secondary" [routerLink]="['/servico']">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- row -->
+    </div><!-- container-fluid -->
+  </form>

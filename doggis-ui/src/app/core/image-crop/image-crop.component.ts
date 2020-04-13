@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild, TemplateRef, Input } from '@angular/core';
+import { Component, Output, EventEmitter, ViewChild, TemplateRef, Input, ElementRef } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
@@ -8,7 +8,7 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
   templateUrl: './image-crop.component.html',
   styleUrls: ['./image-crop.component.scss']
 })
-export class ImageCropComponent implements OnInit {
+export class ImageCropComponent {
 
   @Input()
   corteCircular: boolean = true
@@ -24,7 +24,6 @@ export class ImageCropComponent implements OnInit {
 
   @Output()
   onConcluir = new EventEmitter<any>()
-  
 
   @ViewChild('imagemModal')
   private modalTemplate: TemplateRef<any>
@@ -37,11 +36,13 @@ export class ImageCropComponent implements OnInit {
     private modalService: NgbModal
   ) { }
 
-  ngOnInit(): void {
-  }
-
   abrir() {
     this.modal = this.modalService.open(this.modalTemplate, { size: 'xl', centered: true })
+
+    if(this.modalService.hasOpenModals()) {
+      let input: HTMLElement = document.getElementById('foto') as HTMLElement
+      input.click()
+    }
   }
 
   selecionar(event: any) {
@@ -54,7 +55,7 @@ export class ImageCropComponent implements OnInit {
     this.onConcluir.emit(this.imagem)
   }
 
-  carregar(event: any) {
+  carregar() {
     console.log("Imagem carregada");
   }
 
@@ -72,6 +73,6 @@ export class ImageCropComponent implements OnInit {
     this.imagemCarregada = ''
     this.imagem = ''
     this.onCancelar.emit(this.imagem)
-    this.modal.close()
+    this.modal.dismiss()
   }
 }

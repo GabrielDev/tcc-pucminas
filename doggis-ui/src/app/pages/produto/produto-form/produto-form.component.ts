@@ -115,7 +115,7 @@ export class ProdutoFormComponent implements OnInit {
   }
 
   private editar() {
-    this.produtoService.salvar(this.produto).subscribe(
+    this.produtoService.editar(this.produto.id, this.produto).subscribe(
       () => {
         this.mensagem.success(`Produto ${this.produto.descricao} salvo com sucesso!`)
         this.router.navigate(['/produto'])

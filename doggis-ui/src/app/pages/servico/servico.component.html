@@ -31,7 +31,43 @@
                 <th scope="col"></th>
               </tr>
             </thead>
-            <tfoot>
+            <tbody>
+              <tr *ngFor="let servico of servicos?.content">
+                <td class="text-center">
+                  {{ servico.id }}
+                </td>
+                <th scope="row">
+                  <div class="media align-items-center">
+                    <a [routerLink]="['/servico', servico.id]" class="avatar mr-3">
+                      <img class="rounded" [hidden]="!servico.foto" [alt]="servico.descricao" [src]="servico.foto">
+                      <img class="rounded" [hidden]="servico.foto" [alt]="servico.descricao" src="../assets/img/servico.jpg">
+                    </a>
+                    <a [routerLink]="['/servico', servico.id]" class="media-body">
+                      <span class="mb-0 text-sm text-body btn-block">{{ servico.descricao }}</span>
+                      <span class="mb-0 text-muted">{{ servico.duracao[1] }} min</span>
+                    </a>
+                  </div>
+                </th>
+                <td>
+                  {{ servico.valor | currency: 'BRL' }}
+                </td>
+                <td>
+                  {{ servico.patazBonus }}
+                </td>
+                <td>
+                  {{ servico.patazDesconto }}
+                </td>
+                <td class="text-right">
+                  <button type="button" class="btn btn-outline-secondary" title="Editar" [routerLink]="['/servico', servico.id]" ngbTooltip="Editar">
+                    <i class="fa fa-pencil-alt"></i>
+                  </button>
+                  <button type="button" class="btn btn-outline-secondary" title="Excluir" (click)="confirmarExcluir(servico)" ngbTooltip="Excluir">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot [hidden]="servicos?.content.length">
               <tr>
                 <td colspan="6" class="text-center">
                   <h5 class="h3">Nenhum serviço encontrado</h5>
