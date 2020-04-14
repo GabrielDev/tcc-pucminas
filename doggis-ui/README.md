@@ -78,3 +78,4 @@ $ ng serve --open
 ## Autor
 
 [![GabrielDev](https://avatars0.githubusercontent.com/u/5470572?s=115&v=4")](https://github.com/GabrielDev)
+./assets/img/brand/Doggis.png
