@@ -1,0 +1,42 @@
+version: "3"
+services:
+  #https://medium.com/@containeroo/traefik-2-0-docker-a-simple-step-by-step-guide-e0be0c17cfa5
+  proxy-reverso:
+    image: nginx:alpine
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - doggis
+
+  mysql:
+    image: mysql:5.7.29
+    restart: always
+    volumes:
+      - .mysql:/var/lib/mysql
+    networks:
+      - doggis
+    environment:
+      - MYSQL_ROOT_PASSWORD=Doggis@2020
+      - MYSQL_DATABASE=doggis
+      - MYSQL_USER=doggisApp
+      - MYSQL_PASSWORD=Doggis@2019
+
+  backend:
+    image: doggis
+    restart: always
+    networks:
+      - doggis
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/doggis
+
+  frontend:
+    image: doggis-ui
+    restart: always
+    networks:
+      - doggis
+
+networks:
+  doggis:
