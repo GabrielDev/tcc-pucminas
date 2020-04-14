@@ -1,6 +1,5 @@
-<p style="text-align:center">
-  <img src="https://bitbucket.org/GabrielDev/tcc-pucminas/raw/89c616fc4fa9eddf868951ac9aba12afb89fe95b/docs/doggis.png" width="300px/>
-</p>
+<img src="https://bitbucket.org/GabrielDev/tcc-pucminas/raw/89c616fc4fa9eddf868951ac9aba12afb89fe95b/docs/doggis.png" width="300px/>
+
 
 # Doggis
 
