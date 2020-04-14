@@ -1,9 +1,12 @@
-![Doggis](https://bitbucket.org/GabrielDev/tcc-pucminas/raw/89c616fc4fa9eddf868951ac9aba12afb89fe95b/docs/doggis.png)
-
-# Doggis
+<p style="text-align:center">
+  <img src="https://bitbucket.org/GabrielDev/tcc-pucminas/raw/89c616fc4fa9eddf868951ac9aba12afb89fe95b/docs/doggis.png" width="200px/>
+</p>
+                                                                                                                               
+<p style="text-align:center">                                                                                                                
+<h1>Doggis</h1>
 Projeto de conclusão do curso de Engenharia de Software PUC Minas.
 Seguindo as especificaçōes para desenvolvimento de um sistema de gerenciamento de PetShop.
-
+</p>
 
 
 ## Especificaçōes
