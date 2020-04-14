@@ -4,6 +4,8 @@
 # CREATE USER 'doggisApp'@'%' IDENTIFIED BY 'Doggis@2019';
 # GRANT ALL PRIVILEGES ON doggis.* TO 'doggisApp'@'%';
 
+USE doggis;
+
 #PERFIS
 INSERT IGNORE INTO perfil (id_perfil, dt_inclusao, descricao) VALUES
 (1, NOW(), 'Administrador'),
