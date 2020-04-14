@@ -228,11 +228,6 @@
               <div class="h5 font-weight-300">
                 <i class="ni location_pin mr-2"></i>{{ p.cliente?.cidade }} - {{ p.cliente?.estado?.descricao }}
               </div>
-              <div [hidden]="!p.cliente?.totalPataz">
-                <hr class="my-4" />
-                <p>Pataz</p>
-                <h4>{{ p.cliente?.totalPataz }}</h4>
-              </div>
             </div>
           </div>
         </div>
@@ -252,7 +247,6 @@
                     <h4 class="mb-0">
                       <a (click)="editarPet(pet)">{{ pet.nome }}</a>
                     </h4>
-                    <span class="text-success">●</span>
                     <small>{{ pet.especie.descricao }} - {{ pet.raca.descricao }}</small>
                   </div>
                 </div>
@@ -261,22 +255,49 @@
           </div>
         </div>
 
+        <div *ngIf="p.cliente?.totalPataz" class="card card-stats shadow mb-3">
+          <div class="card card-stats">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Pataz acumuladas</h5>
+                  <span class="h2 font-weight-bold mb-0">{{ p.cliente?.totalPataz }}</span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                    <i class="fa fa-paw"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0">
+                <button 
+                  type="button" 
+                  class="btn btn-xs btn-outline-primary btn-block" 
+                  (click)="usarPataz()"
+                  [disabled]="!p.itens.length">
+                  <i class="fa fa-paw mr-1"></i>Usar Pataz
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+
         <div class="card card-stats shadow">
           <div class="card-body">
             <div class="row">
               <div class="col">
                 <h5 class="card-title text-uppercase text-muted mb-0">Total</h5>
-                <span [hidden]="!p.total" class="h2 font-weight-bold mb-0 text-right">{{ p.total | currency: 'BRL' }}</span>
+                <span class="h2 font-weight-bold mb-0 text-right">{{ p.total | currency: 'BRL' }}</span>
               </div>
               <div class="col-auto">
-                <div class="icon icon-shape bg-red text-white rounded-circle shadow">
-                  <i class="ni ni-active-40"></i>
+                <div class="icon icon-shape bg-primary text-white rounded-circle shadow">
+                  <i class="ni ni-basket"></i>
                 </div>
               </div>
             </div>
-            <p class="mt-3 mb-0 text-sm" [hidden]="!p.patazBonusTotal">
-              <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> {{ p.patazBonusTotal }}</span>
-              <span class="text-nowrap">Pataz acumulados</span>
+            <p class="mt-3 mb-0 text-sm" *ngIf="p.patazBonusTotal">
+              <span class="text-primary mr-2"><i class="fa fa-paw"></i> {{ p.patazBonusTotal }}</span>
+              <span class="text-nowrap">Pataz bonus</span>
             </p>
           </div>
 

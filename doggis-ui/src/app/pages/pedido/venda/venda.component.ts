@@ -103,17 +103,16 @@ export class VendaComponent implements OnInit, OnDestroy {
   adicionar(item: ItemVenda) {
     let { itens } = this.pedido
     const index = itens.findIndex(pedido => pedido.item.id == item.id)
-    let pedidoItem: PedidoItem
 
     if(index >= 0) {
       itens[index].quantidade++
-      pedidoItem = itens[index]
+      this.atualizarQuantidade(itens[index])
     } else {
-      pedidoItem = this.criarNovoPedidoItem(item)
+      let pedidoItem = this.criarNovoPedidoItem(item)
       this.pedido.itens = [...this.pedido.itens, pedidoItem]
+      this.calcularTotalItem(pedidoItem)
     }
     
-    this.calcularTotalItem(pedidoItem)
     this.itemSugerido = null
   }
 
@@ -126,7 +125,39 @@ export class VendaComponent implements OnInit, OnDestroy {
     if(pedidoItem.item.tipo == TipoItem.PRODUTO) {
       this.validarEstoque(pedidoItem)
     } else {
+      pedidoItem.patazBonusTotal = pedidoItem.servico.patazBonus * pedidoItem.quantidade
       this.calcularTotalItem(pedidoItem)
+    }
+  }
+
+  usarPataz() {
+    if(this.isValido()) {
+      let totalDesconto = 0
+      let bonus = this.pedido.cliente.totalPataz
+      let itens = this.pedido.itens.map(item => {
+        if(item.servico) {
+          let desconto = item.servico.patazDesconto
+          for (let i = 0; i < item.quantidade; i++) {
+            if(bonus >= desconto) {
+              bonus -= desconto
+              totalDesconto += desconto
+              item.precoTotal -= item.precoUnitario
+              item.patazBonusTotal = 0
+            }
+          }
+        }
+
+        return item
+      })
+
+      if(!totalDesconto) {
+        this.mensagem.info(`${this.pedido.cliente.nome} ainda não possui Pataz suficiente para aplicar nesse pedido`)
+      } else {
+        this.pedido.itens = [...itens]
+        this.pedido.patazDescontoTotal = totalDesconto
+        this.calcularTotal()
+        this.finalizar()
+      }
     }
   }
 
@@ -144,9 +175,10 @@ export class VendaComponent implements OnInit, OnDestroy {
       let servico = <Servico>item
       pedidoItem.patazBonusTotal = item.patazBonus
       pedidoItem.servico = servico
+
       this.servicoService.obterPromocao(servico).subscribe(resultado => {
         pedidoItem = this.aplicarPromocao(servico, pedidoItem, resultado)
-      })
+      }, console.warn)
     } else {
       let produto = <Produto>item
       pedidoItem.produto = produto
@@ -192,6 +224,7 @@ export class VendaComponent implements OnInit, OnDestroy {
   }
 
   private calcularTotal() {
+    this.pedido.patazBonusTotal = this.pedido.itens.reduce((total, item) => total += item.patazBonusTotal, 0)
     this.pedido.total = this.pedido.itens.reduce((total, item) => total += item.precoTotal, 0)
   }
 

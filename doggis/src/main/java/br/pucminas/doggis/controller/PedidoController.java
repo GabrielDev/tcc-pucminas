@@ -28,6 +28,7 @@ import br.pucminas.doggis.config.security.AutenticacaoService;
 import br.pucminas.doggis.dto.PedidoDto;
 import br.pucminas.doggis.dto.form.EstoqueForm;
 import br.pucminas.doggis.dto.form.PedidoForm;
+import br.pucminas.doggis.model.Cliente;
 import br.pucminas.doggis.model.Estoque;
 import br.pucminas.doggis.model.ItemVenda;
 import br.pucminas.doggis.model.Pagamento;
@@ -35,6 +36,7 @@ import br.pucminas.doggis.model.Pedido;
 import br.pucminas.doggis.model.PedidoItem;
 import br.pucminas.doggis.model.TipoEstoque;
 import br.pucminas.doggis.model.Usuario;
+import br.pucminas.doggis.repository.ClienteRepository;
 import br.pucminas.doggis.repository.EstoqueRepository;
 import br.pucminas.doggis.repository.PagamentoRepository;
 import br.pucminas.doggis.repository.PedidoItemRepository;
@@ -67,6 +69,9 @@ public class PedidoController {
 	@Autowired
 	private EstoqueRepository estoqueRepository;
 	
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
 	@GetMapping()
 	public Page<PedidoDto> listar(@PageableDefault(size=10, sort="dataPedido", direction=Direction.DESC) Pageable paginacao) {
 		return PedidoDto.converter(pedidoRepository.findAll(paginacao));
@@ -94,6 +99,7 @@ public class PedidoController {
 		Pedido pedido = form.converter(usuario);
 		pedido = pedidoRepository.save(pedido);
 		salvarItens(pedido, form.getItens());
+		salvarPataz(pedido);
 		
 		URI uri = uriBuilder.path("/pedido/{id}").buildAndExpand(pedido.getId()).toUri();
 		return ResponseEntity.created(uri).body(pedido);
@@ -128,6 +134,26 @@ public class PedidoController {
 		}
 		
 		pedidoItemRepository.saveAll(itens);
+	}
+	
+	private void salvarPataz(Pedido pedido) {
+		Optional<Cliente> clienteExistente = clienteRepository.findById(pedido.getCliente().getId());
+		
+		if(clienteExistente.isPresent()) {
+			Cliente cliente = clienteExistente.get();
+			Integer totalPataz = cliente.getTotalPataz();
+			
+			if(pedido.getPatazDescontoTotal() > 0) {
+				totalPataz -= pedido.getPatazDescontoTotal();
+			}
+			
+			if(pedido.getPatazBonusTotal() > 0) {
+				totalPataz += pedido.getPatazBonusTotal();
+			}
+			
+			cliente.setTotalPataz(totalPataz);
+			clienteRepository.save(cliente);
+		}
 	}
 	
 	private void baixarEstoque(Pedido pedido, PedidoItem item) {

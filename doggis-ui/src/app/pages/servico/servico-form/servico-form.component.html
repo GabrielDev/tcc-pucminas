@@ -68,19 +68,22 @@
                         <li *ngFor="let produto of f.produtos.value" class="list-group-item px-0">
                             <div class="row align-items-center">
                                 <div class="col-auto">
-                                    <img [hidden]="!produto.foto" [alt]="produto.descricao" [src]="produto.foto" class="avatar rounded-pill">
-                                    <img [hidden]="produto.foto" [alt]="produto.descricao" src="../assets/img/produto.jpg" class="avatar rounded-pill">
+                                    <a [routerLink]="['/produto', produto.id]" class="avatar rounded-pill">
+                                        <img [hidden]="!produto.foto" [alt]="produto.descricao" [src]="produto.foto">
+                                        <img [hidden]="produto.foto" [alt]="produto.descricao" src="../assets/img/produto.jpg">
+                                    </a>
                                 </div>
-                                <div class="col">
-                                    <div>
-                                        <h4 class="mb-0 text-sm">{{ produto.descricao }}</h4>
-                                    </div>
-                                    <div class="text-muted">
-                                        <small>{{ produto.fabricante.nome }}</small>
-                                    </div>
-                                </div>
-                                <div class="col text-right">
+                                <a [routerLink]="['/produto', produto.id]" class="col ml--2">
+                                    <h5 class="mb-0">{{ produto.descricao }}</h5>
+                                    <small class="text-muted">{{ produto.fabricante.nome }}</small>
+                                </a>
+                                <div class="col-auto">
                                     <h4 class="mb-0">{{ produto.valor | currency: 'BRL' }}</h4>
+                                </div>
+                                <div class="col-auto" ngbTooltip="Excluir" >
+                                    <button type="button" 
+                                            class="btn btn-sm btn-outline-secondary" 
+                                            (click)="excluirProduto(produto)"><i class="fa fa-trash"></i></button>
                                 </div>
                             </div>
                         </li>
@@ -96,8 +99,8 @@
                     <div class="text-center mb-4">
                       Histórico de preços
                     </div>
-                    <ul [hidden]="!f.historico.value.length" class="list-group list-group-flush list my--3">
-                        <li *ngFor="let historico of f.historico.value" class="list-group-item px-0">
+                    <ul [hidden]="!historicos.length" class="list-group list-group-flush list my--3">
+                        <li *ngFor="let historico of historicos" class="list-group-item px-0">
                             <div class="row align-items-center">
                                 <div class="col-auto">
                                     <img class="avatar rounded-circle" [hidden]="!historico?.usuario.foto" [src]="historico?.usuario.foto" [alt]="historico?.usuario.nome">
@@ -172,7 +175,7 @@
 
                             <div class="col-6">
                                 <div class="form-group"
-                                    [ngClass]="{'has-danger': f.duracao.touched && f.duracao?.errors?.required}">
+                                    [ngClass]="{'has-danger': f.duracao.touched && f.duracao?.errors}">
                                     <label class="form-control-label" for="duracao">Duração*</label>
                                     <div class="input-group input-group-merge">
                                         <input
@@ -180,14 +183,18 @@
                                             id="duracao"
                                             class="form-control"
                                             formControlName="duracao"
-                                            [ngClass]="{'is-invalid': f.duracao.touched && f.duracao?.errors?.required}">
+                                            max="60"
+                                            min="1"
+                                            [ngClass]="{'is-invalid': f.duracao.touched && f.duracao?.errors}">
                                           <div class="input-group-append">
                                               <span class="input-group-text">min</span>
                                           </div>
+                                          <div class="invalid-feedback" *ngIf="f.duracao.touched && f.duracao?.errors?.required">Campo obrigatório</div>
+                                          <div class="invalid-feedback" *ngIf="f.duracao.touched && f.duracao?.errors?.min">Valor mínimo permitido 1 min</div>
+                                          <div class="invalid-feedback" *ngIf="f.duracao.touched && f.duracao?.errors?.max">Valor máximo permitido 60 min</div>
                                     </div>
-                                    <div class="invalid-feedback" *ngIf="f.duracao.touched && f.duracao?.errors?.required">Campo obrigatório</div>
                                 </div>
-                              </div>
+                            </div>
                           </div>
 
                           <div class="row">
@@ -205,8 +212,8 @@
                                           class="form-control"
                                           formControlName="valor"
                                           [ngClass]="{'is-invalid': f.valor.touched && f.valor?.errors?.required}">
+                                        <div class="invalid-feedback" *ngIf="f.valor.touched && f.valor?.errors?.required">Campo obrigatório</div>
                                   </div>
-                                  <div class="invalid-feedback" *ngIf="f.valor.touched && f.valor?.errors?.required">Campo obrigatório</div>
                               </div>
                             </div>
 

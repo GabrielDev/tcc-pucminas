@@ -26,7 +26,7 @@ public class ServicoForm {
 	private Long id;
 
 	@NotNull
-	@Size(min = 10)
+	@Size(min = 3)
 	@Size(max = 100)
 	private String descricao;
 	

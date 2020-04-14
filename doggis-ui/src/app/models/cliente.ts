@@ -14,7 +14,7 @@ export class Cliente implements Login {
         public cidade: string,
         public estado: Estado,
         public pets: Pet[],
-        public totalPataz: number,
+        public totalPataz: number = 0,
         public isAutorizaFoto: boolean,
         public avaliacoes: Avaliacao[],
         public dataInclusao: Date,

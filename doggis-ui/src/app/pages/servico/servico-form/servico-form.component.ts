@@ -54,6 +54,17 @@ export class ServicoFormComponent implements OnInit {
         this.servico = resultado
         this.servico.duracao = resultado.duracao[1]
         this.servicoForm.setValue(this.servico)
+        this.listarHistorico()
+      }
+    )
+  }
+
+  listarHistorico() {
+    this.servicoService.listarHistorico(this.servico).subscribe(
+      resultado => this.historicos = resultado,
+      error => {
+        console.warn(error)
+        this.mensagem.warning('Ocorreu um erro ao tentar obter o histórico de preço desse produto')
       }
     )
   }
@@ -86,6 +97,13 @@ export class ServicoFormComponent implements OnInit {
 
   adicionarProduto(produto: Produto) {
     let { produtos } = this.f
+    let existente = produtos.value.some(item => item.id == produto.id)
+
+    if(existente) {
+      this.produto = null
+      this.mensagem.success(`O produto ${produto.descricao} já foi associado a esse serviço`)
+      return
+    }
 
     if(this.servico?.id) {
       this.servicoService.adicionarProduto(this.servico, produto).subscribe(
@@ -167,14 +185,12 @@ export class ServicoFormComponent implements OnInit {
       descricao: [null, [Validators.required, Validators.minLength(3)]],
       foto: [''],
       valor: [null, [Validators.required, Validators.min(1)]],
-      duracao: [null, [Validators.required, Validators.min(1)]],
+      duracao: [null, [Validators.required, Validators.min(1), Validators.max(60)]],
       patazBonus: [0],
       patazDesconto: [0],
       produtos: [[]],
-      promocao: [],
       dataInclusao: [],
       responsavel: [null, Validators.required],
-      historico: [[]]
     })
   }
 

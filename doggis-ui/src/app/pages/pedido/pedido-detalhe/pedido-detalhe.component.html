@@ -76,9 +76,9 @@
                                             <tr *ngFor="let pedidoItem of pedido.itens">
                                                 <th scope="row">
                                                     <div class="media align-items-center">
-                                                      <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
-                                                        <img [hidden]="!pedidoItem.item.foto" [alt]="pedidoItem.item.descricao" [src]="pedidoItem.item.foto">
-                                                        <img [hidden]="pedidoItem.item.foto" [alt]="pedidoItem.item.descricao" src="../assets/img/produto.jpg">
+                                                      <a href="javascript:void(0)" class="avatar mr-3">
+                                                        <img class="rounded" [hidden]="!pedidoItem.item.foto" [alt]="pedidoItem.item.descricao" [src]="pedidoItem.item.foto">
+                                                        <img class="rounded" [hidden]="pedidoItem.item.foto" [alt]="pedidoItem.item.descricao" src="../assets/img/produto.jpg">
                                                       </a>
                                                       <div class="media-body">
                                                         <span class="mb-0 text-sm">{{ pedidoItem.item.descricao }}</span>
@@ -93,11 +93,11 @@
                                                 <td class="text-right align-middle">{{ pedidoItem.precoTotal | currency: 'BRL' }}</td>
                                             </tr>
                                             <tr *ngIf="pedido.patazBonusTotal" class="bg-transparent">
-                                                <td colspan="3" class="text-right text-light">Pataz Bonus</td>
+                                                <td colspan="3" class="text-right">Pataz Bonus</td>
                                                 <td class="text-right">{{ pedido.patazBonusTotal }}</td>
                                             </tr>
                                             <tr *ngIf="pedido.patazDescontoTotal" class="bg-transparent">
-                                                <td colspan="3" class="text-right text-light border-top-0">Pataz Desconto</td>
+                                                <td colspan="3" class="text-right border-top-0">Pataz Desconto</td>
                                                 <td class="text-right border-top-0">{{ pedido.patazDescontoTotal }}</td>
                                             </tr>
                                         </tbody>

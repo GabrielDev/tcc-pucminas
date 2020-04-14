@@ -25,9 +25,10 @@
               <tr>
                 <th scope="col">Código</th>
                 <th scope="col">Descrição</th>
-                <th scope="col">Valor</th>
-                <th scope="col">Pataz bonus</th>
-                <th scope="col">Pataz desconto</th>
+                <th scope="col">Produtos</th>
+                <th class="text-center" scope="col">Pataz bonus</th>
+                <th class="text-center" scope="col">Pataz desconto</th>
+                <th class="text-center" scope="col">Valor</th>
                 <th scope="col"></th>
               </tr>
             </thead>
@@ -49,13 +50,24 @@
                   </div>
                 </th>
                 <td>
+                  <div *ngIf="servico.produtos.length" class="avatar-group">
+                    <a *ngFor="let produto of servico.produtos"
+                      [routerLink]="['/produto', produto.id]"
+                      class="avatar avatar-sm"
+                      [ngbTooltip]="produto.descricao">
+                      <img [hidden]="!produto?.foto" [alt]="produto.descricao" [src]="produto.foto" class="rounded-pill">
+                      <img [hidden]="produto?.foto" [alt]="produto.descricao" src="../assets/img/produto.jpg" class="rounded-pill">
+                    </a>
+                  </div>
+                </td>
+                <td class="text-center">
+                  {{ servico.patazBonus }} <i class="fa fa-paw text-success ml-1"></i>
+                </td>
+                <td class="text-center">
+                  {{ servico.patazDesconto }} <i class="fa fa-paw text-warning ml-1"></i>
+                </td>
+                <td class="text-center">
                   {{ servico.valor | currency: 'BRL' }}
-                </td>
-                <td>
-                  {{ servico.patazBonus }}
-                </td>
-                <td>
-                  {{ servico.patazDesconto }}
                 </td>
                 <td class="text-right">
                   <button type="button" class="btn btn-outline-secondary" title="Editar" [routerLink]="['/servico', servico.id]" ngbTooltip="Editar">

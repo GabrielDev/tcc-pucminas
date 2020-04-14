@@ -40,7 +40,8 @@ public class Servico implements ItemVenda {
 	private String foto;
 
 	private LocalTime duracao;
-
+	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_promocao")
 	private Promocao promocao;
@@ -62,7 +63,8 @@ public class Servico implements ItemVenda {
 			@JoinColumn(name = "id_servico", referencedColumnName = "id_servico") }, inverseJoinColumns = {
 					@JoinColumn(name = "id_produto", referencedColumnName = "id_produto") })
 	private Set<Produto> produtos;
-
+	
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "servico")
 	private List<HistoricoPreco> historico;
 	
@@ -187,10 +189,9 @@ public class Servico implements ItemVenda {
 		this.dataInclusao = dataInclusao;
 	}
 	
-	@JsonIgnore
 	@Transient
 	public TipoItem getTipo() {
-		return TipoItem.PRODUTO;
+		return TipoItem.SERVICO;
 	}
 
 	@Override

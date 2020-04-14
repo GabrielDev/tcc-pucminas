@@ -19,7 +19,7 @@ export class Pedido implements IPedido {
     public pagamento: Pagamento
     public patazBonusTotal: number
     public patazDescontoTotal: number
-    public total: number
+    public total: number = 0
     public dataPedido: Date
     public itens: PedidoItem[] = []
 

@@ -40,10 +40,23 @@
                             <div class="h5 font-weight-300">
                                 <i class="ni location_pin mr-2"></i>{{ f.cidade.value }} - {{ f.estado.value?.descricao }}
                             </div>
-                            <div [hidden]="!cliente?.totalPataz">
-                                <hr class="my-4" />
-                                <p>Pataz</p>
-                                <h4>{{ cliente?.totalPataz }}</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="cliente?.totalPataz" class="card card-stats shadow mt-3">
+                    <div class="card card-stats">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Pataz acumuladas</h5>
+                                    <span class="h2 font-weight-bold mb-0">{{ cliente?.totalPataz }}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                                        <i class="fa fa-paw"></i>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -55,7 +68,7 @@
                             <li *ngFor="let pet of f.pets.value" class="list-group-item px-0">
                                 <div class="row align-items-center">
                                     <div class="col-auto">
-                                        <a href="#" class="avatar rounded-circle">
+                                        <a (click)="editarPet(pet)" class="avatar rounded-circle">
                                             <img [hidden]="!pet.foto" [alt]="pet.nome" [src]="pet.foto">
                                             <img [hidden]="pet.foto" [alt]="pet.nome" src="../assets/img/pet.jpg">
                                         </a>
@@ -64,19 +77,20 @@
                                         <h4 class="mb-0">
                                             <a (click)="editarPet(pet)">{{ pet.nome }}</a>
                                         </h4>
-                                        <span class="text-success">●</span>
                                         <small>{{ pet.especie.descricao }} - {{ pet.raca.descricao }}</small>
                                     </div>
                                     <div class="col-auto">
-                                        <button type="button" 
-                                                class="btn btn-sm btn-outline-secondary" 
-                                                ngbTooltip="Editar" 
-                                                (click)="editarPet(pet)"><i class="fa fa-pencil-alt"></i></button>
-                                                
-                                        <button type="button" 
-                                                class="btn btn-sm btn-outline-secondary" 
-                                                ngbTooltip="Excluir" 
-                                                (click)="confirmarExcluir(pet)"><i class="fa fa-trash"></i></button>
+                                        <div class="btn-group" ngbTooltip="Editar">
+                                            <button type="button" 
+                                                    class="btn btn-sm btn-outline-secondary" 
+                                                    (click)="editarPet(pet)"><i class="fa fa-pencil-alt"></i></button>
+                                        </div>
+                                        
+                                        <div class="btn-group" ngbTooltip="Excluir" >
+                                            <button type="button" 
+                                                    class="btn btn-sm btn-outline-secondary" 
+                                                    (click)="confirmarExcluir(pet)"><i class="fa fa-trash"></i></button>
+                                        </div>
                                     </div>
                                 </div>
                             </li>
