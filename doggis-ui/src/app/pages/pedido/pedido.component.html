@@ -27,7 +27,15 @@
                 <th scope="col">No. Pedido</th>
                 <th scope="col">Cliente</th>
                 <th scope="col">Responsável</th>
-                <th scope="col">Pataz bonus</th>
+                <th scope="col">
+                  <ng-template #popContent>
+                    <small>
+                      <p><i class="fa fa-paw text-success mr-1"></i> Pataz acumuladas</p>
+                      <p class="mb-0"><i class="fa fa-paw text-warning mr-1"></i> Pataz utilizadas</p>
+                    </small>
+                  </ng-template>
+                  Pataz <a href="javascript:void(0)" [ngbPopover]="popContent" triggers="mouseenter:mouseleave"><i class="fa fa-question-circle"></i></a>
+                </th>
                 <th scope="col">Total</th>
                 <th scope="col">Pagamento</th>
                 <th scope="col"></th>
@@ -53,8 +61,13 @@
                   {{ pedido.usuario.nome }}
                 </td>
                 <td class="text-center">
-                  <span *ngIf="pedido.patazBonusTotal">{{ pedido.patazBonusTotal }} <i class="fa fa-paw text-success ml-1"></i></span>
-                  <span *ngIf="!pedido.patazBonusTotal">-</span>
+                  <span ngbTooltip="Pataz bonus" *ngIf="pedido.patazBonusTotal">
+                    {{ pedido.patazBonusTotal }} <i class="fa fa-paw text-success ml-1"></i>
+                  </span>
+                  <span ngbTooltip="Pataz desconto" *ngIf="pedido.patazDescontoTotal">
+                    {{ pedido.patazDescontoTotal }} <i class="fa fa-paw text-warning ml-1"></i>
+                  </span>
+                  <span ngbTooltip="Pataz desconto" *ngIf="!pedido.patazDescontoTotal && !pedido.patazBonusTotal">-</span>
                 </td>
                 <td>
                   {{ pedido.total | currency: 'BRL' }}

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { debounceTime, switchMap } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 import { Cliente, ItemVenda, Pagamento, TipoItem, Pedido, PedidoItem, Produto, Servico, Promocao } from 'src/app/models';
 import { PedidoService, ClienteService, ProdutoService, ServicoService } from 'src/app/providers';
 
@@ -182,10 +183,11 @@ export class VendaComponent implements OnInit, OnDestroy {
     } else {
       let produto = <Produto>item
       pedidoItem.produto = produto
-      this.produtoService.obterEstoque(produto).subscribe(resultado => produto.estoque = resultado)
-      this.produtoService.obterPromocao(produto).subscribe(resultado => {
-        pedidoItem = this.aplicarPromocao(produto, pedidoItem, resultado)
-      }, console.warn)
+      this.produtoService.obterPromocao(produto).subscribe(resultado => pedidoItem = this.aplicarPromocao(produto, pedidoItem, resultado))
+      this.produtoService.obterEstoque(produto).subscribe(resultado => {
+        produto.estoque = resultado
+        this.validarEstoque(pedidoItem)
+      })
     }
 
     return pedidoItem
@@ -213,7 +215,11 @@ export class VendaComponent implements OnInit, OnDestroy {
       this.calcularTotalItem(pedidoItem)
 
     } else {
-      this.mensagem.warning(`Produto não está disponível no estoque`)
+      Swal.fire({
+        icon: 'error',
+        title: 'Que pena!',
+        text: `Produto não está disponível no estoque`,
+      })
       this.remover(pedidoItem.item)
     }
   }
@@ -232,8 +238,15 @@ export class VendaComponent implements OnInit, OnDestroy {
     if(this.isValido()) {
       this.pedidoService.salvar(this.pedido).subscribe(
         resultado => {
-          console.log(resultado)
-          this.mensagem.success(`Pedido no. ${resultado.id} efetuado com sucesso!`)
+          Swal.fire({
+            icon: 'success',
+            title: 'Pedido concluído!',
+            text: `Pedido no. ${resultado.id} efetuado com sucesso!`,
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: 'btn btn-success border-0',
+            }
+          })
           this.router.navigate(['/pedido', resultado.id])
         },
         error => {

@@ -4,11 +4,12 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { Login, AuthResponse } from 'src/app/models';
 import { AuthService } from 'src/app/providers/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
 
@@ -28,14 +29,39 @@ export class LoginComponent implements OnInit {
   logar() {
     if(this.loginForm.valid) {
       let login: Login = this.loginForm.value
+      
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        onOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
       this.service.login(login).subscribe(
         resposta => {
+          Toast.fire({
+            icon: 'success',
+            title: 'Bem vindo ao Doggis'
+          })
           this.service.setToken(resposta.token)
           this.router.navigate(['dashboard'])
         },
         error => {
           console.warn(error)
-          this.mensagem.error(`Ocorreu um erro ao tentar efetuar o login\n Verifique seu e-mail e senha e tente novamente`)
+          Swal.fire({
+            icon: 'error',
+            title: 'Senha ou e-mail incorreto',
+            text: `Por favor, tente novamente.`,
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: 'btn btn-warning border-0',
+            }
+          })
         }
       )
     }

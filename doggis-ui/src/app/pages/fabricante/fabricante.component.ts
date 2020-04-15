@@ -37,12 +37,13 @@ export class FabricanteComponent implements OnInit {
     Swal.fire({
       title: 'Atenção',
       text: 'Todos os produtos desse fabricante serão perdidos durante a exclusão, deseja continuar?',
-      icon: 'question',
+      icon: 'warning',
+      confirmButtonText: 'Sim, prosseguir',
       cancelButtonText: 'Cancelar',
       showCancelButton: true,
       buttonsStyling: false,
       customClass: {
-        confirmButton: 'btn btn-default',
+        confirmButton: 'btn btn-danger',
         cancelButton: 'btn btn-outline-secondary'
       }
     }).then(({ value }) => {

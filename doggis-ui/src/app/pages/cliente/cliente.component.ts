@@ -37,13 +37,14 @@ export class ClienteComponent implements OnInit {
   confirmarExcluir(cliente: Cliente) {
     Swal.fire({
       title: 'Atenção',
-      text: `Todos os pets, agendamentos, avaliaçōes e pedidos do cliente ${cliente.nome} serão perdidos durante a exclusão, deseja continuar?`,
-      icon: 'question',
+      text: `Todos os pets, agendamentos, avaliaçōes e pedidos de ${cliente.nome} serão perdidos durante a exclusão, deseja continuar?`,
+      icon: 'warning',
+      confirmButtonText: 'Sim, prosseguir',
       cancelButtonText: 'Cancelar',
       showCancelButton: true,
       buttonsStyling: false,
       customClass: {
-        confirmButton: 'btn btn-default',
+        confirmButton: 'btn btn-danger',
         cancelButton: 'btn btn-outline-secondary'
       }
     }).then(({ value }) => {
