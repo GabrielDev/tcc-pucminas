@@ -14,6 +14,7 @@ API de serviços do Petshop.
  * Manter Clientes
  * Manter Pets
  * Manter Produtos
+ * Manter Serviços
  * Manter Promoçōes
  * Manter Estoque
  * Manter Pedidos
@@ -26,7 +27,7 @@ API de serviços do Petshop.
  * Desenvolvido utilizando Spring Boot
 
 #### Recursos pendentes
- * Manter Serviços
+
  * Manter Agendamentos
  * Manter Avaliaçōes
  * Relatórios de atendimentos
@@ -138,6 +139,14 @@ $ mvn spring-boot:run
 | Usuário      | Todos               | GET    | /usuario                          |
 | Usuário      | Obter               | GET    | /usuario/:id                      |
 | Usuário      | Bloquear            | DELETE | /usuario/:id                      |
+| Usuário      | Bloquear            | DELETE | /usuario/:id                      |
+| Serviço      | Novo                | POST   | /servico                          |
+| Serviço      | Editar              | PUT    | /servico/:id                      |
+| Serviço      | Todos               | GET    | /servico                          |
+| Serviço      | Obter               | GET    | /servico/:id                      |
+| Serviço      | Excluir             | DELETE | /servico/:id                      |
+| Serviço      | Histórico de preço  | GET    | /servico/:id/historico            |
+| Serviço      | Promoção            | GET    | /servico/:id/promocao             |
 
 ### Insomnia
 Todos os endpoints estão disponíveis para importação [aqui.](https://bitbucket.org/GabrielDev/tcc-pucminas/src/master/docs/Insomnia.json)

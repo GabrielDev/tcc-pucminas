@@ -21,6 +21,7 @@ Porém o sistema foi desenvolvido apenas para cumprir o propósito de demonstra�
  * Manter Clientes
  * Manter Pets
  * Manter Produtos
+ * Manter Serviços
  * Manter Promoçōes
  * Manter Estoque
  * Manter Pedidos
@@ -29,7 +30,6 @@ Porém o sistema foi desenvolvido apenas para cumprir o propósito de demonstra�
 
 #### Recursos pendentes
 
- * Manter Serviços
  * Manter Agendamentos
  * Manter Avaliaçōes
  * Relatórios de atendimentos

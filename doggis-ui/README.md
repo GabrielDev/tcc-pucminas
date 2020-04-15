@@ -17,6 +17,7 @@ Interface gráfica do Petshop.
  * Manter Clientes
  * Manter Pets
  * Manter Produtos
+ * Manter Serviços
  * Manter Promoçōes
  * Manter Estoque
  * Manter Pedidos
@@ -25,7 +26,6 @@ Interface gráfica do Petshop.
 
 #### Recursos incompletos
 
- * Manter Serviços
  * Manter Agendamentos
  * Manter Avaliaçōes
  * Relatórios de atendimentos
