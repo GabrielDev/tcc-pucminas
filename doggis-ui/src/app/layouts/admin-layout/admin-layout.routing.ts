@@ -20,6 +20,8 @@ import { UsuarioComponent } from 'src/app/pages/usuario/usuario.component';
 import { UsuarioFormComponent } from 'src/app/pages/usuario/usuario-form/usuario-form.component';
 import { VendaComponent } from 'src/app/pages/pedido/venda/venda.component';
 import { PedidoDetalheComponent } from 'src/app/pages/pedido/pedido-detalhe/pedido-detalhe.component';
+import { NaoEncontradoComponent } from 'src/app/pages/erros/nao-encontrado/nao-encontrado.component';
+import { NaoAutorizadoComponent } from 'src/app/pages/erros/nao-autorizado/nao-autorizado.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
@@ -46,4 +48,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'usuario', component: UsuarioComponent },
     { path: 'usuario/novo', component: UsuarioFormComponent },
     { path: 'usuario/:id', component: UsuarioFormComponent },
+    { path: 'nao-encontrado', component: NaoEncontradoComponent },
+    { path: 'nao-autorizado', component: NaoAutorizadoComponent },
 ];

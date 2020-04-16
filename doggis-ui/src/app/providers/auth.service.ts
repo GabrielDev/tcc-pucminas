@@ -54,13 +54,20 @@ export class AuthService {
   }
 
   public temPermissao(recurso: string) {
-    return this.papeis.some(papel => recurso.includes(papel.menu))
+    let autorizadas = ['nao-autorizado', 'nao-encontrado']
+    let permitido = autorizadas.includes(recurso)
+
+    if(!permitido) {
+      permitido = this.papeis.some(papel => recurso.includes(papel.menu))
+    }
+
+    return permitido
   }
 
   public obterRotaPadrao() {
-    let rota = 'dashboard'
+    let rota = 'nao-autorizado'
 
-    if(!this.temPermissao(rota)) {
+    if(this.papeis.length) {
       rota = this.papeis[0].menu
     }
 
