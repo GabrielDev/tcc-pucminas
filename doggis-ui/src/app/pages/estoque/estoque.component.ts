@@ -11,6 +11,7 @@ import { Paginacao, Estoque, Produto, Pagina, TipoEstoque } from 'src/app/models
 })
 export class EstoqueComponent implements OnInit {
 
+  public carregando: boolean
   public estoque: Estoque
   public estoques: Paginacao<Estoque>
   public produtos: Produto[] = []
@@ -32,12 +33,14 @@ export class EstoqueComponent implements OnInit {
 
   listar(pagina: Pagina = this.paginaAtual, produto?: Produto) {
     this.paginaAtual = pagina
+    this.carregando = true
     this.estoqueService.listar(this.paginaAtual, produto).subscribe(
       resultado => this.estoques = resultado,
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar listar os estoques')
-      }
+      },
+      () => this.carregando = false
     )
   }
 

@@ -4,7 +4,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import { PaginatorModule } from 'primeng';
+import { PaginatorModule, ProgressBarModule } from 'primeng';
 import { CategoriaComponent } from './categoria.component';
 import { CategoriaFormComponent } from './categoria-form/categoria-form.component';
 
@@ -16,6 +16,7 @@ import { CategoriaFormComponent } from './categoria-form/categoria-form.componen
     RouterModule,
     NgbModule,
     SweetAlert2Module,
+    ProgressBarModule,
     PaginatorModule,
   ],
   declarations: [CategoriaComponent, CategoriaFormComponent],

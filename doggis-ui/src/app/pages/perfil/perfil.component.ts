@@ -12,6 +12,7 @@ import { Subject } from 'rxjs';
 })
 export class PerfilComponent implements OnInit {
 
+  public carregando: boolean
   public perfis: Perfil[] = []
   public abrirModal: Subject<Perfil> = new Subject()
 
@@ -25,9 +26,11 @@ export class PerfilComponent implements OnInit {
   }
 
   listar() {
+    this.carregando = true
     this.service.listar().subscribe(
       resultado => this.perfis = resultado,
-      console.warn
+      console.warn,
+      () => this.carregando = false
     )
   }
 

@@ -14,6 +14,8 @@ import { Produto, HistoricoPreco, Servico, TipoItem, Perfil, PerfilPadrao } from
 })
 export class ServicoFormComponent implements OnInit {
 
+  public carregando: boolean
+  public salvando: boolean
   public servicoForm: FormGroup
   public produto: Produto
   public produtos: Produto[] = []
@@ -49,6 +51,7 @@ export class ServicoFormComponent implements OnInit {
   }
 
   obterServico(id: number) {
+    this.carregando = true
     this.servicoService.obterPorId(id).subscribe(
       resultado => {
         this.servico = resultado
@@ -65,7 +68,8 @@ export class ServicoFormComponent implements OnInit {
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar obter o histórico de preço desse produto')
-      }
+      },
+      () => this.carregando = false
     )
   }
 
@@ -144,6 +148,7 @@ export class ServicoFormComponent implements OnInit {
     this.servicoForm.markAllAsTouched()
     if(this.servicoForm.valid) {
       this.servico = this.servicoForm.value
+      this.salvando = true
 
       if(this.servico.id) {
         this.editar()
@@ -162,7 +167,8 @@ export class ServicoFormComponent implements OnInit {
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar salvar esse serviço')
-      }
+      },
+      () => this.salvando = false
     )
   }
 
@@ -175,7 +181,8 @@ export class ServicoFormComponent implements OnInit {
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar salvar esse serviço')
-      }
+      },
+      () => this.salvando = false
     )
   }
 

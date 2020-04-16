@@ -21,7 +21,7 @@
           <h3 class="mb-0">Fabricantes</h3>
         </div>
         <div class="table-responsive">
-          <table class="table align-items-center table-flush">
+          <table class="table align-items-center table-hover">
             <thead class="thead-light">
               <tr>
                 <th scope="col">Criado em</th>
@@ -29,7 +29,12 @@
                 <th scope="col"></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody *ngIf="carregando">
+              <tr>
+                <td colspan="3"><p-progressBar mode="indeterminate"></p-progressBar></td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="!carregando">
               <tr *ngFor="let fabricante of fabricantes?.content">
                 <th scope="row">{{ fabricante.dataInclusao | date: "dd-MM-yyyy" }}</th>
                 <td>{{ fabricante.nome }}</td>
@@ -43,9 +48,9 @@
                 </td>
               </tr>
             </tbody>
-            <tfoot [hidden]="fabricantes?.content.length">
+            <tfoot *ngIf="!carregando && !fabricantes?.content.length">
               <tr>
-                <td colspan="7" class="text-center">
+                <td colspan="3" class="text-center">
                   <h5 class="h3">Nenhum fabricante encontrado</h5>
                     <button class="btn n btn-outline-primary"  (click)="novo()">
                       Adicionar novo

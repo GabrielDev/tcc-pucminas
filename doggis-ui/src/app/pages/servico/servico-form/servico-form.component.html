@@ -64,32 +64,39 @@
                     <div class="text-center mb-4">
                         Produtos utilizados
                     </div>
-                    <ul *ngIf="f.produtos.value.length" class="list-group list-group-flush list my--3">
-                        <li *ngFor="let produto of f.produtos.value" class="list-group-item px-0">
-                            <div class="row align-items-center">
-                                <div class="col-auto">
-                                    <a [routerLink]="['/produto', produto.id]" class="avatar rounded-pill">
-                                        <img [hidden]="!produto.foto" [alt]="produto.descricao" [src]="produto.foto">
-                                        <img [hidden]="produto.foto" [alt]="produto.descricao" src="../assets/img/produto.jpg">
+
+                    <div *ngIf="carregando" class="text-center">
+                        <p-progressSpinner [style]="{width: '60px', height: '60px'}"></p-progressSpinner>
+                    </div>
+
+                    <div *ngIf="!carregando">
+                        <ul *ngIf="f.produtos.value.length" class="list-group list-group-flush list my--3">
+                            <li *ngFor="let produto of f.produtos.value" class="list-group-item px-0">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <a [routerLink]="['/produto', produto.id]" class="avatar rounded-pill">
+                                            <img [hidden]="!produto.foto" [alt]="produto.descricao" [src]="produto.foto">
+                                            <img [hidden]="produto.foto" [alt]="produto.descricao" src="../assets/img/produto.jpg">
+                                        </a>
+                                    </div>
+                                    <a [routerLink]="['/produto', produto.id]" class="col ml--2">
+                                        <h5 class="mb-0">{{ produto.descricao }}</h5>
+                                        <small class="text-muted">{{ produto.fabricante.nome }}</small>
                                     </a>
+                                    <div class="col-auto">
+                                        <h4 class="mb-0">{{ produto.valor | currency: 'BRL' }}</h4>
+                                    </div>
+                                    <div class="col-auto" ngbTooltip="Excluir" >
+                                        <button type="button" 
+                                                class="btn btn-sm btn-outline-secondary" 
+                                                (click)="excluirProduto(produto)"><i class="fa fa-trash"></i></button>
+                                    </div>
                                 </div>
-                                <a [routerLink]="['/produto', produto.id]" class="col ml--2">
-                                    <h5 class="mb-0">{{ produto.descricao }}</h5>
-                                    <small class="text-muted">{{ produto.fabricante.nome }}</small>
-                                </a>
-                                <div class="col-auto">
-                                    <h4 class="mb-0">{{ produto.valor | currency: 'BRL' }}</h4>
-                                </div>
-                                <div class="col-auto" ngbTooltip="Excluir" >
-                                    <button type="button" 
-                                            class="btn btn-sm btn-outline-secondary" 
-                                            (click)="excluirProduto(produto)"><i class="fa fa-trash"></i></button>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                    <div [hidden]="f.produtos.value.length" class="text-center">
-                        <h5 class="text-muted">Esse serviço ainda não possui produtos associados</h5>
+                            </li>
+                        </ul>
+                        <div [hidden]="f.produtos.value.length" class="text-center">
+                            <h5 class="text-muted">Esse serviço ainda não possui produtos associados</h5>
+                        </div>
                     </div>
                 </div>
               </div>
@@ -99,29 +106,35 @@
                     <div class="text-center mb-4">
                       Histórico de preços
                     </div>
-                    <ul [hidden]="!historicos.length" class="list-group list-group-flush list my--3">
-                        <li *ngFor="let historico of historicos" class="list-group-item px-0">
-                            <div class="row align-items-center">
-                                <div class="col-auto">
-                                    <img class="avatar rounded-circle" [hidden]="!historico?.usuario.foto" [src]="historico?.usuario.foto" [alt]="historico?.usuario.nome">
-                                    <img class="avatar rounded-circle" [hidden]="historico?.usuario.foto"  src="../assets/img/usuario.jpg" [alt]="historico?.usuario.nome">
-                                </div>
-                                <div class="col">
-                                    <div>
-                                        <h4 class="mb-0 text-sm">{{ historico?.usuario.nome }}</h4>
+                    <div *ngIf="carregando" class="text-center">
+                        <p-progressSpinner [style]="{width: '60px', height: '60px'}"></p-progressSpinner>
+                    </div>
+
+                    <div *ngIf="!carregando">
+                        <ul [hidden]="!historicos.length" class="list-group list-group-flush list my--3">
+                            <li *ngFor="let historico of historicos" class="list-group-item px-0">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <img class="avatar rounded-circle" [hidden]="!historico?.usuario.foto" [src]="historico?.usuario.foto" [alt]="historico?.usuario.nome">
+                                        <img class="avatar rounded-circle" [hidden]="historico?.usuario.foto"  src="../assets/img/usuario.jpg" [alt]="historico?.usuario.nome">
                                     </div>
-                                    <div class="text-muted">
-                                        <small>{{ historico?.dataInclusao | date: 'dd-MM-yy hh:mm' }}</small>
+                                    <div class="col">
+                                        <div>
+                                            <h4 class="mb-0 text-sm">{{ historico?.usuario.nome }}</h4>
+                                        </div>
+                                        <div class="text-muted">
+                                            <small>{{ historico?.dataInclusao | date: 'dd-MM-yy hh:mm' }}</small>
+                                        </div>
+                                    </div>
+                                    <div class="col text-right">
+                                        <h4 class="mb-0">{{ historico?.valor | currency: 'BRL' }}</h4>
                                     </div>
                                 </div>
-                                <div class="col text-right">
-                                    <h4 class="mb-0">{{ historico?.valor | currency: 'BRL' }}</h4>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                    <div [hidden]="historicos.length" class="text-center">
-                        <h5 class="text-muted">Esse serviço ainda não possui histórico de preço</h5>
+                            </li>
+                        </ul>
+                        <div [hidden]="historicos.length" class="text-center">
+                            <h5 class="text-muted">Esse serviço ainda não possui histórico de preço</h5>
+                        </div>
                     </div>
                   </div>
               </div>
@@ -252,8 +265,20 @@
                         </div>
   
                         <div class="pl-lg-4">
-                          <button type="submit" class="btn btn-primary">Salvar</button>
-                          <button type="button" class="btn btn-outline-secondary" [routerLink]="['/servico']">Cancelar</button>
+                            <button
+                                type="submit"
+                                class="btn btn-primary"
+                                [disabled]="salvando">
+                                <i *ngIf="salvando" class="fa fa-sync-alt fa-spin mr-2"></i>
+                                Salvar
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-outline-secondary" 
+                                [disabled]="salvando"
+                                [routerLink]="['/servico']">
+                                Cancelar
+                            </button>
                         </div>
                     </div>
                 </div>

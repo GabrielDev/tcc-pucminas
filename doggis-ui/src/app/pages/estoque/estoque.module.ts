@@ -4,7 +4,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import { PaginatorModule, AutoCompleteModule } from 'primeng';
+import { PaginatorModule, AutoCompleteModule, ProgressBarModule } from 'primeng';
 import { EstoqueComponent } from './estoque.component';
 import { EstoqueFormComponent } from './estoque-form/estoque-form.component';
 
@@ -17,6 +17,7 @@ import { EstoqueFormComponent } from './estoque-form/estoque-form.component';
     NgbModule,
     AutoCompleteModule,
     PaginatorModule,
+    ProgressBarModule,
     SweetAlert2Module,
   ],
   declarations: [EstoqueComponent, EstoqueFormComponent],

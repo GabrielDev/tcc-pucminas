@@ -15,7 +15,7 @@
                 <div class="card card-profile shadow">
                     <div class="row justify-content-center">
                         <div class="col-lg-3 order-lg-2">
-                            <div class="card-profile-image mb-6 pb-3">
+                            <div class="card-profile-image mb-8">
                                 <a href="javascript:void(0)" (click)="image.abrir()">
                                     <img [hidden]="!f.foto.value" [src]="f.foto.value" class="rounded-circle">
                                     <img [hidden]="f.foto.value" src="assets/img/usuario.jpg" class="rounded-circle">
@@ -24,10 +24,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-                    </div>
-                    <div class="card-body pt-8 pt-md-4">
-                        <div class="text-center">
+                    <div class="card-body pt-md-4">
+                        <div *ngIf="carregando" class="text-center">
+                            <p-progressSpinner [style]="{width: '60px', height: '60px'}"></p-progressSpinner>
+                        </div>
+                        <div *ngIf="!carregando" class="text-center">
                             <h3>
                                 {{ f.nome.value }}
                             </h3>
@@ -64,7 +65,7 @@
 
                 <div class="card shadow mt-3">
                     <div class="card-body">
-                        <ul class="list-group list-group-flush list my--3">
+                        <ul *ngIf="!carregando" class="list-group list-group-flush list my--3">
                             <li *ngFor="let pet of f.pets.value" class="list-group-item px-0">
                                 <div class="row align-items-center">
                                     <div class="col-auto">
@@ -95,8 +96,9 @@
                                 </div>
                             </li>
                         </ul>
-                        <div class="pt-4 text-center">
-                            <div [hidden]="f.pets.value.length">
+                        
+                        <div *ngIf="!carregando && !f.pets.value.length" class="pt-4 text-center">
+                            <div>
                                 Que pena!
                                 <div class="h5 font-weight-300 pb-3">
                                     Esse cliente ainda não possui nenhum pet
@@ -104,6 +106,10 @@
                             </div>
                             <app-pet [exibir]="abrirModal" (onSalvar)="salvarPet($event)"></app-pet>
                             <a href="javascript:void(0)" class="btn btn-outline-primary btn-block" (click)="novoPet()">Adicionar pet</a>
+                        </div>
+
+                        <div *ngIf="carregando" class="text-center">
+                            <p-progressSpinner [style]="{width: '60px', height: '60px'}"></p-progressSpinner>
                         </div>
                     </div>
                 </div>
@@ -255,8 +261,20 @@
                             </div>
 
                             <div>
-                                <button type="submit" class="btn btn-primary">Salvar</button>
-                                <button type="button" class="btn btn-outline-secondary" [routerLink]="['/cliente']">Cancelar</button>
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary"
+                                    [disabled]="salvando">
+                                    <i *ngIf="salvando" class="fa fa-sync-alt fa-spin mr-2"></i>
+                                    Salvar
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-secondary" 
+                                    [disabled]="salvando"
+                                    [routerLink]="['/cliente']">
+                                    Cancelar
+                                </button>
                             </div>
                         </div>
                     </div>

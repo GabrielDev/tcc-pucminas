@@ -11,6 +11,7 @@ import { Pedido, Paginacao, Pagina } from 'src/app/models';
 })
 export class PedidoComponent implements OnInit {
 
+  public carregando: boolean
   public pedidos: Paginacao<Pedido>
   private paginaAtual: Pagina = { page: 0 }
 
@@ -25,9 +26,11 @@ export class PedidoComponent implements OnInit {
 
   listar(pagina: Pagina = this.paginaAtual) {
     this.paginaAtual = pagina
+    this.carregando = true
     this.service.listar(this.paginaAtual).subscribe(
       resultado => this.pedidos = resultado,
-      console.warn
+      console.warn,
+      () => this.carregando = false
     )
   }
 

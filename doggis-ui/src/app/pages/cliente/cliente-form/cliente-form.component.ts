@@ -16,6 +16,8 @@ import { Cliente, Estado, Pet } from 'src/app/models';
 })
 export class ClienteFormComponent implements OnInit {
 
+  public carregando: boolean
+  public salvando: boolean
   public estados: Estado[] = []
   public clienteForm: FormGroup
   public cliente: Cliente
@@ -47,6 +49,7 @@ export class ClienteFormComponent implements OnInit {
   }
 
   obterCliente(id: number) {
+    this.carregando = true
     this.clienteService.obterPorId(id).subscribe(
       resultado => {
         this.cliente = resultado
@@ -56,7 +59,8 @@ export class ClienteFormComponent implements OnInit {
       () => {
         this.router.navigate(['/cliente'])
         this.mensagem.warning('Cliente não encontrado')
-      }
+      },
+      () => this.carregando = false
     )
   }
 
@@ -157,6 +161,7 @@ export class ClienteFormComponent implements OnInit {
   salvar() {
     this.clienteForm.markAllAsTouched()
     if(this.clienteForm.valid) {
+      this.salvando = true
       this.cliente = this.clienteForm.value
 
       if(this.cliente.id) {
@@ -176,7 +181,8 @@ export class ClienteFormComponent implements OnInit {
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar salvar esse cliente')
-      }
+      },
+      () => this.salvando = false
     )
   }
 
@@ -189,7 +195,8 @@ export class ClienteFormComponent implements OnInit {
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar salvar esse cliente')
-      }
+      },
+      () => this.salvando = false
     )
   }
 

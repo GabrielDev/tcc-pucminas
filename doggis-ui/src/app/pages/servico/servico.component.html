@@ -20,7 +20,7 @@
           <h3 class="mb-0">Serviços</h3>
         </div>
         <div class="table-responsive">
-          <table class="table align-items-center table-flush">
+          <table class="table align-items-center table-hover">
             <thead class="thead-light">
               <tr>
                 <th scope="col">Código</th>
@@ -32,7 +32,12 @@
                 <th scope="col"></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody *ngIf="carregando">
+              <tr>
+                <td colspan="7"><p-progressBar mode="indeterminate"></p-progressBar></td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="!carregando">
               <tr *ngFor="let servico of servicos?.content">
                 <td class="text-center">
                   {{ servico.id }}
@@ -79,7 +84,7 @@
                 </td>
               </tr>
             </tbody>
-            <tfoot [hidden]="servicos?.content.length">
+            <tfoot *ngIf="!carregando && !servicos?.content.length">
               <tr>
                 <td colspan="6" class="text-center">
                   <h5 class="h3">Nenhum serviço encontrado</h5>

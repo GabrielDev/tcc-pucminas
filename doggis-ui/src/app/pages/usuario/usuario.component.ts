@@ -11,6 +11,7 @@ import { Paginacao, Usuario, Pagina } from 'src/app/models';
 })
 export class UsuarioComponent implements OnInit {
 
+  public carregando: boolean
   public usuarios: Paginacao<Usuario>
   private paginaAtual: Pagina = { page: 0 }
 
@@ -25,12 +26,14 @@ export class UsuarioComponent implements OnInit {
 
   listar(pagina: Pagina = this.paginaAtual) {
     this.paginaAtual = pagina
+    this.carregando = true
     this.service.listarPaginado(this.paginaAtual).subscribe(
       resultado => this.usuarios = resultado,
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar listar usuários')
-      }
+      },
+      () => this.carregando = false
     )
   }
 

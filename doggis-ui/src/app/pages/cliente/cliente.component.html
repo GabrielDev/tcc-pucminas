@@ -20,7 +20,7 @@
           <h3 class="mb-0">Clientes</h3>
         </div>
         <div class="table-responsive">
-          <table class="table align-items-center table-flush">
+          <table class="table align-items-center table-hover">
             <thead class="thead-light">
               <tr>
                 <th scope="col">Cliente</th>
@@ -30,7 +30,12 @@
                 <th scope="col"></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody *ngIf="carregando">
+              <tr>
+                <td colspan="5"><p-progressBar mode="indeterminate"></p-progressBar></td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="!carregando">
               <tr *ngFor="let cliente of clientes?.content">
                 <th scope="row">
                   <div class="media align-items-center">
@@ -72,13 +77,13 @@
                 </td>
               </tr>
             </tbody>
-            <tfoot [hidden]="clientes?.content.length">
+            <tfoot *ngIf="!carregando && !clientes?.content.length">
               <tr>
-                <td colspan="7" class="text-center">
+                <td colspan="5" class="text-center">
                   <h5 class="h3">Nenhum cliente encontrado</h5>
-                    <button class="btn n btn-outline-primary" [routerLink]="['/cliente/novo']">
-                      Adicionar novo
-                    </button>
+                  <button class="btn n btn-outline-primary" [routerLink]="['/cliente/novo']">
+                    Adicionar novo
+                  </button>
                 </td>
               </tr>
             </tfoot>

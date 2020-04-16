@@ -11,6 +11,7 @@ import { Produto, Paginacao, Pagina } from 'src/app/models';
 })
 export class ProdutoComponent implements OnInit {
 
+  public carregando: boolean
   public produtos: Paginacao<Produto>
   private paginaAtual: Pagina = { page: 0 }
 
@@ -25,12 +26,14 @@ export class ProdutoComponent implements OnInit {
 
   listar(pagina?: Pagina) {
     this.paginaAtual = pagina || this.paginaAtual
+    this.carregando = true
     this.service.listarPaginado(this.paginaAtual).subscribe(
       resultado => this.produtos = resultado,
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar listar os produtos')
-      }
+      },
+      () => this.carregando = false
     )
   }
 

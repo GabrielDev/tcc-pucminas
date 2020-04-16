@@ -12,6 +12,8 @@ import { Fabricante, Categoria, Produto, HistoricoPreco, TipoItem } from 'src/ap
 })
 export class ProdutoFormComponent implements OnInit {
 
+  public carregando: boolean
+  public salvando: boolean
   public produtoForm: FormGroup
   public categorias: Categoria[] = []
   public fabricantes: Fabricante[] = []
@@ -45,6 +47,7 @@ export class ProdutoFormComponent implements OnInit {
   }
 
   obterProduto(id: number) {
+    this.carregando = true
     this.produtoService.obterPorId(id).subscribe(
       resultado => {
         this.produto = resultado,
@@ -80,7 +83,8 @@ export class ProdutoFormComponent implements OnInit {
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar obter o histórico de preço desse produto')
-      }
+      },
+      () => this.carregando = false
     )
   }
 
@@ -92,6 +96,7 @@ export class ProdutoFormComponent implements OnInit {
     this.produtoForm.markAllAsTouched()
     if(this.produtoForm.valid) {
       this.produto = this.produtoForm.value
+      this.salvando = true
 
       if(this.produto.id) {
         this.editar()
@@ -110,7 +115,8 @@ export class ProdutoFormComponent implements OnInit {
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar salvar esse produto')
-      }
+      },
+      () => this.salvando = false
     )
   }
 
@@ -123,7 +129,8 @@ export class ProdutoFormComponent implements OnInit {
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar salvar esse produto')
-      }
+      },
+      () => this.salvando = false
     )
   }
 

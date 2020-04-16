@@ -12,6 +12,7 @@ import { Fabricante, Paginacao, Pagina } from 'src/app/models';
 })
 export class FabricanteComponent implements OnInit {
 
+  public carregando: boolean
   public fabricantes: Paginacao<Fabricante>
   public abrirModal: Subject<Fabricante> = new Subject()
   private paginaAtual: Pagina = { page: 0 }
@@ -27,9 +28,11 @@ export class FabricanteComponent implements OnInit {
 
   listar(pagina: Pagina = this.paginaAtual) {
     this.paginaAtual = pagina
+    this.carregando = true
     this.service.listarPaginado(this.paginaAtual).subscribe(
       resultado => this.fabricantes = resultado,
-      console.warn
+      console.warn,
+      () => this.carregando = false
     )
   }
 

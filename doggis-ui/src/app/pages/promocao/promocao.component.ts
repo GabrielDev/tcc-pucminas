@@ -12,6 +12,7 @@ import { Paginacao, Promocao, Pagina, ItemVenda, TipoItem } from 'src/app/models
 })
 export class PromocaoComponent implements OnInit {
 
+  public carregando: boolean
   public promocoes: Paginacao<Promocao>
   public abrirModal: Subject<Promocao> = new Subject()
   private paginaAtual: Pagina = { page: 0 }
@@ -27,6 +28,7 @@ export class PromocaoComponent implements OnInit {
 
   listar(pagina: Pagina = this.paginaAtual) {
     this.paginaAtual = pagina
+    this.carregando = true
     this.service.listarPaginado(this.paginaAtual).subscribe(
       resultado => {
         this.promocoes = resultado
@@ -39,7 +41,8 @@ export class PromocaoComponent implements OnInit {
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar listar os promoçōes')
-      }
+      },
+      () => this.carregando = false
     )
   }
 

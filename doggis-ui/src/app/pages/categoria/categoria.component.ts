@@ -12,6 +12,7 @@ import { CategoriaService } from 'src/app/providers';
 })
 export class CategoriaComponent implements OnInit {
 
+  public carregando: boolean
   public categorias: Paginacao<Categoria>
   public abrirModal: Subject<Categoria> = new Subject()
   private paginaAtual: Pagina = { page: 0 }
@@ -27,9 +28,11 @@ export class CategoriaComponent implements OnInit {
 
   listar(pagina: Pagina = this.paginaAtual) {
     this.paginaAtual = pagina
+    this.carregando = true
     this.service.listarPaginado(this.paginaAtual).subscribe(
       resultado => this.categorias = resultado,
-      console.warn
+      console.warn,
+      () => this.carregando = false
     )
   }
 
