@@ -236,9 +236,8 @@ export class VendaComponent implements OnInit, OnDestroy {
 
   finalizar() {
     if(this.isValido()) {
-      this.pedido.cliente.pets = []
-
-      this.pedidoService.salvar(this.pedido).subscribe(
+      const novoPedido = this.comprimir()
+      this.pedidoService.salvar(novoPedido).subscribe(
         resultado => {
           Swal.fire({
             icon: 'success',
@@ -281,5 +280,21 @@ export class VendaComponent implements OnInit, OnDestroy {
     }
 
     return !isInvalido
+  }
+
+  private comprimir() {
+    let novoPedido = { ...this.pedido }
+    novoPedido.cliente.pets = []
+    novoPedido.cliente.foto = null
+    novoPedido.itens = novoPedido.itens.map(item => {
+      if(item.produto) {
+        item.produto.foto = null
+      } else {
+        item.servico.foto = null
+      }
+      return item
+    })
+
+    return novoPedido
   }
 }
