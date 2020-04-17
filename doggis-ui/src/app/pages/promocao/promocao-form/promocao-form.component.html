@@ -88,8 +88,20 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Salvar</button>
-            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" (click)="c('Close click')">Cancelar</button>
+            <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="salvando">
+                <i *ngIf="salvando" class="fa fa-sync-alt fa-spin mr-2"></i>
+                Salvar
+            </button>
+            <button
+                type="button"
+                class="btn btn-outline-secondary" 
+                [disabled]="salvando"
+                (click)="c('Close click')">
+                Cancelar
+            </button>
         </div>
     </form>
 </ng-template>

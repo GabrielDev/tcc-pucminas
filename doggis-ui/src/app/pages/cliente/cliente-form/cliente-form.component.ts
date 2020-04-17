@@ -50,9 +50,11 @@ export class ClienteFormComponent implements OnInit {
 
   obterCliente(id: number) {
     this.carregando = true
+    this.clienteForm.disable()
     this.clienteService.obterPorId(id).subscribe(
       resultado => {
         this.cliente = resultado
+        this.clienteForm.enable()
         this.clienteForm.setValue(this.cliente)
         this.deveValidarCpf()
       },
@@ -161,6 +163,7 @@ export class ClienteFormComponent implements OnInit {
   salvar() {
     this.clienteForm.markAllAsTouched()
     if(this.clienteForm.valid) {
+      this.clienteForm.disable()
       this.salvando = true
       this.cliente = this.clienteForm.value
 
@@ -181,6 +184,7 @@ export class ClienteFormComponent implements OnInit {
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar salvar esse cliente')
+        this.clienteForm.enable()
       },
       () => this.salvando = false
     )
@@ -195,6 +199,7 @@ export class ClienteFormComponent implements OnInit {
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar salvar esse cliente')
+        this.clienteForm.enable()
       },
       () => this.salvando = false
     )

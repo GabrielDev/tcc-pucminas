@@ -13,13 +13,26 @@
                     [suggestions]="produtos"
                     (completeMethod)="buscar($event)"
                     (onSelect)="selecionar()"
-                    placeholder="Buscar produto por nome">
+                    placeholder="Buscar produto por descrição">
+                    <ng-template let-produto pTemplate="produto">
+                        <div class="list-group-item list-group-item-action">
+                          <div class="row align-items-center">
+                            <div class="col-auto">
+                              <img [alt]="produto.descricao" [src]="produto.foto" class="avatar rounded">
+                            </div>
+                            <div class="col ml--2">
+                              <h4 class="mb-0 text-sm">{{ produto.descricao }}</h4>
+                              <span class="text-muted">{{ produto.fabricante.nome }}</span>
+                            </div>
+                          </div>
+                        </div>
+                    </ng-template>
                 </p-autoComplete>
                 <div class="invalid-feedback" *ngIf="f.produto.touched && f.produto?.errors?.required">Campo obrigatório</div>
             </div>
         </div>
 
-        <div class="col-lg-2 col-12">
+        <div class="col-lg-1 col-12">
             <div class="form-group" [ngClass]="{'has-danger': f.quantidade.touched && f.quantidade?.errors}">
                 <label class="form-control-label" for="quantidade">Quantidade*</label>
                 <input
@@ -33,7 +46,7 @@
             </div>
         </div>
         
-        <div class="col-lg-3 col-12">
+        <div class="col-lg-3 col-12 text-center">
             <div class="form-group" [ngClass]="{'has-danger': f.tipo.touched && f.tipo?.errors}">
                 <div *ngFor="let tipoEstoque of tipos" class="custom-control custom-radio custom-control-inline mt-4">
                     <input
@@ -50,8 +63,20 @@
             </div>
         </div>
         
-        <div class="col-lg-1 col-12 text-center">
-            <button type="submit" class="btn btn-outline-primary" >Adicionar</button>
+        <div class="col-lg-3 col-12 text-center">
+            <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="salvando">
+                <i *ngIf="salvando" class="fa fa-sync-alt fa-spin mr-2"></i>Adicionar
+            </button>
+            <button
+                type="button"
+                class="btn btn-outline-primary" 
+                [disabled]="salvando"
+                (click)="limpar()">
+                Cancelar
+            </button>
         </div>
     </div>
 </form>

@@ -38,6 +38,7 @@ export class FabricanteFormComponent implements OnInit {
   }
 
   abrir(fabricante: Fabricante) {
+    this.fabricanteForm.reset()
     if(fabricante) {
       this.fabricante = fabricante
       this.fabricanteForm.setValue(fabricante)
@@ -58,6 +59,7 @@ export class FabricanteFormComponent implements OnInit {
     this.fabricanteForm.markAllAsTouched()
     if(this.fabricanteForm.valid) {
       this.fabricante = this.fabricanteForm.value
+      this.fabricanteForm.disable()
       
       if(this.fabricante.id) {
         this.editar()
@@ -77,7 +79,10 @@ export class FabricanteFormComponent implements OnInit {
         console.warn(error)
         this.mensagem.error('Ocorreu um erro ao tentar salvar esse fabricante')
       },
-      () => this.modal.close()
+      () => {
+        this.fabricanteForm.enable()
+        this.modal.close()
+      }
     )
   }
 
@@ -91,7 +96,10 @@ export class FabricanteFormComponent implements OnInit {
         console.warn(error)
         this.mensagem.error('Ocorreu um erro ao tentar editar esse fabricante')
       },
-      () => this.modal.close()
+      () => {
+        this.fabricanteForm.enable()
+        this.modal.close()
+      }
     )
   }
 }

@@ -103,7 +103,7 @@ export class VendaComponent implements OnInit, OnDestroy {
 
   adicionar(item: ItemVenda) {
     let { itens } = this.pedido
-    const index = itens.findIndex(pedido => pedido.item.id == item.id)
+    const index = itens.findIndex(pedido => pedido.item.id == item.id && pedido.item.tipo == item.tipo)
 
     if(index >= 0) {
       itens[index].quantidade++
@@ -236,6 +236,8 @@ export class VendaComponent implements OnInit, OnDestroy {
 
   finalizar() {
     if(this.isValido()) {
+      this.pedido.cliente.pets = []
+
       this.pedidoService.salvar(this.pedido).subscribe(
         resultado => {
           Swal.fire({

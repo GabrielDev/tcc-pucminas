@@ -42,25 +42,25 @@
               <tr *ngFor="let promocao of promocoes?.content">
                 <th scope="row">
                   <div class="media align-items-center">
-                    <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
+                    <a href="#" [routerLink]="['/usuario', promocao.usuario.id]" class="avatar rounded-circle mr-3">
                       <img [hidden]="!promocao.usuario.foto" [alt]="promocao.usuario.nome" [src]="promocao.usuario.foto">
                       <img [hidden]="promocao.usuario.foto" [alt]="promocao.usuario.nome" src="../assets/img/usuario.jpg">
                     </a>
-                    <div class="media-body">
+                    <a href="#" [routerLink]="['/usuario', promocao.usuario.id]" class="media-body text-body">
                       <span class="mb-0 text-sm">{{ promocao.usuario.nome }}</span>
-                    </div>
+                    </a>
                   </div>
                 </th>
                 <th scope="row">
                   <div class="media align-items-center">
-                    <a *ngIf="promocao.produto" [routerLink]="['/produto', promocao.produto.id]" class="avatar rounded-circle mr-3">
-                      <img [hidden]="!promocao.produto.foto" [alt]="promocao.item.descricao" [src]="promocao.produto.foto">
-                      <img [hidden]="promocao.produto.foto" [alt]="promocao.item.descricao" src="../assets/img/produto.jpg">
+                    <a href="#" *ngIf="promocao.produto" [routerLink]="['/produto', promocao.produto.id]" class="avatar mr-3">
+                      <img [hidden]="!promocao.produto.foto" [alt]="promocao.item.descricao" [src]="promocao.produto.foto" class="rounded">
+                      <img [hidden]="promocao.produto.foto" [alt]="promocao.item.descricao" src="../assets/img/produto.jpg" class="rounded">
                     </a>
 
-                    <a *ngIf="promocao.servico" href="javascript:void(0)" class="avatar rounded-circle mr-3">
-                      <img [hidden]="!promocao.servico.foto" [alt]="promocao.item.descricao" [src]="promocao.servico.foto">
-                      <img [hidden]="promocao.servico.foto" [alt]="promocao.item.descricao" src="../assets/img/servico.jpg">
+                    <a href="#" *ngIf="promocao.servico" [routerLink]="['/servico', promocao.servico.id]" class="avatar mr-3">
+                      <img [hidden]="!promocao.servico.foto" [alt]="promocao.item.descricao" [src]="promocao.servico.foto" class="rounded">
+                      <img [hidden]="promocao.servico.foto" [alt]="promocao.item.descricao" src="../assets/img/servico.jpg" class="rounded">
                     </a>
 
                     <div class="media-body text-truncate nome-produto">

@@ -22,6 +22,7 @@ export class EstoqueFormComponent implements OnInit {
   @Output() 
   onSelecionar = new EventEmitter<Produto>()
 
+  public salvando: boolean
   public estoqueForm: FormGroup
   public produtos: Produto[] =[]
   public tipos = [{titulo: 'Entrada', tipo: TipoEstoque.ENTRADA }, {titulo: 'Saída', tipo: TipoEstoque.SAIDA }]
@@ -68,10 +69,18 @@ export class EstoqueFormComponent implements OnInit {
     this.f.tipo.setValue(tipo)
   }
 
+  limpar() {
+    this.estoque = null
+    this.gerarForm()
+    this.onSelecionar.next()
+  }
+
   salvar() {
     this.estoqueForm.markAllAsTouched()
     if(this.estoqueForm.valid) {
       this.estoque = this.estoqueForm.value
+      this.estoqueForm.disable()
+      this.salvando = true
 
       if(this.estoque.id) {
         this.editar()
@@ -90,8 +99,12 @@ export class EstoqueFormComponent implements OnInit {
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar salvar esse estoque')
+        this.estoqueForm.enable()
       },
-      () => this.estoqueForm.reset()
+      () => {
+        this.salvando = false
+        this.estoqueForm.reset()
+      }
     )
   }
 
@@ -104,8 +117,12 @@ export class EstoqueFormComponent implements OnInit {
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar salvar esse estoque')
+        this.estoqueForm.enable()
       },
-      () => this.estoqueForm.reset()
+      () => {
+        this.salvando = false
+        this.estoqueForm.reset()
+      }
     )
   }
 

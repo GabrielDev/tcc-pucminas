@@ -58,6 +58,7 @@ export class CategoriaFormComponent implements OnInit {
   salvar() {
     if(this.categoriaForm.valid) {
       this.categoria = this.categoriaForm.value
+      this.categoriaForm.disable()
       
       if(this.categoria.id) {
         this.editar()
@@ -77,7 +78,10 @@ export class CategoriaFormComponent implements OnInit {
         console.warn(error)
         this.mensagem.error('Ocorreu um erro ao tentar salvar essa categoria')
       },
-      () => this.modal.close()
+      () => {
+        this.categoriaForm.enable()
+        this.modal.close()
+      }
     )
   }
 
@@ -91,7 +95,10 @@ export class CategoriaFormComponent implements OnInit {
         console.warn(error)
         this.mensagem.error('Ocorreu um erro ao tentar editar essa categoria')
       },
-      () => this.modal.close()
+      () => {
+        this.categoriaForm.enable()
+        this.modal.close()
+      }
     )
   }
 }

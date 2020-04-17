@@ -22,12 +22,13 @@ export class PromocaoFormComponent implements OnInit {
   @ViewChild('promocaoModal') 
   private modalTemplate: TemplateRef<any>
   private modal: any
+  private promocao: Promocao
 
+  public salvando: boolean
   public promocaoForm: FormGroup
   public itens: ItemVenda[] = []
   public dataInicio: Date = new Date()
   public pt: any
-  private promocao: Promocao
 
   constructor(
     private modalService: NgbModal,
@@ -81,6 +82,8 @@ export class PromocaoFormComponent implements OnInit {
     this.promocaoForm.markAllAsTouched()
     if(this.promocaoForm.valid) {
       this.promocao = this.promocaoForm.value
+      this.promocaoForm.disable()
+      this.salvando = true
 
       if(this.promocao.item.tipo == TipoItem.PRODUTO) {
         this.promocao.produto = <Produto> this.promocao.item
@@ -102,14 +105,17 @@ export class PromocaoFormComponent implements OnInit {
     this.promocaoService.salvar(this.promocao).subscribe(
       () => {
         this.mensagem.success(`Promoção ${this.promocao.item.descricao} salva com sucesso!`)
-        this.promocaoForm.reset()
         this.onSalvar.emit()
       },
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar salvar essa promoção')
       },
-      () => this.modal.close()
+      () => {
+        this.salvando = false
+        this.promocaoForm.enable()
+        this.modal.close()
+      }
     )
   }
 
@@ -117,14 +123,17 @@ export class PromocaoFormComponent implements OnInit {
     this.promocaoService.editar(this.promocao.id, this.promocao).subscribe(
       () => {
         this.mensagem.success(`Promoção ${this.promocao.item.descricao} salvo com sucesso!`)
-        this.promocaoForm.reset()
         this.onSalvar.emit()
       },
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar salvar essa promoção')
       },
-      () => this.modal.close()
+      () => {
+        this.salvando = false
+        this.promocaoForm.enable()
+        this.modal.close()
+      }
     )
   }
 

@@ -144,6 +144,15 @@ export class ServicoFormComponent implements OnInit {
     this.f.foto.setValue(foto)
   }
 
+  aplicarPataz() {
+    let { patazBonus, patazDesconto } = this.f
+    let desconto = Math.floor(this.f.valor.value)
+    let bonus = Math.ceil(desconto / 5)
+
+    patazBonus.setValue(bonus)
+    patazDesconto.setValue(desconto)
+  }
+
   salvar() {
     this.servicoForm.markAllAsTouched()
     if(this.servicoForm.valid) {
@@ -198,6 +207,7 @@ export class ServicoFormComponent implements OnInit {
       produtos: [[]],
       dataInclusao: [],
       responsavel: [null, Validators.required],
+      tipo: []
     })
   }
 

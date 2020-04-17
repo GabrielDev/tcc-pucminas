@@ -198,6 +198,7 @@
                                             formControlName="duracao"
                                             max="60"
                                             min="1"
+                                            placeholder="Máximo 60 min"
                                             [ngClass]="{'is-invalid': f.duracao.touched && f.duracao?.errors}">
                                           <div class="input-group-append">
                                               <span class="input-group-text">min</span>
@@ -224,6 +225,7 @@
                                           id="valor"
                                           class="form-control"
                                           formControlName="valor"
+                                          (change)="aplicarPataz()"
                                           [ngClass]="{'is-invalid': f.valor.touched && f.valor?.errors?.required}">
                                         <div class="invalid-feedback" *ngIf="f.valor.touched && f.valor?.errors?.required">Campo obrigatório</div>
                                   </div>
@@ -232,7 +234,9 @@
 
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="patazBonus">Bonus</label>
+                                    <label class="form-control-label" for="patazBonus" [ngbPopover]="patazBonus" triggers="mouseenter:mouseleave">
+                                        Bonus <i class="fa fa-question-circle"></i>
+                                    </label>
                                     <div class="input-group input-group-merge">
                                         <input
                                             type="number"
@@ -248,7 +252,9 @@
   
                               <div class="col-4">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="patazDesconto">Desconto</label>
+                                    <label class="form-control-label" for="patazDesconto" [ngbPopover]="patazDesconto" triggers="mouseenter:mouseleave">
+                                        Desconto <i class="fa fa-question-circle"></i>
+                                    </label>
                                     <div class="input-group input-group-merge">
                                         <input
                                         type="number"
@@ -285,4 +291,12 @@
             </div>
         </div><!-- row -->
     </div><!-- container-fluid -->
+
+    <ng-template #patazBonus>
+        <p class="mt-2">Quantidade de Pataz que o cliente <b>ganha</b> ao adquirir esse serviço.</p>
+    </ng-template>
+
+    <ng-template #patazDesconto>
+        <p class="mt-2">Quantidade de Pataz que o cliente <b>utiliza</b> para adquirir esse serviço <b>sem pagar.</b></p>
+    </ng-template>
   </form>

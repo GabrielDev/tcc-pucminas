@@ -97,8 +97,8 @@
                             </li>
                         </ul>
                         
-                        <div *ngIf="!carregando && !f.pets.value.length" class="pt-4 text-center">
-                            <div>
+                        <div *ngIf="!carregando" class="pt-4 text-center">
+                            <div *ngIf="!f.pets.value.length">
                                 Que pena!
                                 <div class="h5 font-weight-300 pb-3">
                                     Esse cliente ainda não possui nenhum pet

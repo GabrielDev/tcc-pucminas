@@ -48,9 +48,11 @@ export class ProdutoFormComponent implements OnInit {
 
   obterProduto(id: number) {
     this.carregando = true
+    this.produtoForm.disable()
     this.produtoService.obterPorId(id).subscribe(
       resultado => {
         this.produto = resultado,
+        this.produtoForm.enable()
         this.produtoForm.setValue(this.produto)
         this.listarHistorico()
       }
@@ -96,6 +98,7 @@ export class ProdutoFormComponent implements OnInit {
     this.produtoForm.markAllAsTouched()
     if(this.produtoForm.valid) {
       this.produto = this.produtoForm.value
+      this.produtoForm.disable()
       this.salvando = true
 
       if(this.produto.id) {
@@ -115,6 +118,7 @@ export class ProdutoFormComponent implements OnInit {
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar salvar esse produto')
+        this.produtoForm.enable()
       },
       () => this.salvando = false
     )
@@ -129,6 +133,7 @@ export class ProdutoFormComponent implements OnInit {
       error => {
         console.warn(error)
         this.mensagem.warning('Ocorreu um erro ao tentar salvar esse produto')
+        this.produtoForm.enable()
       },
       () => this.salvando = false
     )
