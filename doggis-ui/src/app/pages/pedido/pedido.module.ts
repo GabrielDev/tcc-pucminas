@@ -29,12 +29,6 @@ import { ImageCropModule } from 'src/app/core/image-crop/image-crop.module';
     ImageCropModule,
   ],
   declarations: [PedidoComponent, VendaComponent, PedidoDetalheComponent, ClienteModalComponent],
-  exports: [PedidoComponent, VendaComponent, PedidoDetalheComponent, ClienteModalComponent],
-  providers: [
-    PedidoService,
-    ClienteService,
-    ProdutoService,
-    ServicoService,
-  ]
+  exports: [PedidoComponent, VendaComponent, PedidoDetalheComponent, ClienteModalComponent]
 })
 export class PedidoModule { }
