@@ -11,6 +11,7 @@ import { Pedido } from 'src/app/models';
 })
 export class PedidoDetalheComponent implements OnInit {
 
+  public carregando: boolean
   public pedido: Pedido
 
   constructor(
@@ -26,13 +27,15 @@ export class PedidoDetalheComponent implements OnInit {
   }
 
   obterPedido(id: number) {
+    this.carregando = true
     this.service.obterPorId(id).subscribe(
       resultado => this.obterItens(resultado),
       error => {
         console.warn(error)
         this.mensagem.error('Ocorreu um erro ao tentar recuperar esse pedido')
         this.router.navigate(['/pedido'])
-      }
+      },
+      () => this.carregando = false
     )
   }
 

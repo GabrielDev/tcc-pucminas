@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { AutoCompleteModule, SpinnerModule, PaginatorModule, InputMaskModule, ProgressBarModule } from 'primeng';
+import { AutoCompleteModule, SpinnerModule, PaginatorModule, InputMaskModule, ProgressBarModule, ProgressSpinnerModule } from 'primeng';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
@@ -24,6 +24,7 @@ import { ImageCropModule } from 'src/app/core/image-crop/image-crop.module';
     AutoCompleteModule,
     InputMaskModule,
     ProgressBarModule,
+    ProgressSpinnerModule,
     PaginatorModule,
     ImageCropModule,
   ],

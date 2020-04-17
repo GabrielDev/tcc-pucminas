@@ -14,6 +14,7 @@ import { PedidoService, ClienteService, ProdutoService, ServicoService } from 's
 })
 export class VendaComponent implements OnInit, OnDestroy {
 
+  public salvando: boolean
   public pedido: Pedido = new Pedido()
   public clientes: Cliente[]
   public itensPedido: ItemVenda[]
@@ -236,6 +237,7 @@ export class VendaComponent implements OnInit, OnDestroy {
 
   finalizar() {
     if(this.isValido()) {
+      this.salvando = true
       const novoPedido = this.comprimir()
       this.pedidoService.salvar(novoPedido).subscribe(
         resultado => {
@@ -253,7 +255,8 @@ export class VendaComponent implements OnInit, OnDestroy {
         error => {
           console.warn(error)
           this.mensagem.error('Ocorreu um erro ao tentar efetuar o pedido')
-        }
+        },
+        () => this.salvando = false
       )
     }
   }
@@ -284,15 +287,29 @@ export class VendaComponent implements OnInit, OnDestroy {
 
   private comprimir() {
     let novoPedido = { ...this.pedido }
+    novoPedido.cliente = { ...this.pedido.cliente }
+    novoPedido.itens = [ ...this.pedido.itens ]
+    novoPedido.itens = novoPedido.itens.map(item => ({ ...item }))
+
     novoPedido.cliente.pets = []
     novoPedido.cliente.foto = null
     novoPedido.itens = novoPedido.itens.map(item => {
-      if(item.produto) {
-        item.produto.foto = null
-      } else {
-        item.servico.foto = null
+      let { produto, servico } = item
+      let novoItem = { ...item }
+
+      if(novoItem['foto']) {
+        novoItem['foto'] = null
       }
-      return item
+
+      if(produto) {
+        novoItem.produto = { ...produto } as Produto
+        novoItem.produto.foto = null
+        novoItem.produto.estoque = null
+      } else {
+        novoItem.servico = { ...servico } as Servico
+        novoItem.servico.foto = null
+      }
+      return novoItem
     })
 
     return novoPedido

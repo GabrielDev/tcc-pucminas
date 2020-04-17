@@ -15,6 +15,13 @@
 <div class="container-fluid mt--7">
     <div class="row">
         <div class="col">
+            <div *ngIf="carregando" class="card shadow">
+                <div class="card-body text-center pt-9 pb-9">
+                    <h2>Carregando pedido...</h2>
+                    <p>Por favor aguarde</p>
+                    <p-progressSpinner></p-progressSpinner>
+                </div>
+            </div>
             <div *ngIf="pedido" class="card shadow">
                 <div class="card-body">
                     <section class="hk-sec-wrapper hk-invoice-wrap pa-35">

@@ -41,7 +41,12 @@
                 <th scope="col"></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody *ngIf="carregando">
+              <tr>
+                <td colspan="8"><p-progressBar mode="indeterminate"></p-progressBar></td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="!carregando">
               <tr *ngFor="let pedido of pedidos?.content" >
                 <td>{{ pedido.dataPedido | date: 'dd-MM-yyyy HH:mm' }}</td>
                 <td>{{ pedido.id }}</td>
@@ -85,7 +90,7 @@
                 </td>
               </tr>
             </tbody>
-            <tfoot [hidden]="pedidos?.content.length">
+            <tfoot *ngIf="!carregando && !pedidos?.content.length">
               <tr>
                 <td colspan="8" class="text-center">
                   <h5 class="h3">Nenhum pedido encontrado</h5>

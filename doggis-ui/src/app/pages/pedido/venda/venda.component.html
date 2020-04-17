@@ -302,10 +302,13 @@
           </div>
 
           <div class="card-footer">
-            <button 
-              type="submit" 
-              class="btn btn-xs btn-primary btn-block" 
-              [disabled]="!p.itens.length">Finalizar</button>
+            <button
+              type="submit"
+              class="btn btn-primary btn-block"
+              [disabled]="!p.itens.length || salvando">
+              <i *ngIf="salvando" class="fa fa-sync-alt fa-spin mr-2"></i>
+              Finalizar
+            </button>
           </div>
         </div>
       </div>
