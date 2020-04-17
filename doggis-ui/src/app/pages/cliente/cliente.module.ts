@@ -7,7 +7,6 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { PaginatorModule, InputMaskModule, ProgressBarModule, ProgressSpinnerModule } from 'primeng';
 import { ClienteComponent } from './cliente.component';
 import { ClienteFormComponent } from './cliente-form/cliente-form.component';
-import { ClienteService, EstadoService, PetService } from 'src/app/providers';
 import { PetComponent } from './pet/pet.component';
 import { ImageCropModule } from 'src/app/core/image-crop/image-crop.module';
 
@@ -25,7 +24,6 @@ import { ImageCropModule } from 'src/app/core/image-crop/image-crop.module';
     PaginatorModule,
     ImageCropModule,
   ],
-  providers: [ClienteService, PetService, EstadoService],
   declarations: [ClienteComponent, ClienteFormComponent, PetComponent],
   exports: [ClienteComponent, ClienteFormComponent, PetComponent]
 })

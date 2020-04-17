@@ -18,16 +18,7 @@ import { PerfilFormComponent } from './perfil-form/perfil-form.component';
     PickListModule,
     ProgressBarModule,
   ],
-  declarations: [
-    PerfilComponent,
-    PerfilFormComponent
-  ],
-  exports: [
-    PerfilComponent,
-    PerfilFormComponent
-  ],
-  providers: [
-    PerfilService,
-  ],
+  declarations: [ PerfilComponent, PerfilFormComponent ],
+  exports: [ PerfilComponent, PerfilFormComponent ]
 })
 export class PerfilModule { }

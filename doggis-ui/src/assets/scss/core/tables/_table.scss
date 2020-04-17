@@ -118,10 +118,21 @@
 }
 
 // Progressbar
-body .ui-progressbar {
-    height: 5px;
+body {
+    .ui-progressbar {
+        height: 5px;
+    
+        .ui-progressbar-value {
+            background: #5e72e4;
+        }
+    }
 
-    .ui-progressbar-value {
-        background: #5e72e4;
+    .loader {
+        .ui-progressbar {
+            background: none;
+            .ui-progressbar-value {
+                background: #0fcdef;
+            }
+        }
     }
 }

@@ -14,8 +14,9 @@ import { ComponentsModule } from './components/components.module';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { CoreModule } from './core/core.module';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RequestInterceptor } from './core/auth/request.interceptor';
+import { LoaderInterceptor } from './components/loader/loader.interceptor';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { RequestInterceptor } from './core/auth/request.interceptor';
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    HttpClientModule,
     ComponentsModule,
     NgbModule,
     RouterModule,
@@ -41,7 +43,12 @@ import { RequestInterceptor } from './core/auth/request.interceptor';
         provide: HTTP_INTERCEPTORS,
         useClass: RequestInterceptor,
         multi: true
-    }
+    },
+    {
+        provide: HTTP_INTERCEPTORS,
+        useClass: LoaderInterceptor,
+        multi: true
+    },
   ],
   bootstrap: [AppComponent]
 })

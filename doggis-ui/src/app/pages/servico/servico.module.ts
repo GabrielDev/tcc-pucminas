@@ -23,6 +23,6 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     PaginatorModule,
   ],
   declarations: [ServicoComponent, ServicoFormComponent],
-  exports: [ServicoComponent],
+  exports: [ServicoComponent, ServicoFormComponent],
 })
 export class ServicoModule { }

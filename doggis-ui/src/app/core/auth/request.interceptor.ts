@@ -13,14 +13,14 @@ export class RequestInterceptor implements HttpInterceptor {
 
         if (this.tokenService.hasToken()) {
             const token = this.tokenService.getToken()
-            req = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + token) });
+            req = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + token) })
         }
 
         if (!req.headers.has('Content-Type')) {
-            req = req.clone({ headers: req.headers.set('Content-Type', 'application/json') });
+            req = req.clone({ headers: req.headers.set('Content-Type', 'application/json') })
         }
 
-        req = req.clone({ headers: req.headers.set('Accept', 'application/json') });
+        req = req.clone({ headers: req.headers.set('Accept', 'application/json') })
         return next.handle(req);
     }
 }
