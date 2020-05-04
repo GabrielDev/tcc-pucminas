@@ -169,6 +169,8 @@ export class VendaComponent implements OnInit, OnDestroy {
       item,
       quantidade: 1,
       precoUnitario: item.valor,
+      precoDesconto: 0,
+      precoSubtotal: item.valor,
       precoTotal: item.valor,
       patazBonusTotal: 0
     }

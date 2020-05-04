@@ -8,6 +8,8 @@ export class PedidoItem {
         public item: ItemVenda,
         public quantidade: number,
         public precoUnitario: number,
+        public precoDesconto: number,
+        public precoSubtotal: number,
         public precoTotal: number,
         public patazBonusTotal: number,
         public servico?: Servico,

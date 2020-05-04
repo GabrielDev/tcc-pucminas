@@ -28,6 +28,12 @@ public class PedidoForm {
 	private Integer patazDescontoTotal = 0;
 	
 	@NotNull
+	private Double desconto = 0.0;
+	
+	@NotNull
+	private Double subtotal = 0.0;
+	
+	@NotNull
 	private Double total = 0.0;
 
 	private Date dataPedido;
@@ -43,10 +49,12 @@ public class PedidoForm {
 				this.getPagamento(),
 				this.getPatazBonusTotal(),
 				this.getPatazDescontoTotal(),
+				this.getDesconto(),
+				this.getSubtotal(),
 				this.getTotal()
 			);
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -93,6 +101,22 @@ public class PedidoForm {
 
 	public void setPatazDescontoTotal(Integer patazDescontoTotal) {
 		this.patazDescontoTotal = patazDescontoTotal;
+	}
+
+	public Double getDesconto() {
+		return desconto;
+	}
+
+	public void setDesconto(Double desconto) {
+		this.desconto = desconto;
+	}
+
+	public Double getSubtotal() {
+		return subtotal;
+	}
+
+	public void setSubtotal(Double subtotal) {
+		this.subtotal = subtotal;
 	}
 
 	public Double getTotal() {

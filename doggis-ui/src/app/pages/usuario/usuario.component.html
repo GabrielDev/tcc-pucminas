@@ -31,7 +31,7 @@
             </thead>
             <tbody *ngIf="carregando">
               <tr>
-                <td colspan="4"><p-progressBar mode="indeterminate"></p-progressBar></td>
+                <td colspan="4" align="center"><p-progressSpinner></p-progressSpinner></td>
               </tr>
             </tbody>
             <tbody *ngIf="!carregando">
@@ -74,7 +74,7 @@
             </tfoot>
           </table>
         </div>
-        <div class="card-footer py-4">
+        <div [hidden]="!usuarios?.content.length" class="card-footer py-4">
           <p-paginator 
             [rows]="usuarios?.size" 
             [totalRecords]="usuarios?.totalElements"

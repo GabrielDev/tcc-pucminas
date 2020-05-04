@@ -36,6 +36,12 @@ public class PedidoItem {
 
 	@Column(name = "preco_unitario", nullable = false)
 	private Double precoUnitario = 0.0;
+	
+	@Column(name = "preco_desconto")
+	private Double precoDesconto = 0.0;
+
+	@Column(name = "preco_subtotal", nullable = false)
+	private Double precoSubtotal = 0.0;
 
 	@Column(name = "preco_total", nullable = false)
 	private Double precoTotal = 0.0;
@@ -47,60 +53,76 @@ public class PedidoItem {
 		return id;
 	}
 
-	public Produto getProduto() {
-		return produto;
-	}
-
-	public Servico getServico() {
-		return servico;
-	}
-
-	public Pedido getPedido() {
-		return pedido;
-	}
-
-	public Integer getQuantidade() {
-		return quantidade;
-	}
-
-	public Double getPrecoUnitario() {
-		return precoUnitario;
-	}
-
-	public Double getPrecoTotal() {
-		return precoTotal;
-	}
-
-	public Integer getPatazBonusTotal() {
-		return patazBonusTotal;
-	}
-
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Produto getProduto() {
+		return produto;
 	}
 
 	public void setProduto(Produto produto) {
 		this.produto = produto;
 	}
 
+	public Servico getServico() {
+		return servico;
+	}
+
 	public void setServico(Servico servico) {
 		this.servico = servico;
+	}
+
+	public Pedido getPedido() {
+		return pedido;
 	}
 
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
 	}
 
+	public Integer getQuantidade() {
+		return quantidade;
+	}
+
 	public void setQuantidade(Integer quantidade) {
 		this.quantidade = quantidade;
+	}
+
+	public Double getPrecoUnitario() {
+		return precoUnitario;
 	}
 
 	public void setPrecoUnitario(Double precoUnitario) {
 		this.precoUnitario = precoUnitario;
 	}
 
+	public Double getPrecoDesconto() {
+		return precoDesconto;
+	}
+
+	public void setPrecoDesconto(Double precoDesconto) {
+		this.precoDesconto = precoDesconto;
+	}
+
+	public Double getPrecoSubtotal() {
+		return precoSubtotal;
+	}
+
+	public void setPrecoSubtotal(Double precoSubtotal) {
+		this.precoSubtotal = precoSubtotal;
+	}
+
+	public Double getPrecoTotal() {
+		return precoTotal;
+	}
+
 	public void setPrecoTotal(Double precoTotal) {
 		this.precoTotal = precoTotal;
+	}
+
+	public Integer getPatazBonusTotal() {
+		return patazBonusTotal;
 	}
 
 	public void setPatazBonusTotal(Integer patazBonusTotal) {

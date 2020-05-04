@@ -4,7 +4,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import { PaginatorModule, AutoCompleteModule, CalendarModule, ProgressBarModule } from 'primeng';
+import { PaginatorModule, AutoCompleteModule, CalendarModule, ProgressSpinnerModule } from 'primeng';
 import { PromocaoComponent } from './promocao.component';
 import { PromocaoFormComponent } from './promocao-form/promocao-form.component';
 
@@ -18,7 +18,7 @@ import { PromocaoFormComponent } from './promocao-form/promocao-form.component';
     AutoCompleteModule,
     SweetAlert2Module,
     CalendarModule,
-    ProgressBarModule,
+    ProgressSpinnerModule,
     PaginatorModule,
   ],
   declarations: [PromocaoComponent, PromocaoFormComponent],

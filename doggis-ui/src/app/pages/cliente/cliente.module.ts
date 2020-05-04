@@ -19,7 +19,6 @@ import { ImageCropModule } from 'src/app/core/image-crop/image-crop.module';
     NgbModule,
     SweetAlert2Module,
     InputMaskModule,
-    ProgressBarModule,
     ProgressSpinnerModule,
     PaginatorModule,
     ImageCropModule,

@@ -38,6 +38,10 @@ public class Pedido {
 	@Column(name = "pataz_desconto_total", nullable = false)
 	private Integer patazDescontoTotal = 0;
 
+	private Double desconto = 0.0;
+	
+	private Double subtotal = 0.0;
+	
 	private Double total = 0.0;
 
 	@Column(name = "dt_pedido")
@@ -49,13 +53,15 @@ public class Pedido {
 	public Pedido() {}
 	
 	public Pedido(Long id, Cliente cliente, Usuario usuario, Pagamento pagamento, Integer patazBonusTotal,
-			Integer patazDescontoTotal, Double total) {
+			Integer patazDescontoTotal, Double desconto, Double subtotal, Double total) {
 		this.id = id;
 		this.cliente = cliente;
 		this.usuario = usuario;
 		this.pagamento = pagamento;
 		this.patazBonusTotal = patazBonusTotal;
 		this.patazDescontoTotal = patazDescontoTotal;
+		this.desconto = desconto;
+		this.subtotal = subtotal;
 		this.total = total;
 	}
 
@@ -63,68 +69,84 @@ public class Pedido {
 		return id;
 	}
 
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public Pagamento getPagamento() {
-		return pagamento;
-	}
-
-	public Integer getPatazBonusTotal() {
-		return patazBonusTotal;
-	}
-
-	public Integer getPatazDescontoTotal() {
-		return patazDescontoTotal;
-	}
-
-	public Double getTotal() {
-		return total;
-	}
-
-	public Date getDataPedido() {
-		return dataPedido;
-	}
-
-	public Set<PedidoItem> getItens() {
-		return itens;
-	}
-
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
 	}
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
 
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public Pagamento getPagamento() {
+		return pagamento;
 	}
 
 	public void setPagamento(Pagamento pagamento) {
 		this.pagamento = pagamento;
 	}
 
+	public Integer getPatazBonusTotal() {
+		return patazBonusTotal;
+	}
+
 	public void setPatazBonusTotal(Integer patazBonusTotal) {
 		this.patazBonusTotal = patazBonusTotal;
+	}
+
+	public Integer getPatazDescontoTotal() {
+		return patazDescontoTotal;
 	}
 
 	public void setPatazDescontoTotal(Integer patazDescontoTotal) {
 		this.patazDescontoTotal = patazDescontoTotal;
 	}
 
+	public Double getDesconto() {
+		return desconto;
+	}
+
+	public void setDesconto(Double desconto) {
+		this.desconto = desconto;
+	}
+
+	public Double getSubtotal() {
+		return subtotal;
+	}
+
+	public void setSubtotal(Double subtotal) {
+		this.subtotal = subtotal;
+	}
+
+	public Double getTotal() {
+		return total;
+	}
+
 	public void setTotal(Double total) {
 		this.total = total;
 	}
 
+	public Date getDataPedido() {
+		return dataPedido;
+	}
+
 	public void setDataPedido(Date dataPedido) {
 		this.dataPedido = dataPedido;
+	}
+
+	public Set<PedidoItem> getItens() {
+		return itens;
 	}
 
 	public void setItens(Set<PedidoItem> itens) {

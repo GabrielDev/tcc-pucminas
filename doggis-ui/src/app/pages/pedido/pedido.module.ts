@@ -23,7 +23,6 @@ import { ImageCropModule } from 'src/app/core/image-crop/image-crop.module';
     SweetAlert2Module,
     AutoCompleteModule,
     InputMaskModule,
-    ProgressBarModule,
     ProgressSpinnerModule,
     PaginatorModule,
     ImageCropModule,

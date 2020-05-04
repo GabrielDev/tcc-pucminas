@@ -26,6 +26,10 @@ public class PedidoDto {
 	private Integer patazBonusTotal = 0;
 
 	private Integer patazDescontoTotal = 0;
+	
+	private Double desconto = 0.0;
+	
+	private Double subtotal = 0.0;
 
 	private Double total = 0.0;
 
@@ -41,9 +45,10 @@ public class PedidoDto {
 		this.pagamento = pedido.getPagamento();
 		this.patazBonusTotal = pedido.getPatazBonusTotal();
 		this.patazDescontoTotal = pedido.getPatazDescontoTotal();
+		this.desconto = pedido.getDesconto();
+		this.subtotal = pedido.getSubtotal();
 		this.total = pedido.getTotal();
 		this.dataPedido = pedido.getDataPedido();
-//		this.itens = pedido.getItens();
 	}
 	
 	public static Page<PedidoDto> converter(Page<Pedido> pedidos) {
@@ -100,6 +105,22 @@ public class PedidoDto {
 
 	public void setPatazDescontoTotal(Integer patazDescontoTotal) {
 		this.patazDescontoTotal = patazDescontoTotal;
+	}
+
+	public Double getDesconto() {
+		return desconto;
+	}
+
+	public void setDesconto(Double desconto) {
+		this.desconto = desconto;
+	}
+
+	public Double getSubtotal() {
+		return subtotal;
+	}
+
+	public void setSubtotal(Double subtotal) {
+		this.subtotal = subtotal;
 	}
 
 	public Double getTotal() {
