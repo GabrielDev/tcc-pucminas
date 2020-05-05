@@ -110,8 +110,16 @@
                                         </tbody>
                                         <tfoot class="border-bottom border-1">
                                             <tr>
-                                                <th colspan="3" class="text-right font-weight-600">Total</th>
-                                                <th class="text-right font-weight-600">{{ pedido.total | currency: 'BRL' }}</th>
+                                                <th colspan="3" class="text-right font-weight-normal">Subtotal</th>
+                                                <th class="text-right font-weight-normal">{{ pedido.subtotal | currency: 'BRL' }}</th>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="3" class="text-right font-weight-normal">Descontos</th>
+                                                <th class="text-right font-weight-normal">- {{ pedido.desconto | currency: 'BRL' }}</th>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="3" class="text-right font-weight-bold">Total</th>
+                                                <th class="text-right font-weight-bold">{{ pedido.total | currency: 'BRL' }}</th>
                                             </tr>
                                         </tfoot>
                                     </table>

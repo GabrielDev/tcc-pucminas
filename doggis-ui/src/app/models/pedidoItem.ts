@@ -12,6 +12,7 @@ export class PedidoItem {
         public precoSubtotal: number,
         public precoTotal: number,
         public patazBonusTotal: number,
+        public patazDescontoTotal?: number,
         public servico?: Servico,
         public produto?: Produto
     ) {}

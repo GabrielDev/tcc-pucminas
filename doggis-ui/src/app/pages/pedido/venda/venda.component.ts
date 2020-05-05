@@ -22,7 +22,8 @@ export class VendaComponent implements OnInit, OnDestroy {
   public pagamentos: Pagamento[]
   public pagamentoSelecionado: number
   public itemSugerido: ItemVenda
-  public abrirModal: Subject<Cliente> = new Subject()
+  public abrirModalCliente: Subject<Cliente> = new Subject()
+  public abrirModalDesconto: Subject<Pedido> = new Subject()
 
   private buscaItem$ = new Subject<string>()
   private buscaCliente$ = new Subject<string>()
@@ -51,7 +52,7 @@ export class VendaComponent implements OnInit, OnDestroy {
   }
 
   novoCliente() {
-    this.abrirModal.next()
+    this.abrirModalCliente.next()
   }
 
   adicionarCliente(cliente: Cliente) {
@@ -132,35 +133,29 @@ export class VendaComponent implements OnInit, OnDestroy {
     }
   }
 
+  aplicarDesconto(pedido: Pedido) {
+    this.pedido = pedido
+    this.calcularTotal()
+  }
+
   usarPataz() {
-    if(this.isValido()) {
-      let totalDesconto = 0
-      let bonus = this.pedido.cliente.totalPataz
-      let itens = this.pedido.itens.map(item => {
-        if(item.servico) {
-          let desconto = item.servico.patazDesconto
-          for (let i = 0; i < item.quantidade; i++) {
-            if(bonus >= desconto) {
-              bonus -= desconto
-              totalDesconto += desconto
-              item.precoTotal -= item.precoUnitario
-              item.patazBonusTotal = 0
-            }
-          }
-        }
-
-        return item
-      })
-
-      if(!totalDesconto) {
-        this.mensagem.info(`${this.pedido.cliente.nome} ainda não possui Pataz suficiente para aplicar nesse pedido`)
-      } else {
-        this.pedido.itens = [...itens]
-        this.pedido.patazDescontoTotal = totalDesconto
-        this.calcularTotal()
-        this.finalizar()
-      }
+    if(this.permiteDesconto()) {
+      this.abrirModalDesconto.next(this.pedido)
     }
+  }
+
+  private permiteDesconto(): boolean {
+    let { totalPataz } = this.pedido.cliente
+    let servicos = this.pedido.itens.filter(pedidoItem => pedidoItem.item.tipo == TipoItem.SERVICO)
+    let isValido = servicos.some(pedidoItem => (pedidoItem.item as Servico).patazDesconto <= totalPataz)
+
+    if(!servicos.length) {
+      this.mensagem.info(`O pedido ainda não possui serviços para utilizar Pataz`)
+    } else if(!isValido) {
+      this.mensagem.info(`${this.pedido.cliente.nome} ainda não possui Pataz suficiente para aplicar nesse pedido`)
+    }
+    
+    return isValido
   }
 
   private criarNovoPedidoItem(item: ItemVenda) {
@@ -200,7 +195,6 @@ export class VendaComponent implements OnInit, OnDestroy {
     if(promocao) {
       let valorComDesconto = (1 - (promocao.desconto/100)) * item.valor
       pedidoItem.precoUnitario = valorComDesconto
-      pedidoItem.precoTotal = valorComDesconto
       this.calcularTotalItem(pedidoItem)
     }
 
@@ -228,13 +222,20 @@ export class VendaComponent implements OnInit, OnDestroy {
   }
 
   private calcularTotalItem(pedidoItem: PedidoItem) {
-    pedidoItem.precoTotal = pedidoItem.precoUnitario * pedidoItem.quantidade
+    pedidoItem.precoSubtotal = pedidoItem.precoUnitario * pedidoItem.quantidade
+    pedidoItem.precoTotal = pedidoItem.precoSubtotal - pedidoItem.precoDesconto
     this.calcularTotal()
   }
 
   private calcularTotal() {
-    this.pedido.patazBonusTotal = this.pedido.itens.reduce((total, item) => total += item.patazBonusTotal, 0)
-    this.pedido.total = this.pedido.itens.reduce((total, item) => total += item.precoTotal, 0)
+    this.pedido.subtotal = this.pedido.desconto = this.pedido.total = this.pedido.patazBonusTotal = 0
+    this.pedido.itens.forEach((item) => {
+      this.pedido.subtotal += item.precoSubtotal
+      this.pedido.desconto += item.precoDesconto
+      this.pedido.total += item.precoTotal
+    })
+
+    this.pedido.patazBonusTotal = this.pedido.itens.reduce((total, item) => (!item.precoDesconto)? total += item.patazBonusTotal: total, 0)
   }
 
   finalizar() {

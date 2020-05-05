@@ -11,6 +11,7 @@ import { VendaComponent } from './venda/venda.component';
 import { PedidoDetalheComponent } from './pedido-detalhe/pedido-detalhe.component';
 import { ClienteModalComponent } from './cliente-modal/cliente-modal.component';
 import { ImageCropModule } from 'src/app/core/image-crop/image-crop.module';
+import { PedidoDescontoComponent } from './pedido-desconto/pedido-desconto.component';
 
 @NgModule({
   imports: [
@@ -27,7 +28,7 @@ import { ImageCropModule } from 'src/app/core/image-crop/image-crop.module';
     PaginatorModule,
     ImageCropModule,
   ],
-  declarations: [PedidoComponent, VendaComponent, PedidoDetalheComponent, ClienteModalComponent],
+  declarations: [PedidoComponent, VendaComponent, PedidoDetalheComponent, ClienteModalComponent, PedidoDescontoComponent],
   exports: [PedidoComponent, VendaComponent, PedidoDetalheComponent, ClienteModalComponent]
 })
 export class PedidoModule { }
