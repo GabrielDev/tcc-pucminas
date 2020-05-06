@@ -18,7 +18,7 @@ import { ServicoComponent } from 'src/app/pages/servico/servico.component';
 import { ServicoFormComponent } from 'src/app/pages/servico/servico-form/servico-form.component';
 import { UsuarioComponent } from 'src/app/pages/usuario/usuario.component';
 import { UsuarioFormComponent } from 'src/app/pages/usuario/usuario-form/usuario-form.component';
-import { VendaComponent } from 'src/app/pages/pedido/venda/venda.component';
+import { PedidoVendaComponent } from 'src/app/pages/pedido/pedido-venda/pedido-venda.component';
 import { PedidoDetalheComponent } from 'src/app/pages/pedido/pedido-detalhe/pedido-detalhe.component';
 import { NaoEncontradoComponent } from 'src/app/pages/erros/nao-encontrado/nao-encontrado.component';
 import { NaoAutorizadoComponent } from 'src/app/pages/erros/nao-autorizado/nao-autorizado.component';
@@ -35,7 +35,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'fabricante', component: FabricanteComponent },
     { path: 'minha-conta', component: MinhaContaComponent },
     { path: 'pedido', component: PedidoComponent },
-    { path: 'venda', component: VendaComponent },
+    { path: 'venda', component: PedidoVendaComponent },
     { path: 'pedido/:id', component: PedidoDetalheComponent },
     { path: 'perfil', component: PerfilComponent },
     { path: 'produto', component: ProdutoComponent },

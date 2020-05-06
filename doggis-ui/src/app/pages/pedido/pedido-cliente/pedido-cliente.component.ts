@@ -8,12 +8,12 @@ import { ClienteService, EstadoService } from 'src/app/providers';
 import { Estado, Cliente } from 'src/app/models';
 
 @Component({
-  selector: 'app-cliente-modal',
-  templateUrl: './cliente-modal.component.html',
-  styleUrls: ['./cliente-modal.component.scss'],
+  selector: 'app-pedido-cliente',
+  templateUrl: './pedido-cliente.component.html',
+  styleUrls: ['./pedido-cliente.component.scss'],
   providers: [ClienteValidadorService],
 })
-export class ClienteModalComponent implements OnInit {
+export class PedidoClienteComponent implements OnInit {
 
   @Input('exibir')
   exibir: Subject<Cliente>

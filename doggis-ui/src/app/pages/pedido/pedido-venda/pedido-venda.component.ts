@@ -9,10 +9,10 @@ import { PedidoService, ClienteService, ProdutoService, ServicoService } from 's
 
 @Component({
   selector: 'app-venda',
-  templateUrl: './venda.component.html',
-  styleUrls: ['./venda.component.scss']
+  templateUrl: './pedido-venda.component.html',
+  styleUrls: ['./pedido-venda.component.scss']
 })
-export class VendaComponent implements OnInit, OnDestroy {
+export class PedidoVendaComponent implements OnInit, OnDestroy {
 
   public salvando: boolean
   public pedido: Pedido = new Pedido()
