@@ -24,6 +24,7 @@ export class PedidoVendaComponent implements OnInit, OnDestroy {
   public itemSugerido: ItemVenda
   public abrirModalCliente: Subject<Cliente> = new Subject()
   public abrirModalDesconto: Subject<Pedido> = new Subject()
+  public abrirModalAgenda: Subject<Servico> = new Subject()
 
   private buscaItem$ = new Subject<string>()
   private buscaCliente$ = new Subject<string>()
@@ -101,6 +102,17 @@ export class PedidoVendaComponent implements OnInit, OnDestroy {
 
   emPromocao(pedidoItem: PedidoItem) {
     return pedidoItem.precoUnitario < pedidoItem.item.valor
+  }
+
+  incluir(item: ItemVenda, event: any) {
+    let isServico = item.tipo == TipoItem.SERVICO
+
+    if(isServico) {
+      let servico = item as Servico
+      this.abrirModalAgenda.next(servico)
+    } else {
+      this.adicionar(item)
+    }
   }
 
   adicionar(item: ItemVenda) {

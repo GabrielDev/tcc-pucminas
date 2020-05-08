@@ -117,8 +117,8 @@
     }
 }
 
-// Progressbar
 body {
+    // Progressbar
     .ui-progressbar {
         height: 5px;
     
@@ -134,6 +134,10 @@ body {
                 background: #0fcdef;
             }
         }
+    }
+
+    .data-agenda .ui-datepicker {
+        border: none;
     }
 }
 

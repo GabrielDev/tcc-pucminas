@@ -1,0 +1,245 @@
+<ng-template #agendaModal let-c="close" let-d="dismiss">
+  <form [formGroup]="agendaForm" (submit)="salvar()" class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-title-default">Marcar atendimento</h4>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-4 order-1">
+          <div class="row">
+            <div class="card card-profile mt-4 border-0">
+              <div class="row justify-content-center">
+                <div class="col-lg-3 order-lg-2">
+                  <div class="card-profile-image">
+                    <a href="#" class="img-servico">
+                      <img [hidden]="!f.servico.value?.foto" [src]="f.servico.value?.foto" class="rounded">
+                      <img [hidden]="f.servico.value?.foto" src="assets/img/servico.jpg" class="rounded">
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="text-center">
+                  <h2>{{ f.servico.value?.descricao }}</h2>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="card-profile-stats d-flex justify-content-center">
+                      <div>
+                        <span class="heading">{{ f.servico.value?.duracao[1] }}</span>
+                        <span class="description">Duração (min)</span>
+                      </div>
+                      <div>
+                        <span class="heading">{{ f.servico.value?.patazBonus }}</span>
+                        <span class="description">Pataz bonus</span>
+                      </div>
+                      <div>
+                        <span class="heading">{{ f.servico.value?.patazDesconto }}</span>
+                        <span class="description">Pataz desconto</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div *ngIf="f.cliente.value" class="card mb-3 col-12">
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col-auto">
+                    <a href="#" class="avatar avatar-xl rounded-circle">
+                      <img [hidden]="!f.cliente.value?.foto" [src]="f.cliente.value?.foto">
+                      <img [hidden]="f.cliente.value?.foto" src="assets/img/usuario.jpg">
+                    </a>
+                  </div>
+                  <div class="col ml--2">
+                    <h4 class="mb-0">{{ f.cliente.value.nome }}</h4>
+                    <small>CPF - {{ f.cliente.value.cpf }}</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="f.pet.value" class="card mb-3 col-12">
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col-auto">
+                    <a href="#" class="avatar avatar-xl rounded-circle">
+                      <img [hidden]="!f.pet.value?.foto" [src]="f.pet.value?.foto">
+                      <img [hidden]="f.pet.value?.foto" src="assets/img/usuario.jpg">
+                    </a>
+                  </div>
+                  <div class="col ml--2">
+                    <h4 class="mb-0">{{ f.pet.value.nome }}</h4>
+                    <small>{{ f.pet.value.especie.descricao }} - {{ f.pet.value.raca.descricao }}</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="f.usuario.value" class="card col-12">
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col-auto">
+                    <a href="#" class="avatar avatar-xl rounded-circle">
+                      <img [hidden]="!f.usuario.value?.foto" [src]="f.usuario.value?.foto">
+                      <img [hidden]="f.usuario.value?.foto" src="assets/img/usuario.jpg">
+                    </a>
+                  </div>
+                  <div class="col ml--2">
+                    <h4 class="mb-0">{{ f.usuario.value.nome }}</h4>
+                    <small *ngIf="f.dataAgenda.value">Agendado para - {{ f.dataAgenda.value | date: 'dd-MM-yyyy HH:mm' }}</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-8">
+          <div class="row cliente">
+            <div *ngIf="!f.cliente.value" class="col-12 form-group">
+              <label for="cliente" class="form-control-label">Cliente</label>
+              <div class="input-group">
+                <p-autoComplete 
+                  id="cliente" 
+                  class="btn-block"
+                  styleClass="btn-block"
+                  inputStyleClass="form-control form-control-alternative border-light" 
+                  field="nome"
+                  formControlName="cliente" 
+                  [suggestions]="clientes" 
+                  [forceSelection]="true"
+                  (completeMethod)="buscarClientes($event)"
+                  (onSelect)="incluirCliente($event)"
+                  placeholder="Buscar cliente por nome ou cpf">
+                  <ng-template let-cliente pTemplate="cliente">
+                    <div class="list-group-item list-group-item-action">
+                      <div class="row align-items-center">
+                        <div class="col-auto">
+                          <img [alt]="cliente.nome" [src]="cliente.foto" class="avatar rounded-pill">
+                        </div>
+                        <div class="col ml--2">
+                          <h4 class="mb-0 text-sm">{{ cliente.nome }}</h4>
+                          <small>CPF - {{ cliente.cpf }}</small>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+                </p-autoComplete>
+              </div>
+            </div>
+          </div><!-- cliente -->
+
+          <div class="row pet">
+            <div *ngIf="!f.cliente.value" class="col-12 text-center">
+              <h4>Selecione um cliente</h4>
+              <small>Para escolher o pet será atendido por esse serviço</small>
+            </div>
+
+            <div *ngIf="f.cliente.value?.pets.length > 1" class="form-group col-12">
+              <label class="form-control-label">Pet*</label>
+              <div class="card">
+                <div class="card-body p-0 pt-4 pb-4">
+                  <ul class="list-group list-group-flush list my--3">
+                    <li *ngFor="let pet of f.cliente.value?.pets" 
+                      class="list-group-item rounded-pill pet-item"
+                      [ngClass]="{'active': f.pet.value?.id == pet.id}">
+                      <label class="row align-items-center mb--1">
+                        <input
+                          type="radio"
+                          name="pet"
+                          formControlName="pet"
+                          [value]="pet"
+                          class="d-none">
+                        <div class="col-auto">
+                          <a href="#" class="avatar rounded-circle">
+                            <img [hidden]="!pet.foto" [alt]="pet.nome" [src]="pet.foto">
+                            <img [hidden]="pet.foto" [alt]="pet.nome" src="../assets/img/pet.jpg">
+                          </a>
+                        </div>
+                        <div class="col-auto ml--2 text-truncate">
+                          <h4 class="mb-0">
+                            {{ pet.nome }}
+                          </h4>
+                          <small>{{ pet.especie.descricao }} - {{ pet.raca.descricao }}</small>
+                        </div>
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+              </div><!-- card -->
+            </div><!-- col-12 -->
+          </div><!-- pet -->
+
+          <div *ngIf="f.cliente.value" class="row">
+            <div class="col-12 form-group mb-4"
+              [ngClass]="{'has-danger': f.dia.touched && f.dia?.errors?.required}">
+              <label class="form-control-label" for="dia">Data*</label>
+              <p-calendar 
+                id="dia"
+                class="btn-block"
+                styleClass="btn-block"
+                inputStyleClass="form-control border-light"
+                [minDate]="dataInicio" 
+                dateFormat="dd-mm-yy"
+                [locale]="pt" 
+                [disabledDays]="[0,6]"
+                [disabled]="!f.pet.value"
+                formControlName="dia"
+                (onSelect)="listarDisponiveis($event)"
+                [ngClass]="{'is-invalid': f.dia.touched && f.dia?.errors?.required}">
+              </p-calendar>
+              <div class="invalid-feedback" *ngIf="f.dia.touched && f.dia?.errors?.required">Campo obrigatório</div>
+            </div><!--col-12-->
+
+            <div *ngIf="f.dia.value" class="col-12 form-group">
+              <label class="form-control-label">Responsável e horário*</label>
+              <div class="list-group list-group-flush">
+                <div *ngFor="let agenda of disponiveis" class="list-group-item list-group-item-action">
+                  <div class="row">
+                    <div class="col-auto">
+                      <img [hidden]="!agenda.usuario.foto" [alt]="agenda.usuario.nome" [src]="agenda.usuario.foto" class="avatar rounded-circle">
+                      <img [hidden]="agenda.usuario.foto" [alt]="agenda.usuario.nome" src="assets/img/usuario.jpg" class="avatar rounded-circle">
+                    </div>
+                    <div class="col ml--2">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                          <h4 class="mb-0">{{ agenda.usuario.nome }}</h4>
+                          <small>{{ agenda.usuario.perfil.descricao }}</small>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="horarios-lista col-12 pl-2">
+                      <ul class="col nav nav-pills mt-2">
+                        <li *ngFor="let horario of agenda.disponiveis" class="nav-item">
+                          <label class="nav-link"
+                            [ngClass]="{'active': f.dataAgenda.value == horario}">
+                            <input type="radio" name="data" (change)="selecionarHorario(horario, agenda.usuario)" [value]="horario" class="d-none">
+                            {{ horario | date:'HH:mm' }}
+                          </label>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- row -->
+        </div><!-- col-8 -->
+      </div><!-- row -->
+    </div>
+
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-primary">Agendar</button>
+      <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"
+        (click)="c('Close click')">Cancelar</button>
+    </div>
+  </form>
+</ng-template>

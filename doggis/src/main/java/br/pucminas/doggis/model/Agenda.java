@@ -45,6 +45,17 @@ public class Agenda {
 	@Column(name="dt_inclusao")
 	private Date dataInclusao = new Date();
 	
+	public Agenda() {}
+	
+	public Agenda(Usuario usuario, Cliente cliente, Pet pet, Servico servico, Date dataAgenda) {
+		super();
+		this.usuario = usuario;
+		this.cliente = cliente;
+		this.pet = pet;
+		this.servico = servico;
+		this.dataAgenda = dataAgenda;
+	}
+	
 	public Long getId() {
 		return id;
 	}

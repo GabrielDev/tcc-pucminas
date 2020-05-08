@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { GenericService } from './generic.service';
-import { Agenda, Servico, Usuario } from '../models';
+import { Agenda, Servico, Usuario, Agendamento } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +11,9 @@ export class AgendaService extends GenericService<Agenda>{
     super(http, '/agenda')
   }
 
-  public listarDisponiveis(servico: Servico, data: Date) {
+  public listarDisponiveis(servico: Servico, dataAgenda: Date) {
     const headers = this.prepareHeader()
-    return this.http.post<Usuario[]>(`${this.endpoint}/disponiveis`, { servico, data }, headers)
+    return this.http.post<Agendamento[]>(`${this.endpoint}/disponiveis`, { servico, dataAgenda }, headers)
   }
 
   public verificarDisponibilidade(servico: Servico, usuario: Usuario, data: Date) {

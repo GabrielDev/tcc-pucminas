@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { Promocao, ItemVenda, TipoItem, Produto, Servico } from 'src/app/models';
+import { Promocao, ItemVenda, TipoItem, Produto, Servico, CalendarioTraducao } from 'src/app/models';
 import { PromocaoService, PedidoService } from 'src/app/providers';
 
 @Component({
@@ -28,7 +28,7 @@ export class PromocaoFormComponent implements OnInit {
   public promocaoForm: FormGroup
   public itens: ItemVenda[] = []
   public dataInicio: Date = new Date()
-  public pt: any
+  public pt = CalendarioTraducao
 
   constructor(
     private modalService: NgbModal,
@@ -149,22 +149,5 @@ export class PromocaoFormComponent implements OnInit {
       fim: [null, Validators.required],
       periodo: [null, Validators.required]
     })
-
-    this.obterTraducao()
-  }
-
-  private obterTraducao() {
-    this.pt = {
-      firstDayOfWeek: 0,
-      dayNames: ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"],
-      dayNamesShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"],
-      dayNamesMin: ["Do","Se","Te","Qa","Qi","Se","Sa"],
-      monthNames: [ "Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro" ],
-      monthNamesShort: [ "Jan", "Fev", "Mar", "Abr", "Mai", "Jun","Jul", "Ago", "Set", "Out", "Nov", "Dez" ],
-      today: 'Hoje',
-      clear: 'Limpar',
-      dateFormat: 'dd/mm/yy',
-      weekHeader: 'Wk'
-    }
   }
 }

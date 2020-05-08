@@ -1,0 +1,38 @@
+.img-servico {
+    display: block;
+    height: 80px;
+
+    img.rounded {
+        width: 120px;
+    }
+}
+
+.pet .card-body {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.pet-item {
+    cursor: pointer;
+    
+    label {
+        cursor: pointer;
+    }
+
+    &.active {
+        h4 {
+            color: white;
+        }
+    }
+}
+
+.horarios-lista {
+    overflow-x: auto;
+    .nav-pills {
+        flex-wrap: nowrap;
+
+        .nav-link {
+            cursor: pointer;
+        }
+    }
+}

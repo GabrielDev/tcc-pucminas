@@ -15,7 +15,7 @@
             [suggestions]="itensVenda" 
             [forceSelection]="true"
             (completeMethod)="buscarItensVenda($event)" 
-            (onSelect)="adicionar($event)"
+            (onSelect)="incluir($event)"
             placeholder="Buscar produto ou serviço por nome"
             [ngModelOptions]="{standalone: true}">
             <ng-template let-item pTemplate="item">
@@ -38,6 +38,12 @@
             </ng-template>
           </p-autoComplete>
         </div>
+
+        <app-pedido-agenda
+          [pedido]="pedido"
+          [exibir]="abrirModalAgenda"
+          (onSalvar)="adicionar($event)"
+          (onSelecionarCliente)="adicionarCliente($event)"></app-pedido-agenda>
       </div>
     </div>
   </div>
@@ -194,6 +200,7 @@
                         </div>
                         <div class="col ml--2">
                           <h4 class="mb-0 text-sm">{{ cliente.nome }}</h4>
+                          <small>CPF - {{ cliente.cpf }}</small>
                         </div>
                       </div>
                     </div>
@@ -217,16 +224,14 @@
               <h3>
                 {{ p.cliente?.nome }}
               </h3>
-              <div class="h5 font-weight-300 mt-4">
-                <a href="mailto:{{ p.cliente?.email }}" target="_blank">
-                  <i class="ni business_briefcase-24 mr-2"></i>{{ p.cliente?.email }}
-                </a>
-              </div>
-              <div>
-                <i class="ni education_hat mr-2"></i>{{ p.cliente?.endereco }}
+              <div class="mt-2 mb-2">
+                CPF - {{ p.cliente?.cpf }}
               </div>
               <div class="h5 font-weight-300">
-                <i class="ni location_pin mr-2"></i>{{ p.cliente?.cidade }} - {{ p.cliente?.estado?.descricao }}
+                {{ p.cliente?.endereco }}
+              </div>
+              <div class="h5 font-weight-300">
+                {{ p.cliente?.cidade }} - {{ p.cliente?.estado?.descricao }}
               </div>
             </div>
           </div>
