@@ -104,7 +104,7 @@ export class PedidoVendaComponent implements OnInit, OnDestroy {
     return pedidoItem.precoUnitario < pedidoItem.item.valor
   }
 
-  incluir(item: ItemVenda, event: any) {
+  incluir(item: ItemVenda) {
     let isServico = item.tipo == TipoItem.SERVICO
 
     if(isServico) {
