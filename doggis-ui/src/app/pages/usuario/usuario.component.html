@@ -19,61 +19,45 @@
         <div class="card-header border-0">
           <h3 class="mb-0">Usuários</h3>
         </div>
-        <div class="table-responsive">
-          <table class="table align-items-center table-hover">
-            <thead class="thead-light">
-              <tr>
-                <th scope="col">Criado em</th>
-                <th scope="col">Usuário</th>
-                <th scope="col">Perfil</th>
-                <th scope="col"></th>
-              </tr>
-            </thead>
-            <tbody *ngIf="carregando">
-              <tr>
-                <td colspan="4" align="center"><p-progressSpinner></p-progressSpinner></td>
-              </tr>
-            </tbody>
-            <tbody *ngIf="!carregando">
-              <tr *ngFor="let usuario of usuarios?.content">
-                <td>{{ usuario.dataInclusao | date: 'dd-MM-yyyy' }}</td>
-                <th scope="row">
-                  <div class="media align-items-center">
-                    <a class="avatar rounded-circle mr-3" [routerLink]="['/usuario', usuario.id]">
-                      <img [hidden]="!usuario.foto" [alt]="usuario.nome" [src]="usuario.foto">
-                      <img [hidden]="usuario.foto" [alt]="usuario.nome" src="../assets/img/usuario.jpg">
-                    </a>
-                    <div class="media-body">
-                      <span class="mb-0 text-sm btn-block">{{ usuario.nome }}</span>
-                      <span class="mb-0 text-muted">{{ usuario.email }}</span>
-                    </div>
-                  </div>
-                </th>
-                <td>
-                  {{ usuario.perfil.descricao }}
-                </td>
-                <td class="text-right">
-                  <button type="button" class="btn btn-outline-secondary" title="Editar" [routerLink]="['/usuario', usuario.id]" ngbTooltip="Editar">
-                    <i class="fa fa-pencil-alt"></i>
-                  </button>
-                  <button type="button" class="btn btn-outline-secondary" title="Excluir" (click)="confirmarExcluir(usuario)" ngbTooltip="Excluir">
-                    <i class="fa fa-trash"></i>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-            <tfoot *ngIf="!carregando && !usuarios?.content">
-              <tr>
-                <td colspan="7" class="text-center">
-                  <h5 class="h3">Nenhum usuário encontrado</h5>
-                    <button class="btn n btn-outline-primary" [routerLink]="['/usuario/novo']">
-                      Adicionar novo
-                    </button>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
+        
+        <div *ngIf="carregando" class="col-12 text-center">
+          <p-progressSpinner></p-progressSpinner>
         </div>
+
+        <div *ngIf="!carregando" class="row col-12">
+          <div *ngFor="let usuario of usuarios?.content" class="col-3">
+            <div class="card mb-4 shadow--hover">
+              <div class="card-body">
+                <a [routerLink]="['/usuario', usuario.id]" class="img-user">
+                  <img [hidden]="!usuario.foto" [alt]="usuario.nome" [src]="usuario.foto" class="rounded-circle img-center img-fluid shadow">
+                  <img [hidden]="usuario.foto" [alt]="usuario.nome" src="../assets/img/usuario.jpg" class="rounded-circle img-center img-fluid shadow">
+                </a>
+                <div class="pt-4 text-center">
+                  <h5 class="h3 title">
+                    <span class="d-block mb-1">{{ usuario.nome }}</span>
+                    <small class="h4 font-weight-light text-muted">{{ usuario.perfil.descricao }}</small>
+                  </h5>
+                  <div class="mt-3">
+                    <button type="button" class="btn btn-outline-secondary btn-icon-only rounded-circle" title="Editar" [routerLink]="['/usuario', usuario.id]" ngbTooltip="Editar">
+                      <i class="fa fa-pencil-alt"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary btn-icon-only rounded-circle" title="Excluir" (click)="confirmarExcluir(usuario)" ngbTooltip="Excluir">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="!carregando && !usuarios?.content" class="col-12">
+          <h5 class="h3">Nenhum usuário encontrado</h5>
+          <button class="btn n btn-outline-primary" [routerLink]="['/usuario/novo']">
+            Adicionar novo
+          </button>
+        </div>
+        
         <div [hidden]="!usuarios?.content.length" class="card-footer py-4">
           <p-paginator 
             [rows]="usuarios?.size" 
