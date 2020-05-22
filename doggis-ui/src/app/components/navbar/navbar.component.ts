@@ -30,6 +30,11 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.rotas = ROUTES.filter(rota => rota)
+    this.usuario$.subscribe(usuario => {
+      if(!usuario) {
+        this.router.navigate([''])
+      }
+    })
   }
 
   obterTitulo() {
@@ -62,6 +67,5 @@ export class NavbarComponent implements OnInit {
 
   sair() {
     this.service.logout()
-    this.router.navigate([''])
   }
 }
